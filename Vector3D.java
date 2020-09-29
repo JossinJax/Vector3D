@@ -34,17 +34,17 @@ public class Vector3D{
     }
     
     public Vector3D add(Vector3D v){
-        x += v.x;
-        y += v.y;
-        z += v.z;
+        x += v.x();
+        y += v.y();
+        z += v.z();
         Vector3D n = new Vector3D(x, y, z);
         return n;
     }
     
     public Vector3D subtract(Vector3D v){
-        x -= v.x;
-        y -= v.y;
-        z -= v.z;
+        x -= v.x();
+        y -= v.y();
+        z -= v.z();
         Vector3D n = new Vector3D(x, y, z);
         return n;
     }
@@ -58,7 +58,7 @@ public class Vector3D{
     }
     
     public double dot(Vector3D v){
-        return (x * v.x + y * v.y + z * v.z);
+        return (x * v.x() + y * v.y() + z * v.z());
     }
     
     public double magnitude(){
@@ -71,7 +71,7 @@ public class Vector3D{
     }
     
     public boolean equals(Vector3D v){
-        if(x == v.x && y == v.y && z == v.z){
+        if(x == v.x() && y == v.y() && z == v.z()){
             return true;
         }else{
             return false;
