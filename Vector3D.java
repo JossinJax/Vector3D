@@ -1,6 +1,6 @@
-module Vector3D {
-	Class Main() {
-		public static void Main (String[] args) {
+
+	Class Main{
+		public static void main(String[] args) {
 			while(true) {
 				System.out.println("Vector in X, Y, Z format:");
 				Scanner Vector = new Scanner(System.in);
@@ -94,5 +94,5 @@ module Vector3D {
 		public String toString(int number) {
 			return String.valueOf(number);
 		}
-	}
-}
+	}//end class main
+
