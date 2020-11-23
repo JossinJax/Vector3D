@@ -1133,6 +1133,7 @@ public class Monopoly{
 								}else {
 									while(players.get(i).money - price < 0 && eww.size() != 0) {
 										sellBank(players.get(i), bank, eww.get(0));
+										eww.remove(0);
 									}
 									if(eww.size() == 0) {
 										System.out.println("AI has declared bankrupt");
@@ -1377,6 +1378,7 @@ public class Monopoly{
 							}else {
 								while(players.get(i).money - utilPrice < 0 && ewww.size() != 0) {
 									sellBank(players.get(i), bank, ewww.get(0));
+									ewww.remove(0);
 								}
 								if(ewww.size() == 0) {
 									System.out.println("AI has declared bankrupt");
@@ -1618,6 +1620,7 @@ public class Monopoly{
 							}else {
 								while(players.get(i).money - taxPrice < 0 && ewww.size() != 0) {
 									sellBank(players.get(i), bank, ewww.get(0));
+									ewww.remove(0);
 								}
 								if(ewww.size() == 0) {
 									System.out.println("AI has declared bankrupt");
