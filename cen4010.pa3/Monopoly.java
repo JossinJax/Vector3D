@@ -1,20 +1,58 @@
 package cen4010.pa2;
 import java.util.*;  
-import java.lang.Math; 
 import java.util.ArrayList;
-import java.util.Collections; 
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 
 class Player {
 	public int money;
 	public String token;
-	public int location = -1;
-	public int turn;
-
-	public Player(String token, int turn) {
+	public int location = 0;
+	public boolean AI;
+	public int pNumber;
+	public boolean inJail = false;
+	public int jailTime = 0;
+	public int doubleCounter = 0;
+	
+	public Player() {
+	}
+	public Player(boolean comp, int num) {
+		this.money = 1500;
+		this.AI = comp;
+		this.pNumber = num;
+	}
+	
+	public Player(String token, boolean comp) {
 		this.money = 1500;
 		this.token = token;
-		this.turn = turn;
+		this.AI = comp;
+	}
+	
+	public void setToken(String tok) {
+		this.token = tok;
+	}
+	
+	public boolean isAI() {
+		return this.AI;
+	}
+	
+	public void setAI(boolean temp) {
+		this.AI = temp;
+	}
+	
+	public String getToken() {
+		return this.token;
+	}
+	
+	public int getNum() {
+		return this.pNumber;
+	}
+	
+	public void setJail(boolean inJ) {
+		this.inJail = inJ;
 	}
 	
 	public void movement(int move) {
@@ -124,17 +162,34 @@ class BoardSpot {
 	public void setNumHouse(int num) {
 		this.numHouse = num;
 	}
+	public boolean isMortaged() {
+		return this.mortaged;
+	}
+}
+
+class Reminder{
+	Timer timer;
+	public boolean timeRem = true;
+	
+	public Reminder() {
+		timer = new Timer();
+		timer.schedule(new RemindTask(), 600 * 1000);
+	}
+	class RemindTask extends TimerTask{
+		public void run() {
+			timeRem = false;
+		}
+	}
+	
 }
 
 public class Monopoly{
 	
-	
 	public static void main(String args[]) {
 		int houses = 32;
 		int hotels = 12;
-		Player bank = new Player(null, 0);
-		Player NA = new Player(null, 0);
-		int playerCount = 0;
+		Player bank = new Player();
+		Player NA = new Player();
 
 		BoardSpot MediterraneanAvenue = new BoardSpot("Mediterranean Avenue", "brown", "property", bank, 60, 30, 2, 10, 30, 90, 160, 250, 50, false, 0);
 		BoardSpot CommunityChest1 = new BoardSpot("CommunityChest", "none", "special", NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);
@@ -178,241 +233,1458 @@ public class Monopoly{
 		BoardSpot Go = new BoardSpot("Go", "none", "go", NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);
 		BoardSpot[] spaces = {Go, MediterraneanAvenue, CommunityChest1, BalticAvenue, IncomeTax, ReadingRailroad, OrientalAvenue, Chance1, VermontAvenue, ConneticutAvenue, Jail, StCharlesPlace, ElectricCompany, StatesAvenue, VirginiaAvenue, PennsylvaniaRailroad, StJamesPlace, CommunityChest2, TennesseeAvenue, NewYorkAvenue, FreeParking, KentuckyAvenue, Chance2, IllinoisAvenue, IndianaAvenue, BORailroad, AtlanticAvenue, VentorAvenue, WaterWorks, MarvinGardens, GoToJail, PacificAvenue, NorthCarolinaAvenue, CommunityChest3, PennsylvaniaAvenue, ShortLine, Chance3, ParkPlace, LuxuryTax, Boardwalk};
 
+		
+		//Determine Number of Players
+		
+		System.out.println("Welcome to Monopoly! How many people are playing?");
+		Scanner in = new Scanner(System.in);
+		int humanPlayers;
+		int aiPlayers = 0;
 		while(true) {
-			System.out.println("How many people are playing?");
-			Scanner in = new Scanner(System.in);
-			String numOfPlayers = in.next();
-			playerCount = Integer.parseInt(numOfPlayers);
-			in.close();
-			if(!(isInt(numOfPlayers))) {	//Check how many players
-				System.out.println("Entered value is not a number. Try again.");
-				continue;
+			int entry = in.nextInt();
+			if(entry > 8) {
+				System.out.println("Too many players! Enter a new player count.");
+			}else if(entry < 1) {
+				System.out.println("Invalid number. Enter a new player count.");
+			}else {
+				humanPlayers = entry;
+				System.out.println(humanPlayers + " people are playing!");
+				break;
 			}
-			if(playerCount > 8) {
-				System.out.println("That's too many players");
-				continue;
+		}
+		while(true) {
+			if(humanPlayers < 8) {
+				System.out.println("How many AI Players would you like?");
+				int entry = in.nextInt();
+				if(entry  < 0) {
+					System.out.println("Invalid number. Enter a new player count.");
+				}else if(entry  < 1 && humanPlayers < 2) {
+					System.out.println("You can't play alone. Add an AI player.");
+				}else {
+					aiPlayers = entry;
+					System.out.println("Added " + aiPlayers +" AI players.");
+					break;
+				}
+			}else {
+				break;
 			}
-			if(playerCount < 2) {
-				System.out.println("It'll be more fun to play with more players.");
-				continue;
-			}
-			break;
 		}
 		
-//Assign each player their turn order
-		Random rand = new Random();
-		System.out.println("Number of players: " + playerCount);
-		ArrayList<Integer> turns = new ArrayList<Integer>();
-		ArrayList<Player> playerTracker = new ArrayList<Player>();
-		Player newPlayer = new Player(null, 0);
-		for(int i = 0; i < playerCount; i++) {
-			String tokens[] = {"car", "dog", "hat", "iron", "ship", "shoe", "thimble", "wheelbarrow"};
-//this next section sets the tokens for identifying players, rather than using a string.
-//it might be better suited in another location.
-			for (int counter = 0; counter < playerCount; counter++) {
+		int totalPlayers = humanPlayers + aiPlayers;
+		System.out.println("There are " + totalPlayers + " total players!");
+		
+		Integer[] turnNumber = new Integer[12];
+		Player[] playerOrder = new Player[12];
+		Random dieOne = new Random();
+		Random dieTwo = new Random();
+		
+		//Assigning Turn Order
+		
+		for(int i = 0; i < humanPlayers; i++) {
+			System.out.println("Rolling play order for Player " + i+1);
+			while(true) {
+				int diceRoll = dieOne.nextInt(7) + dieTwo.nextInt(7);
+				if(turnNumber[diceRoll] != diceRoll) {
+					turnNumber[diceRoll] = diceRoll;
+					Player p = new Player(false, i);
+					playerOrder[diceRoll] = p;
+					break;
+				}else {
+					continue;
+				}
+			}
+		}
+		for(int i = 0; i < aiPlayers; i++) {
+			System.out.println("Rolling play order for Player(AI) " + i+1+humanPlayers);
+			while(true) {
+				int diceRoll = dieOne.nextInt(7) + dieTwo.nextInt(7);
+				if(turnNumber[diceRoll] != diceRoll) {
+					turnNumber[diceRoll] = diceRoll;
+					Player c = new Player(true, humanPlayers + i);
+					playerOrder[diceRoll] = c;
+					break;
+				}else {
+					continue;
+				}
+			}
+		}
+		
+		ArrayList<Player> players = new ArrayList<Player>();
+		for(int i = 12; i > 0; i--) {
+			if(turnNumber[i] != null) {
+				players.add(playerOrder[i]);
+			}
+		}
+		System.out.println();
+		System.out.print("Turn Order: ");
+		for(int i = 0; i < players.size(); i++) {
+			if(i == players.size() - 1) {
+				System.out.print("Player " + players.get(i).getNum());
+			}else {
+				System.out.print("Player " + players.get(i).getNum() + ", ");
+			}
+		}
+		System.out.println();
+		
+		//Setting Tokens
+		
+		ArrayList<String> tokens = new ArrayList<String>();
+		tokens.add("Boot");
+		tokens.add("Cat");
+		tokens.add("Dog");
+		tokens.add("Duck");
+		tokens.add("Iron");
+		tokens.add("Hat");
+		tokens.add("Thimble");
+		tokens.add("Wheel");
+		
+		for(int i = 0 ; i < players.size(); i++) {
+			if(!(players.get(i).isAI())) {
+				System.out.println("Player " + players.get(i).getNum() + ", please pick your token from the list");
+				for(int p = 0; p < tokens.size(); p++) {
+					System.out.println("  " + tokens.get(p));
+				}
 				while(true) {
-					System.out.println("Select a token for Player " + counter + ":");
-					for (int cntr = 0; cntr < tokens.length; cntr++) {
-						System.out.println(tokens[counter]);
+					String choice = in.nextLine();
+					choice = choice.trim();
+					if(tokens.contains(choice)) {
+						players.get(i).setToken(choice);
+						tokens.remove(tokens.indexOf(choice));
+						System.out.println("Player " + players.get(i).getNum() + "selected " + choice);
+						break;
+					}else {
+
+						System.out.println("Please enter a valid choice");
 					}
-					Scanner in = new Scanner(System.in);
-					String temptok = in.next();
-					in.close();
-					if (temptok.equals("taken")){
-						System.out.println("That token is taken.  Please select another.");
+				}
+			}
+		}
+		for(int i = 0; i < players.size(); i++) {
+			if(players.get(i).isAI()) {
+				players.get(i).setToken(tokens.get(0));
+				System.out.println("Player(AI) " + players.get(i).getNum() + "assigned " + tokens.get(0));
+				tokens.remove(0);
+			}
+		}
+		Reminder reminder = new Reminder();
+		//Gameplay
+		while(players.size() > 1) {
+			if(reminder.timeRem == false) {
+				int winner = -1; 
+				int winningMon = 0;
+				for(int j = 0; j < players.size(); j++) {
+					if(players.get(j).money > winningMon) {
+						winner = j;
+						winningMon = players.get(j).money;
+					}
+				}
+				System.out.println("The winner is Player " + players.get(winner).getNum() + " with " + winningMon + "!");
+				in.close();
+				System.exit(0);
+			}
+			for(int i = 0; i < players.size(); i++) {
+				//If in jail
+				if(players.get(i).inJail) {
+					System.out.println("You are in jail. Pay $50 to free yourself or roll to be freed. 'pay' or 'roll'");
+					String j = in.nextLine();
+					switch(j) {
+						case "pay":
+							players.get(i).money -= 50;
+							players.get(i).setJail(false);
+							players.get(i).jailTime = 0; 
+							System.out.println("Fine paid. You are free!");
+							break;
+						case "roll":
+							break;
+						default:
+							System.out.println("Invalid option. Please try again.");
+					}
+				}
+				//Rolling movement
+				if(players.get(i).isAI()) {
+					System.out.println("AI " + players.get(i).getNum() + "'s turn");
+					System.out.println("Rolling dice...");
+				}else {
+					System.out.println("Player " + players.get(i).getNum() + "'s turn");
+					System.out.println("Rolling dice...");
+				}
+				boolean doubles = false;
+				Random die = new Random();
+				int d1 = die.nextInt(7);
+				int d2 = die.nextInt(7);
+				if(d1 == d2) {
+					doubles = true;
+					players.get(i).doubleCounter += 1;
+					if(players.get(i).doubleCounter == 4) {
+						System.out.println("Speeding! Go to Jail!");
+						players.get(i).inJail = true;
+						players.get(i).doubleCounter = 0;
 						continue;
 					}
-					for (int cntr = 0; cntr < tokens.length; cntr++) {
-						if(temptok.equals(tokens[cntr])) {
-							tokens[cntr] = "taken";
-							newPlayer.token = temptok;
-							int tempTurn = rollDie() + rollDie();
-							turns.add(tempTurn);
-							playerTracker.add(cntr+1, newPlayer);
-							System.out.println(newPlayer.token + ", you rolled " + tempTurn);
+				}else {
+					players.get(i).doubleCounter = 0;
+				}
+				boolean bankr = false;
+				int move = d1 + d2;
+				if(players.get(i).inJail == true && doubles == false) {
+					if(players.get(i).jailTime == 3) {
+						if(players.get(i).money >= 50) {
+							System.out.println("Fine paid. You are free to go.");
+							players.get(i).money -= 50;
+							players.get(i).jailTime = 0;
+							players.get(i).setJail(false);
+						}else {
+							System.out.println("You need " + ((players.get(i).money - 50) * -1) + " to pay your fine. Sell houses, properties, mortage, or declare bankrupt. /n'house', 'prop', 'mort', 'bankrupt'");
+							boolean debt = true;
+							while(debt) {
+								String dec = in.nextLine();
+								switch(dec){
+									case "house":
+										System.out.println("Select the property of the house you'd like to sell or type 'cancel' to cancel");
+										ArrayList<BoardSpot> owne = new ArrayList<BoardSpot>();
+										//displays properties
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
+												owne.add(spaces[q]);
+												System.out.println("  " + spaces[q].getName());
+											}
+										}
+										boolean con = false;
+										//int ind = -1;		forgot what I was gonna use this for
+										boolean can = false;
+										while(can == false) {
+											String pr = in.nextLine().trim();
+											
+											for(int y = 0; y < owne.size(); y++) {
+												if(pr == "cancel") {
+													can = true;
+													break;
+												}
+												if(owne.get(y).getName() == pr) {
+													con = true;
+													break;
+												}else if(y == owne.size() -1) {
+													System.out.println("Invalid choice. Please select another");
+												}
+											}
+											if(con == true) {
+												int hopr = owne.get(findInd(owne, pr)).getHouseHotelPrice();
+												for(int h = 0; h < spaces.length; h++) {
+													if(owne.get(findInd(owne, pr)).equals(spaces[h])) {
+														spaces[h].setNumHouse(spaces[h].getNumHouse()-1);
+														houses++;
+														spaces[h].getOwner().money += hopr;
+														break;
+													}
+												}
+												if(players.get(i).money - 50 >= 0) {
+													can = true;
+													debt = false;
+												}
+											}
+										}
+										break;
+									case "prop":
+										System.out.println("Select the property you'd like to sell or type 'cancel' to cancel");
+										ArrayList<BoardSpot> owned = new ArrayList<BoardSpot>();
+										//displays properties
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[q].getOwner() == players.get(i)) {
+												owned.add(spaces[q]);
+												System.out.println("  " + spaces[q].getName());
+											}
+										}
+										boolean cont = false;
+
+										boolean cant = false;
+										while(cant == false) {
+											String pri = in.nextLine().trim();
+											for(int y = 0; y < owned.size(); y++) {
+												if(pri == "cancel") {
+													can = true;
+													break;
+												}
+												if(owned.get(y).getName() == pri) {
+													cont = true;
+													break;
+												}else if(y == owned.size() -1) {
+													System.out.println("Invalid choice. Please select another");
+												}
+											
+											}
+											if(cont == true) {
+												int hope = owned.get(findInd(owned, pri)).getCost();
+												for(int h = 0; h < spaces.length; h++) {
+													if(owned.get(findInd(owned, pri)).equals(spaces[h])) {
+														spaces[h].setOwner(bank);
+														spaces[h].getOwner().money += hope;
+														break;
+													}
+												}
+												if(players.get(i).money - 50 >= 0) {
+													cant = true;
+													debt = false;
+												}
+											}
+										}
+										break;
+									case "mort":
+										System.out.println("Select the property you'd like to mortage or type 'cancel' to cancel");
+										ArrayList<BoardSpot> ownedq = new ArrayList<BoardSpot>();
+										//displays properties
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[q].getOwner() == players.get(i) && (spaces[q].getType() == "property" || spaces[q].getType() == "property")) {
+												ownedq.add(spaces[q]);
+												System.out.println("  " + spaces[q].getName());
+											}
+										}
+										boolean conq = false;
+
+										boolean canq = false;
+										while(canq == false) {
+											String priq = in.nextLine().trim();
+											for(int y = 0; y < ownedq.size(); y++) {
+												if(priq == "cancel") {
+													canq = true;
+													break;
+												}
+												if(ownedq.get(y).getName() == priq) {
+													conq = true;
+													break;
+												}else if(y == ownedq.size() -1) {
+													System.out.println("Invalid choice. Please select another");
+												}
+											
+											}
+											if(conq == true) {
+												int hopeq = ownedq.get(findInd(ownedq, priq)).getCost()/2;
+												for(int h = 0; h < spaces.length; h++) {
+													if(ownedq.get(findInd(ownedq, priq)).equals(spaces[h])) {
+														spaces[h].setMortT();
+														spaces[h].getOwner().money += hopeq;
+														break;
+													}
+												}
+												if(players.get(i).money - 50 >= 0) {
+													cant = true;
+													debt = false;
+												}
+											}
+										}
+										break;
+									case "bankrupt":
+										System.out.println("Are you sure you would like to declare bankrupt? 'y' or 'n'");
+										boolean quit = true;
+										while(quit == true) {
+											String finale = in.nextLine();
+											switch(finale) {
+												case "y": 
+													for(int k = 0; k < spaces.length; k++) {
+														if(spaces[k].getOwner() == players.get(i)) {
+															spaces[k].setOwner(bank);
+														}
+													}
+													players.remove(i);
+													i--;
+													bankr = true;
+													debt = false;
+													quit = false;
+													break;
+												case "n":
+													quit = false;
+													break;
+												default:
+													System.out.println("Invalid option. Please try again.");
+											}
+										}
+										break;
+									default:
+										System.out.println("Invalid option. Please try again.");
+								}
+							}
+							if(bankr == false) {
+								System.out.println("Fine paid. You are free to go.");
+								players.get(i).money -= 50;
+								players.get(i).jailTime = 0;
+								players.get(i).setJail(false);
+							}
 						}
+					}
+					System.out.println("In jail. Turn skipped.");
+					continue;
+				}else if(players.get(i).inJail == true && doubles == true) {
+					System.out.println("Freed from jail!.");
+					players.get(i).setJail(false);
+				}
+				if(bankr = true) {
+					continue;
+				}
+				
+				//Adding houses
+				System.out.println("Would you like to add any houses to any properties? 'y'  for yes or 'n' for no");
+				while(true) {	
+					String hous = in.nextLine();
+					switch(hous) {
+						case "y":
+							System.out.println("Select the property you would like to add a house or hotel to or type 'done' to continue.");
+							ArrayList<BoardSpot> ownerr = new ArrayList<BoardSpot>();
+							//displays properties
+							for(int q = 0; q < spaces.length; q++) {
+								if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
+									ownerr.add(spaces[q]);
+									System.out.println("  " + spaces[q].getName());
+								}
+							}
+							while(true) {
+								String hp = in.nextLine();
+								if(hp == "done") {
+									break;
+								}
+								for(int u = 0; u < spaces.length; u++) {
+									if(ownerr.get(findInd(ownerr, hp)).equals(spaces[u])){
+										buyHouse(spaces[u], houses, hotels);
+										break;
+									}else if(u == spaces.length - 1) {
+										System.out.println("Invalid entry. Please try again.");
+									}
+								}
+							}
+							break;
+						case "n":
+							break;
+						default:
+							System.out.println("Invalid option. Please try again.");
 					}
 					break;
 				}
-			}
-		}
-		
-//Organize players by turn orders
-		for(int o = 0; o < turns.size(); o++) {
-			for(int y = o + 1; y < turns.size(); y++) {
-				if(turns.get(o) > turns.get(y)) {
-					//organize dice rolls
-					int temp = turns.get(o);
-					turns.set(o, turns.get(y));
-					turns.set(y, temp);
-					//organize player turn order accordingly
-					temp = playerTracker(0);
-					playerTracker.set(o, playerTracker.get(y));
-					playerTracker.set(y, temp);
-				}
-			}
-		}
-		
-//actual game play
-		boolean gameStart = true;
-		while(gameStart) {
-			for(int k = 0; k < playerTracker.size(); k++) {
-				System.out.println(playerTracker.get(k) + "'s turn.");
-				int current = position.get(k);
-				System.out.println("Current money: $" + moneys.get(k) + " Current position is '" + spaces[current].getName() + "'");
-				System.out.println("Choose an action: 'Move', 'Sell', 'Mortage', 'House', 'Bankrupt'");
-				Scanner action = new Scanner(System.in);
-				String whatDo = action.nextLine();
-				switch(whatDo) {
-					case "Move":
-						int dice1 = rollDie();
-						int dice2 = rollDie();
-						int totalMove = dice1 + dice2;
-						int tempPos = current + totalMove;
-						if(tempPos > 40) {
-							tempPos -= 40;
-							position.set(k, tempPos);
-							moneys.set(k, moneys.get(k) + 200);
-						}
-						switch(spaces[tempPos].getType()) {
-							case "tax":
-								boolean paid = false;
-								while(paid == false) {
-									if(spaces[tempPos].getName() == "Luxury Tax") {
-										if(moneys.get(k) >= 75) {
-											moneys.set(k, moneys.get(k) - 75);
-											System.out.println("You landed on 'Luxury Tax.' You were charged $75.");
-										}else {
-											System.out.println("You cannot afford the tax. You must sell assets until you can afford it.");
-											System.out.println("Select an option: 'pay', 'sell', 'bankrupt'");
-											whatDo = action.nextLine();
-											switch(whatDo) {
-												case "pay":
-													moneys.set(k, moneys.get(k) - 75);
-													System.out.println("You landed on 'Luxury Tax.' You were charged $75.");
-													paid = true;
-													break;
-												case "sell":
-													ArrayList<BoardSpot> owned = new ArrayList<BoardSpot>();
-													String owner = "Player " + k;
-													for(int j = 0; j < spaces.length; j++) {
-														if(spaces[j].getOwner() == owner) {
-															owned.add(spaces[j]);
-														}
-													}
-													System.out.println("Select a property to sell or mortage: ");
-													for(int qw = 0; qw < owned.size(); qw++) {
-														System.out.print(owned.get(qw).getName() + ", ");
-														if(qw == owned.size() - 2) {
-															System.out.print(owned.get(qw).getName());
-															qw++;
-														}
-													}
-													whatDo = action.nextLine();
-													for(int qw = 0; qw < owned.size(); qw++) {
-														if(whatDo == owned.get(qw).getName()) {
-															if(owned.get(qw).getNumHouse() > 0) {
-
-																moneys.set(k, moneys.get(k) + owned.get(qw).getHouseHotelPrice());
-																if(owned.get(qw).getNumHouse() == 5) {
-																	System.out.println("Sold hotel for $" + owned.get(qw).getHouseHotelPrice());
-																	hotels++;
-																	spaces[qw].setNumHouse(owned.get(qw).getNumHouse() - 1);
-																}else {
-																	houses++;
-																	System.out.println("Sold house for $" + owned.get(qw).getHouseHotelPrice());
-																	spaces[qw].setNumHouse(owned.get(qw).getNumHouse() - 1);
-																}
-															}else {
-																System.out.println("Sell or Mortage?");
-																whatDo = action.nextLine();
-																if(whatDo == "Sell" || whatDo == "sell") {
-																	moneys.set(k, moneys.get(k) + spaces[qw].getCost());
-																	spaces[qw].setOwner(bank);
-																	System.out.println("Sold for $" + owned.get(qw).getCost());
-																}else if(whatDo == "Mortage" || whatDo == "mortage") {
-																	moneys.set(k, moneys.get(k) + spaces[qw].getMort());
-																	spaces[qw].setMortT();
-																	System.out.println("Mortaged for $" + owned.get(qw).getMort());
-																}else {
-																	System.out.println("Invalid option. Check spelling and try again.");
-																}
-															}
-															break;
-														}else if(qw == owned.size() - 1 && !(whatDo == owned.get(qw).getName())) {
-															System.out.println("You do not own this property or entered the name incorrectly. Please try again.");
-														}
-													}
-													
-											}
-										}
+				players.get(i).movement(move);
+				
+				String type = spaces[players.get(i).location].getType();
+				switch(type) {
+					case "property":
+						if(spaces[players.get(i).location].getOwner() != bank || spaces[players.get(i).location].getOwner() != NA) {
+							int nuHou = spaces[players.get(i).location].getNumHouse();
+							int price = 0;
+							switch (nuHou){
+								case 0:
+									price = spaces[players.get(i).location].getHouse0();
+									break;
+								case 1:
+									price = spaces[players.get(i).location].getHouse1();
+									break;
+								case 2:
+									price = spaces[players.get(i).location].getHouse2();
+									break;
+								case 3:
+									price = spaces[players.get(i).location].getHouse3();
+									break;
+								case 4:
+									price = spaces[players.get(i).location].getHouse4();
+									break;
+								case 5:
+									price = spaces[players.get(i).location].getHotel();
+									break;
+							}
+							if(players.get(i).money - price < 0 && players.get(i).isAI() == true) {
+								ArrayList<BoardSpot> o = new ArrayList<BoardSpot>();
+								for(int q = 0; q < spaces.length; q++) {
+									if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
+										o.add(spaces[q]);
+									}
+								}
+								if(o.size() == 0) {
+									System.out.println("AI has declared bankrupt");
+									i--;
+									continue;
+								}else {
+									while(players.get(i).money - price < 0 && o.size() != 0) {
+										sellBank(players.get(i), bank, o.get(0));
+									}
+									if(o.size() == 0) {
+										System.out.println("AI has declared bankrupt");
+										i--;
+										continue;
 									}else {
-										System.out.println("You landed on 'Income Tax.' Choose to pay either 10% of total assets or $200. Choose: 'percent' or 'flat'");
-										while(true) {
-											whatDo = action.nextLine();
-											switch(whatDo) {
-												case "flat":
-													
-													
+										players.get(i).money -= price;
+										
+									}
+								}
+							}else if(players.get(i).money - price < 0 && players.get(i).isAI() == false) {
+								System.out.println("You need " + ((players.get(i).money - price) * -1) + " to pay rent. Sell houses, properties, mortage, or declare bankrupt. /n'house', 'prop', 'mort', 'bankrupt'");
+								boolean debt = true;
+								while(debt) {
+									String dec = in.nextLine();
+									switch(dec){
+										case "house":
+											System.out.println("Select the property of the house you'd like to sell or type 'cancel' to cancel");
+											ArrayList<BoardSpot> owne = new ArrayList<BoardSpot>();
+											//displays properties
+											for(int q = 0; q < spaces.length; q++) {
+												if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
+													owne.add(spaces[q]);
+													System.out.println("  " + spaces[q].getName());
+												}
 											}
+											boolean con = false;
+											//int ind = -1;		forgot what I was gonna use this for
+											boolean can = false;
+											while(can == false) {
+												String pr = in.nextLine().trim();
+												
+												for(int y = 0; y < owne.size(); y++) {
+													if(pr == "cancel") {
+														can = true;
+														break;
+													}
+													if(owne.get(y).getName() == pr) {
+														con = true;
+														break;
+													}else if(y == owne.size() -1) {
+														System.out.println("Invalid choice. Please select another");
+													}
+												}
+												if(con == true) {
+													int hopr = owne.get(findInd(owne, pr)).getHouseHotelPrice();
+													for(int h = 0; h < spaces.length; h++) {
+														if(owne.get(findInd(owne, pr)).equals(spaces[h])) {
+															spaces[h].setNumHouse(spaces[h].getNumHouse()-1);
+															houses++;
+															spaces[h].getOwner().money += hopr;
+															break;
+														}
+													}
+													if(players.get(i).money - price >= 0) {
+														can = true;
+														debt = false;
+													}
+												}
+											}
+											break;
+										case "prop":
+											System.out.println("Select the property you'd like to sell or type 'cancel' to cancel");
+											ArrayList<BoardSpot> owned = new ArrayList<BoardSpot>();
+											//displays properties
+											for(int q = 0; q < spaces.length; q++) {
+												if(spaces[q].getOwner() == players.get(i)) {
+													owned.add(spaces[q]);
+													System.out.println("  " + spaces[q].getName());
+												}
+											}
+											boolean cont = false;
+
+											boolean cant = false;
+											while(cant == false) {
+												String pri = in.nextLine().trim();
+												for(int y = 0; y < owned.size(); y++) {
+													if(pri == "cancel") {
+														can = true;
+														break;
+													}
+													if(owned.get(y).getName() == pri) {
+														cont = true;
+														break;
+													}else if(y == owned.size() -1) {
+														System.out.println("Invalid choice. Please select another");
+													}
+												
+												}
+												if(cont == true) {
+													int hope = owned.get(findInd(owned, pri)).getCost();
+													for(int h = 0; h < spaces.length; h++) {
+														if(owned.get(findInd(owned, pri)).equals(spaces[h])) {
+															spaces[h].setOwner(bank);
+															spaces[h].getOwner().money += hope;
+															break;
+														}
+													}
+													if(players.get(i).money - price >= 0) {
+														cant = true;
+														debt = false;
+													}
+												}
+											}
+											break;
+										case "mort":
+											System.out.println("Select the property you'd like to mortage or type 'cancel' to cancel");
+											ArrayList<BoardSpot> ownedq = new ArrayList<BoardSpot>();
+											//displays properties
+											for(int q = 0; q < spaces.length; q++) {
+												if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
+													ownedq.add(spaces[q]);
+													System.out.println("  " + spaces[q].getName());
+												}
+											}
+											boolean conq = false;
+
+											boolean canq = false;
+											while(canq == false) {
+												String priq = in.nextLine().trim();
+												for(int y = 0; y < ownedq.size(); y++) {
+													if(priq == "cancel") {
+														canq = true;
+														break;
+													}
+													if(ownedq.get(y).getName() == priq) {
+														conq = true;
+														break;
+													}else if(y == ownedq.size() -1) {
+														System.out.println("Invalid choice. Please select another");
+													}
+												
+												}
+												if(conq == true) {
+													int hopeq = ownedq.get(findInd(ownedq, priq)).getCost()/2;
+													for(int h = 0; h < spaces.length; h++) {
+														if(ownedq.get(findInd(ownedq, priq)).equals(spaces[h])) {
+															spaces[h].setMortT();
+															spaces[h].getOwner().money += hopeq;
+															break;
+														}
+													}
+													if(players.get(i).money - price >= 0) {
+														cant = true;
+														debt = false;
+													}
+												}
+											}
+											break;
+										case "bankrupt":
+											System.out.println("Are you sure you would like to declare bankrupt? 'y' or 'n'");
+											boolean quit = true;
+											while(quit == true) {
+												String finale = in.nextLine();
+												switch(finale) {
+													case "y": 
+														for(int k = 0; k < spaces.length; k++) {
+															if(spaces[k].getOwner() == players.get(i)) {
+																spaces[k].setOwner(bank);
+															}
+														}
+														players.remove(i);
+														i--;
+														quit = false;
+														debt = false;
+														bankr = true;
+														break;
+													case "n":
+														quit = false;
+														break;
+													default:
+														System.out.println("Invalid option. Please try again.");
+												}
+											}
+											break;
+										default:
+											System.out.println("Invalid option. Please try again.");
+									}
+								}
+							}
+							if(bankr == false) {
+								System.out.println("Property owned. Paying rent...");
+								rent(players.get(i), spaces[players.get(i).location]);
+							}
+						}else if(spaces[players.get(i).location].getOwner() == bank || spaces[players.get(i).location].getOwner() != NA){
+							if(players.get(i).isAI() || players.get(i).money > spaces[players.get(i).location].getCost()) {
+								System.out.println("AI " + players.get(i).getNum() + " purchased " + spaces[players.get(i).location].getName());
+								buy(players.get(i), spaces[players.get(i).location]);
+							}else if(!(players.get(i).isAI())){
+								if(players.get(i).money > spaces[players.get(i).location].getCost()) {
+									System.out.println("Player " + players.get(i).getNum() + "has landed on " + spaces[players.get(i).location].getName());
+									System.out.println("Would you like to purchase this property? Enter 'y' for yes or 'n' for no. You currently have $" + players.get(i).money);
+									boolean buying = true;
+									while(buying) {
+										String pur = in.nextLine();
+										switch(pur) {
+											case "y":
+												buy(players.get(i), spaces[players.get(i).location]);
+												System.out.println("Player " + players.get(i).getNum() + " purchased " + spaces[players.get(i).location].getName() + "and has $" + players.get(i).money + " remaining.");
+												buying = false;
+												break;
+											case "n": 
+												System.out.println("Purchase declined.");
+												buying = false;
+												break;
+											default:
+												System.out.println("Invalid option. Please enter either 'y' for yes or 'n' for no.");
 										}
+									}
+								}else {
+									System.out.println("Player " + players.get(i).getNum() + ", you don't have enough money to purchase this property...");
+								}
+							}
+						}
+						break;
+					case "railroad": 
+						if(spaces[players.get(i).location].getOwner() != bank || spaces[players.get(i).location].getOwner() != NA && players.get(i).isAI() == false) {
+							int price = 0;
+							ArrayList<BoardSpot> rrs = new ArrayList<BoardSpot>();
+							for(int p = 0; p < spaces.length; p++) {
+								if(spaces[p].getType() == "railroad") {
+									rrs.add(spaces[p]);
+								}
+							}
+							int numOfRRs = 0;
+							
+							Player o = spaces[players.get(i).location].getOwner();
+							
+							for(int p = 0; p < rrs.size(); p++) {
+								if(o == rrs.get(p).getOwner()) {
+									numOfRRs++;
+								}
+							}
+							
+							switch(numOfRRs) {
+								case 1:
+									price = 25;
+									break;
+								case 2:
+									price = 50;
+									break;
+								case 3:
+									price = 100;
+									break;
+								case 4:
+									price = 200;
+									break;
+							}
+							
+							
+							if(players.get(i).money - price < 0 && players.get(i).isAI() == false) {
+								System.out.println("You need " + ((players.get(i).money - price) * -1) + " to pay rent. Sell houses, properties, mortage, or declare bankrupt. /n'house', 'mort', 'prop', 'bankrupt'");
+								boolean debt = true;
+								while(debt) {
+									String dec = in.nextLine();
+									switch(dec){
+										case "house":
+											System.out.println("Select the property of the house you'd like to sell or type 'cancel' to cancel");
+											ArrayList<BoardSpot> owne = new ArrayList<BoardSpot>();
+											//displays properties
+											for(int q = 0; q < spaces.length; q++) {
+												if(spaces[players.get(i).location].getOwner() == players.get(i)) {
+													owne.add(spaces[q]);
+													System.out.println("  " + spaces[q].getName());
+												}
+											}
+											boolean con = false;
+											//int ind = -1;		forgot what I was gonna use this for
+											boolean can = false;
+											while(can == false) {
+												String pr = in.nextLine().trim();
+												
+												for(int y = 0; y < owne.size(); y++) {
+													if(pr == "cancel") {
+														can = true;
+														break;
+													}
+													if(owne.get(y).getName() == pr) {
+														con = true;
+														break;
+													}else if(y == owne.size() -1) {
+														System.out.println("Invalid choice. Please select another");
+													}
+												}
+												if(con == true) {
+													int hopr = owne.get(findInd(owne, pr)).getHouseHotelPrice();
+													for(int h = 0; h < spaces.length; h++) {
+														if(owne.get(findInd(owne, pr)).equals(spaces[h])) {
+															spaces[h].setNumHouse(spaces[h].getNumHouse()-1);
+															houses++;
+															spaces[h].getOwner().money += hopr;
+															break;
+														}
+													}
+													if(players.get(i).money - price >= 0) {
+														can = true;
+														debt = false;
+													}
+												}
+											}
+											break;
+										case "prop":
+											System.out.println("Select the property you'd like to sell or type 'cancel' to cancel");
+											ArrayList<BoardSpot> owned = new ArrayList<BoardSpot>();
+											//displays properties
+											for(int q = 0; q < spaces.length; q++) {
+												if(spaces[players.get(i).location].getOwner() == players.get(i)) {
+													owned.add(spaces[q]);
+													System.out.println("  " + spaces[q].getName());
+												}
+											}
+											boolean cont = false;
+
+											boolean cant = false;
+											while(cant == false) {
+												String pri = in.nextLine().trim();
+												for(int y = 0; y < owned.size(); y++) {
+													if(pri == "cancel") {
+														can = true;
+														break;
+													}
+													if(owned.get(y).getName() == pri) {
+														cont = true;
+														break;
+													}else if(y == owned.size() -1) {
+														System.out.println("Invalid choice. Please select another");
+													}
+												
+												}
+												if(cont == true) {
+													int hope = owned.get(findInd(owned, pri)).getCost();
+													for(int h = 0; h < spaces.length; h++) {
+														if(owned.get(findInd(owned, pri)).equals(spaces[h])) {
+															spaces[h].setOwner(bank);
+															spaces[h].getOwner().money += hope;
+															break;
+														}
+													}
+													if(players.get(i).money - price >= 0) {
+														cant = true;
+														debt = false;
+													}
+												}
+											}
+											
+										case "mort":
+											System.out.println("Select the property you'd like to mortage or type 'cancel' to cancel");
+											ArrayList<BoardSpot> ownedq = new ArrayList<BoardSpot>();
+											//displays properties
+											for(int q = 0; q < spaces.length; q++) {
+												if(spaces[q].getOwner() == players.get(i) && (spaces[q].getType() == "property" || spaces[q].getType() == "utility")) {
+													ownedq.add(spaces[q]);
+													System.out.println("  " + spaces[q].getName());
+												}
+											}
+											boolean conq = false;
+
+											boolean canq = false;
+											while(canq == false) {
+												String priq = in.nextLine().trim();
+												for(int y = 0; y < ownedq.size(); y++) {
+													if(priq == "cancel") {
+														canq = true;
+														break;
+													}
+													if(ownedq.get(y).getName() == priq) {
+														conq = true;
+														break;
+													}else if(y == ownedq.size() -1) {
+														System.out.println("Invalid choice. Please select another");
+													}
+												
+												}
+												if(conq == true) {
+													int hopeq = ownedq.get(findInd(ownedq, priq)).getCost() / 2;
+													for(int h = 0; h < spaces.length; h++) {
+														if(ownedq.get(findInd(ownedq, priq)).equals(spaces[h])) {
+															spaces[h].setMortT();
+															spaces[h].getOwner().money += hopeq;
+															break;
+														}
+													}
+													if(players.get(i).money - price >= 0) {
+														cant = true;
+														debt = false;
+													}
+												}
+											}
+											break;
+											
+										case "bankrupt":
+											System.out.println("Are you sure you would like to declare bankrupt? 'y' or 'n'");
+											boolean quit = true;
+											while(quit == true) {
+												String finale = in.nextLine();
+												switch(finale) {
+													case "y": 
+														for(int k = 0; k < spaces.length; k++) {
+															if(spaces[k].getOwner() == players.get(i)) {
+																spaces[k].setOwner(bank);
+															}
+														}
+														players.remove(i);
+														i--;
+														bankr = true;
+														quit = false;
+														debt = false;
+														break;
+													case "n":
+														quit = false;
+														break;
+													default:
+														System.out.println("Invalid option. Please try again.");
+												}
+											}
+											break;
+										default:
+											System.out.println("Invalid option. Please try again.");
+									}
+								}
+							}
+							if(players.get(i).money - price < 0 && players.get(i).isAI() == true) {
+								ArrayList<BoardSpot> eww = new ArrayList<BoardSpot>();
+								for(int q = 0; q < spaces.length; q++) {
+									if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
+										eww.add(spaces[q]);
+									}
+								}
+								if(eww.size() == 0) {
+									System.out.println("AI has declared bankrupt");
+									i--;
+									continue;
+								}else {
+									while(players.get(i).money - price < 0 && eww.size() != 0) {
+										sellBank(players.get(i), bank, eww.get(0));
+									}
+									if(eww.size() == 0) {
+										System.out.println("AI has declared bankrupt");
+										i--;
+										continue;
+									}else {
+										players.get(i).money -= price;
+										
 									}
 								}
 								break;
+							}
+							if(bankr == false) {
+								System.out.println("Railroad owned. Paying rent...");
+								players.get(i).money -= price;
+							}
+						}else if(spaces[players.get(i).location].getOwner() == bank || spaces[players.get(i).location].getOwner() != NA){
+							if(players.get(i).isAI() || players.get(i).money > spaces[players.get(i).location].getCost()) {
+								System.out.println("AI " + players.get(i).getNum() + " purchased " + spaces[players.get(i).location].getName());
+								buy(players.get(i), spaces[players.get(i).location]);
+							}else if(!(players.get(i).isAI())){
+								if(players.get(i).money > spaces[players.get(i).location].getCost()) {
+									System.out.println("Player " + players.get(i).getNum() + "has landed on " + spaces[players.get(i).location].getName());
+									System.out.println("Would you like to purchase this property? Enter 'y' for yes or 'n' for no. You currently have $" + players.get(i).money);
+									boolean buying = true;
+									while(buying) {
+										String pur = in.nextLine();
+										switch(pur) {
+											case "y":
+												buy(players.get(i), spaces[players.get(i).location]);
+												System.out.println("Player " + players.get(i).getNum() + " purchased " + spaces[players.get(i).location].getName() + "and has $" + players.get(i).money + " remaining.");
+												buying = false;
+												break;
+											case "n": 
+												System.out.println("Purchase declined.");
+												buying = false;
+												break;
+											default:
+												System.out.println("Invalid option. Please enter either 'y' for yes or 'n' for no.");
+										}
+									}
+								}else {
+									System.out.println("Player " + players.get(i).getNum() + ", you don't have enough money to purchase this property...");
+								}
+							}
 						}
-//purchase houses, needs to implement enoughCash().
-					 	case "house":
-								System.out.println("Which property?");
-								for (int cntr = 0; cntr < 40; cntr++) {
-									if (spaces[cntr].getOwner().equals(playerTracker)) {
-										System.out.println(spaces[cntr].getName());
-									}
-								}
-								Scanner buy = new Scanner(System.in);
-								String purchase = buy.next();
-								for (int cntr = 0; cntr < 40; cntr++) {
-									if(spaces[cntr].getOwner().equals(playerTracker)&&spaces[cntr].getName().equals(purchase)) {
-										buy(playerTracker, spaces[cntr].getHouseHotelPrice());
-									}
-								}
+						break;
+					case "GoToJail":
+						System.out.println("Player " + players.get(i).getNum() + " has been sent to jail.");
+						players.get(i).location = 10;
+						players.get(i).setJail(true);
+						break;
+					case "utility":
+						int utilPrice = 0;
+						if(spaces[11].getOwner() == spaces[27].getOwner()) {
+							utilPrice = move * 10;
+						}else {
+							utilPrice = move * 4;
 						}
 						
+						if(players.get(i).money - utilPrice < 0) {
+							System.out.println("You need " + ((players.get(i).money - utilPrice) * -1) + " to pay rent. Sell houses, properties, mortage, or declare bankrupt. /n'house', 'mort', 'prop', 'bankrupt'");
+							boolean debt = true;
+							while(debt) {
+								String dec = in.nextLine();
+								switch(dec){
+									case "house":
+										System.out.println("Select the property of the house you'd like to sell or type 'cancel' to cancel");
+										ArrayList<BoardSpot> owne = new ArrayList<BoardSpot>();
+										//displays properties
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[players.get(i).location].getOwner() == players.get(i)) {
+												owne.add(spaces[q]);
+												System.out.println("  " + spaces[q].getName());
+											}
+										}
+										boolean con = false;
+										//int ind = -1;		forgot what I was gonna use this for
+										boolean can = false;
+										while(can == false) {
+											String pr = in.nextLine().trim();
+											
+											for(int y = 0; y < owne.size(); y++) {
+												if(pr == "cancel") {
+													can = true;
+													break;
+												}
+												if(owne.get(y).getName() == pr) {
+													con = true;
+													break;
+												}else if(y == owne.size() -1) {
+													System.out.println("Invalid choice. Please select another");
+												}
+											}
+											if(con == true) {
+												int hopr = owne.get(findInd(owne, pr)).getHouseHotelPrice();
+												for(int h = 0; h < spaces.length; h++) {
+													if(owne.get(findInd(owne, pr)).equals(spaces[h])) {
+														spaces[h].setNumHouse(spaces[h].getNumHouse()-1);
+														houses++;
+														spaces[h].getOwner().money += hopr;
+														break;
+													}
+												}
+												if(players.get(i).money - utilPrice >= 0) {
+													can = true;
+													debt = false;
+												}
+											}
+										}
+										break;
+									case "prop":
+										System.out.println("Select the property you'd like to sell or type 'cancel' to cancel");
+										ArrayList<BoardSpot> owned = new ArrayList<BoardSpot>();
+										//displays properties
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[players.get(i).location].getOwner() == players.get(i)) {
+												owned.add(spaces[q]);
+												System.out.println("  " + spaces[q].getName());
+											}
+										}
+										boolean cont = false;
+
+										boolean cant = false;
+										while(cant == false) {
+											String pri = in.nextLine().trim();
+											for(int y = 0; y < owned.size(); y++) {
+												if(pri == "cancel") {
+													can = true;
+													break;
+												}
+												if(owned.get(y).getName() == pri) {
+													cont = true;
+													break;
+												}else if(y == owned.size() -1) {
+													System.out.println("Invalid choice. Please select another");
+												}
+											
+											}
+											if(cont == true) {
+												int hope = owned.get(findInd(owned, pri)).getCost();
+												for(int h = 0; h < spaces.length; h++) {
+													if(owned.get(findInd(owned, pri)).equals(spaces[h])) {
+														spaces[h].setOwner(bank);
+														spaces[h].getOwner().money += hope;
+														break;
+													}
+												}
+												if(players.get(i).money - utilPrice >= 0) {
+													cant = true;
+													debt = false;
+												}
+											}
+										}
+										
+									case "mort":
+										System.out.println("Select the property you'd like to mortage or type 'cancel' to cancel");
+										ArrayList<BoardSpot> ownedq = new ArrayList<BoardSpot>();
+										//displays properties
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[q].getOwner() == players.get(i) && (spaces[q].getType() == "property" || spaces[q].getType() == "utility")) {
+												ownedq.add(spaces[q]);
+												System.out.println("  " + spaces[q].getName());
+											}
+										}
+										boolean conq = false;
+
+										boolean canq = false;
+										while(canq == false) {
+											String priq = in.nextLine().trim();
+											for(int y = 0; y < ownedq.size(); y++) {
+												if(priq == "cancel") {
+													canq = true;
+													break;
+												}
+												if(ownedq.get(y).getName() == priq) {
+													conq = true;
+													break;
+												}else if(y == ownedq.size() -1) {
+													System.out.println("Invalid choice. Please select another");
+												}
+											
+											}
+											if(conq == true) {
+												int hopeq = ownedq.get(findInd(ownedq, priq)).getCost() / 2;
+												for(int h = 0; h < spaces.length; h++) {
+													if(ownedq.get(findInd(ownedq, priq)).equals(spaces[h])) {
+														spaces[h].setMortT();
+														spaces[h].getOwner().money += hopeq;
+														break;
+													}
+												}
+												if(players.get(i).money - utilPrice >= 0) {
+													cant = true;
+													debt = false;
+												}
+											}
+										}
+										break;
+										
+									case "bankrupt":
+										System.out.println("Are you sure you would like to declare bankrupt? 'y' or 'n'");
+										boolean quit = true;
+										while(quit == true) {
+											String finale = in.nextLine();
+											switch(finale) {
+												case "y": 
+													for(int k = 0; k < spaces.length; k++) {
+														if(spaces[k].getOwner() == players.get(i)) {
+															spaces[k].setOwner(bank);
+														}
+													}
+													players.remove(i);
+													i--;
+													bankr = true;
+													quit = false;
+													debt = false;
+													break;
+												case "n":
+													quit = false;
+													break;
+												default:
+													System.out.println("Invalid option. Please try again.");
+											}
+										}
+										break;
+									default:
+										System.out.println("Invalid option. Please try again.");
+								}
+							}
+						}
+						if(players.get(i).money - utilPrice < 0 && players.get(i).isAI() == true) {
+							ArrayList<BoardSpot> ewww = new ArrayList<BoardSpot>();
+							for(int q = 0; q < spaces.length; q++) {
+								if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
+									ewww.add(spaces[q]);
+								}
+							}
+							if(ewww.size() == 0) {
+								System.out.println("AI has declared bankrupt");
+								i--;
+								continue;
+							}else {
+								while(players.get(i).money - utilPrice < 0 && ewww.size() != 0) {
+									sellBank(players.get(i), bank, ewww.get(0));
+								}
+								if(ewww.size() == 0) {
+									System.out.println("AI has declared bankrupt");
+									i--;
+									continue;
+								}else {
+									players.get(i).money -= utilPrice;
+									
+								}
+							}
+							break;
+						}
+						if(bankr == false) {
+							System.out.println("Utility owned. Paying rent...");
+							players.get(i).money -= utilPrice;
+						}
+						break;
+					case "tax":
+						int taxPrice = 0;
+						if(players.get(i).location == 4) {
+							System.out.println("Choose to pay either $200 or 10% of all assets. '200' or '10%'");
+							while(true) {
+								String cho = in.nextLine();
+								switch(cho) {
+									case "200":
+										taxPrice = 200;
+										break;
+									case "10%":
+										taxPrice += players.get(i).money;
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[q].getOwner() == players.get(i) || spaces[q].isMortaged() == false) {
+												taxPrice += spaces[q].getCost();
+											}
+										}
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[q].getOwner() == players.get(i) || spaces[q].isMortaged() == true) {
+												taxPrice += spaces[q].getMort();
+											}
+										}
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[q].getOwner() == players.get(i)) {
+												taxPrice += spaces[q].getNumHouse() * spaces[q].getHouseHotelPrice();
+											}
+										}
+										taxPrice = taxPrice / 10;
+										break;
+									default:
+										System.out.println("Invaild choice. Please try again.");
+								}
+								if(taxPrice > 0) {
+									break;
+								}
+							}
+						}else {
+							taxPrice = 75;
+						}
+						
+						if(players.get(i).money - taxPrice < 0) {
+							System.out.println("You need " + ((players.get(i).money - taxPrice) * -1) + " to pay taxes. Sell houses, properties, mortage, or declare bankrupt. /n'house', 'mort', 'prop', 'bankrupt'");
+							boolean debt = true;
+							while(debt) {
+								String dec = in.nextLine();
+								switch(dec){
+									case "house":
+										System.out.println("Select the property of the house you'd like to sell or type 'cancel' to cancel");
+										ArrayList<BoardSpot> owne = new ArrayList<BoardSpot>();
+										//displays properties
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[players.get(i).location].getOwner() == players.get(i)) {
+												owne.add(spaces[q]);
+												System.out.println("  " + spaces[q].getName());
+											}
+										}
+										boolean con = false;
+										//int ind = -1;		forgot what I was gonna use this for
+										boolean can = false;
+										while(can == false) {
+											String pr = in.nextLine().trim();
+											
+											for(int y = 0; y < owne.size(); y++) {
+												if(pr == "cancel") {
+													can = true;
+													break;
+												}
+												if(owne.get(y).getName() == pr) {
+													con = true;
+													break;
+												}else if(y == owne.size() -1) {
+													System.out.println("Invalid choice. Please select another");
+												}
+											}
+											if(con == true) {
+												int hopr = owne.get(findInd(owne, pr)).getHouseHotelPrice();
+												for(int h = 0; h < spaces.length; h++) {
+													if(owne.get(findInd(owne, pr)).equals(spaces[h])) {
+														spaces[h].setNumHouse(spaces[h].getNumHouse()-1);
+														houses++;
+														spaces[h].getOwner().money += hopr;
+														break;
+													}
+												}
+												if(players.get(i).money - taxPrice >= 0) {
+													can = true;
+													debt = false;
+												}
+											}
+										}
+										break;
+									case "prop":
+										System.out.println("Select the property you'd like to sell or type 'cancel' to cancel");
+										ArrayList<BoardSpot> owned = new ArrayList<BoardSpot>();
+										//displays properties
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[players.get(i).location].getOwner() == players.get(i)) {
+												owned.add(spaces[q]);
+												System.out.println("  " + spaces[q].getName());
+											}
+										}
+										boolean cont = false;
+
+										boolean cant = false;
+										while(cant == false) {
+											String pri = in.nextLine().trim();
+											for(int y = 0; y < owned.size(); y++) {
+												if(pri == "cancel") {
+													can = true;
+													break;
+												}
+												if(owned.get(y).getName() == pri) {
+													cont = true;
+													break;
+												}else if(y == owned.size() -1) {
+													System.out.println("Invalid choice. Please select another");
+												}
+											
+											}
+											if(cont == true) {
+												int hope = owned.get(findInd(owned, pri)).getCost();
+												for(int h = 0; h < spaces.length; h++) {
+													if(owned.get(findInd(owned, pri)).equals(spaces[h])) {
+														spaces[h].setOwner(bank);
+														spaces[h].getOwner().money += hope;
+														break;
+													}
+												}
+												if(players.get(i).money - taxPrice >= 0) {
+													cant = true;
+													debt = false;
+												}
+											}
+										}
+										
+									case "mort":
+										System.out.println("Select the property you'd like to mortage or type 'cancel' to cancel");
+										ArrayList<BoardSpot> ownedq = new ArrayList<BoardSpot>();
+										//displays properties
+										for(int q = 0; q < spaces.length; q++) {
+											if(spaces[q].getOwner() == players.get(i) && (spaces[q].getType() == "property" || spaces[q].getType() == "utility")) {
+												ownedq.add(spaces[q]);
+												System.out.println("  " + spaces[q].getName());
+											}
+										}
+										boolean conq = false;
+
+										boolean canq = false;
+										while(canq == false) {
+											String priq = in.nextLine().trim();
+											for(int y = 0; y < ownedq.size(); y++) {
+												if(priq == "cancel") {
+													canq = true;
+													break;
+												}
+												if(ownedq.get(y).getName() == priq) {
+													conq = true;
+													break;
+												}else if(y == ownedq.size() -1) {
+													System.out.println("Invalid choice. Please select another");
+												}
+											
+											}
+											if(conq == true) {
+												int hopeq = ownedq.get(findInd(ownedq, priq)).getCost() / 2;
+												for(int h = 0; h < spaces.length; h++) {
+													if(ownedq.get(findInd(ownedq, priq)).equals(spaces[h])) {
+														spaces[h].setMortT();
+														spaces[h].getOwner().money += hopeq;
+														break;
+													}
+												}
+												if(players.get(i).money - taxPrice >= 0) {
+													cant = true;
+													debt = false;
+												}
+											}
+										}
+										break;
+										
+									case "bankrupt":
+										System.out.println("Are you sure you would like to declare bankrupt? 'y' or 'n'");
+										boolean quit = true;
+										while(quit == true) {
+											String finale = in.nextLine();
+											switch(finale) {
+												case "y": 
+													for(int k = 0; k < spaces.length; k++) {
+														if(spaces[k].getOwner() == players.get(i)) {
+															spaces[k].setOwner(bank);
+														}
+													}
+													players.remove(i);
+													i--;
+													bankr = true;
+													quit = false;
+													debt = false;
+													break;
+												case "n":
+													quit = false;
+													break;
+												default:
+													System.out.println("Invalid option. Please try again.");
+											}
+										}
+										break;
+									default:
+										System.out.println("Invalid option. Please try again.");
+								}
+							}
+						}
+						if(players.get(i).money - taxPrice < 0 && players.get(i).isAI() == true) {
+							ArrayList<BoardSpot> ewww = new ArrayList<BoardSpot>();
+							for(int q = 0; q < spaces.length; q++) {
+								if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
+									ewww.add(spaces[q]);
+								}
+							}
+							if(ewww.size() == 0) {
+								System.out.println("AI has declared bankrupt");
+								i--;
+								continue;
+							}else {
+								while(players.get(i).money - taxPrice < 0 && ewww.size() != 0) {
+									sellBank(players.get(i), bank, ewww.get(0));
+								}
+								if(ewww.size() == 0) {
+									System.out.println("AI has declared bankrupt");
+									i--;
+									continue;
+								}else {
+									players.get(i).money -= taxPrice;
+									
+								}
+							}
+							break;
+						}
+						if(bankr == false) {
+							System.out.println("Paying taxes...");
+							players.get(i).money -= taxPrice;
+						}
+						break;
+					default:
+						break;
+				}
+				
+				if(doubles == true) {
+					i--;
+					continue;
 				}
 			}
+			
 		}
-		}
-		
 		
 	}
 	
-	public static int rollDie() {
-		Random rand = new Random();
-		return rand.nextInt(6)+1;
+	public static int findInd(ArrayList<BoardSpot> array, String name) {
+		for(int y = 0; y < array.size(); y++) {
+			if(name == array.get(y).getName()) {
+				return y;
+			}
+		}
+		
+		return -1;
 	}
-	
-	public void buy (Player buyer, BoardSpot property) {
-		buyer.money+=property.getCost();
+		
+	public static void buy (Player buyer, BoardSpot property ) {
+		buyer.money -= property.getCost();
 		property.setOwner(buyer);
 		property.setMortF();
 	}
 	
-	public void mortgage(Player owner, BoardSpot property) {
+	public static void mortgage(Player owner, BoardSpot property) {
 		owner.money+=property.getMort();
 		property.setMortT();
 	}
 	
-	public void sellPlayer (Player seller, Player buyer, BoardSpot property, int price) {
+	public static void sellPlayer (Player seller, Player buyer, BoardSpot property, int price) {
 		buyer.money-=price;
 		seller.money+=price;
 		property.setOwner(buyer);
 	}
 	
-	public void sellBank (Player seller, Player bank, BoardSpot property) {
+	public static void sellBank (Player seller, Player bank, BoardSpot property) {
 		seller.money+=property.getCost();
 		property.setOwner(bank);
 	}
 	
-	public void rent (Player renter, BoardSpot property) {
+	public static void rent (Player renter, BoardSpot property) {
 		switch (property.getNumHouse()){
 		case 0:
 			property.getOwner().money += property.getHouse0();
@@ -441,32 +1713,49 @@ public class Monopoly{
 		}
 	}
 
-	public void buyHouse (BoardSpot property) {
+	public static void buyHouse (BoardSpot property, int houses, int hotels) {
 		if (property.getNumHouse()<5) {
-			property.getOwner().money -= property.getHouseHotelPrice();
-			property.setNumHouse(property.getNumHouse()+1);
+			if(property.getOwner().money >= property.getHouseHotelPrice()) {
+				property.getOwner().money -= property.getHouseHotelPrice();
+				property.setNumHouse(property.getNumHouse()+1);
+				if(property.getNumHouse() == 5) {
+					hotels--;
+					System.out.println("Hotel placed.");
+				}else {
+					houses--;
+					System.out.println("House placed.");
+				}
+			}else {
+				System.out.println("You can't afford a house/hotel.");
+				return;
+			}
 		} else {
-			System.out.println("You already have a hotel.  You can't build anymore on this property.");
+			System.out.println("You already have a hotel. You can't build anymore on this property.");
 		}
 	}
 
-	public void sellHouse (BoardSpot property) {
+	public static void sellHouse (BoardSpot property, int houses, int hotels) {
 		if (property.getNumHouse()>0) {
 			property.getOwner().money += property.getHouseHotelPrice();
 			property.setNumHouse(property.getNumHouse()-1);
+			if(property.getNumHouse() == 4) {
+				hotels++;
+			}else {
+				houses++;
+			}
 		} else {
 			System.out.println("There are no houses to sell on this property.");
 		}
 	}
 	
-	public void payBank (Player player, int cost) {
+	public static void payBank (Player player, int cost) {
 		player.money -= cost;
 	}
 
 //gives players options when they don't have cash
 //returns true when they do
 //needs further actions
-	public Boolean enoughCash (Player player, int cost) {
+	public static Boolean enoughCash (Player player, int cost) {
 		if(player.money >= cost) {
 			return true;
 		}
