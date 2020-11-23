@@ -687,7 +687,7 @@ public class Monopoly{
 							if(players.get(i).money - price < 0 && players.get(i).isAI() == true) {
 								ArrayList<BoardSpot> o = new ArrayList<BoardSpot>();
 								for(int q = 0; q < spaces.length; q++) {
-									if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
+									if(spaces[q].getOwner() == players.get(i) && (spaces[q].getType() == "property" || spaces[q].getType() == "utilities" || spaces[q].getType() == "railroad")) {
 										o.add(spaces[q]);
 									}
 								}
@@ -698,6 +698,7 @@ public class Monopoly{
 								}else {
 									while(players.get(i).money - price < 0 && o.size() != 0) {
 										sellBank(players.get(i), bank, o.get(0));
+										o.remove(0);
 									}
 									if(o.size() == 0) {
 										System.out.println("AI has declared bankrupt");
