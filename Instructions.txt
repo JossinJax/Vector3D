@@ -1,0 +1,36 @@
+This is a simplified version of the well known Monopoly Board Game (and probably a major
+trademark infringement).
+
+To begin the game, execute the code.  The game will ask for the number of human players
+first, followed by the number of AI players.  Players will then be able to choose their
+tokens.  Players will roll their dice to determine the turn order.
+
+On a player's turn, the player will roll the dice and move.  If they land on a location that
+is not owned by another player, they will have the opportunity to purchase that property.
+If the location is owned by another player, the player will be required to pay rent.  After
+that, players will be given the chance to purchase houses, sell houses, sell property, or
+mortgage property.  If a player desires to purchase property from another player, this will
+have to be done verbally during the owners turn.  Once the buyer and the owner agree on a
+price, the owner will have the option to sell the property to the buyer for the price agreed
+on.
+
+When a player can no longer afford rent (or quits the game), they can choose to declare
+bankrupt and remove himself or herself from the game.  When only one player remains, he or
+she is declared the winner of the game.
+
+If a player rolls doubles, they will be able to take another turn.  If they roll doubles
+three times on the same turn, they will be sent to jail.  He or she can be released by
+rolling doubles on their turn.  If they fail to do so within three turns, they will be forced
+to pay a $50 fine.  Players can elect to do this on their own during any of the three turns.
+
+Buying houses for a property will raise its rent value, increasing the rent paid when players
+who do not own it land on it.  When a player purchases the fifth house, the houses are
+replaced with hotels.  Houses and hotels can also be sold when money is scarce.
+
+Another method for increasing funds is mortgaging a property.  When a property is mortgaged,
+players who land on the property will not be required to pay rent.  All houses must be sold
+before a property can be mortgaged.
+
+Currently in development is the AI actions and decisions.  Community Chests and Chance
+locations do not currently serve any function.  There is no networking capability planned
+for this game.
