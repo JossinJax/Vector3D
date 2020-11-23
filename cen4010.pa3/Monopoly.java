@@ -450,7 +450,6 @@ public class Monopoly{
 											}
 										}
 										boolean con = false;
-										//int ind = -1;		forgot what I was gonna use this for
 										boolean can = false;
 										while(can == false) {
 											String pr = in.nextLine().trim();
@@ -726,7 +725,7 @@ public class Monopoly{
 												}
 											}
 											boolean con = false;
-											//int ind = -1;		forgot what I was gonna use this for
+
 											boolean can = false;
 											while(can == false) {
 												String pr = in.nextLine().trim();
@@ -966,7 +965,6 @@ public class Monopoly{
 												}
 											}
 											boolean con = false;
-											//int ind = -1;		forgot what I was gonna use this for
 											boolean can = false;
 											while(can == false) {
 												String pr = in.nextLine().trim();
@@ -1211,7 +1209,6 @@ public class Monopoly{
 											}
 										}
 										boolean con = false;
-										//int ind = -1;		forgot what I was gonna use this for
 										boolean can = false;
 										while(can == false) {
 											String pr = in.nextLine().trim();
@@ -1453,7 +1450,6 @@ public class Monopoly{
 											}
 										}
 										boolean con = false;
-										//int ind = -1;		forgot what I was gonna use this for
 										boolean can = false;
 										while(can == false) {
 											String pr = in.nextLine().trim();
