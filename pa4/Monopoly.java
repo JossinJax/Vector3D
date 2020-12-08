@@ -251,7 +251,7 @@ public class Monopoly{
 					if(tokens.contains(choice)) {
 						players.get(i).setToken(choice);
 						tokens.remove(tokens.indexOf(choice));
-						gui.label.setText("Player " + players.get(i).getNum() + "selected " + choice);
+						gui.label.setText("Player " + players.get(i).getNum() + " selected " + choice);
 						gui.textField.setText("");
 						TimeUnit.SECONDS.sleep(3);
 						break;
@@ -266,7 +266,7 @@ public class Monopoly{
 			if(players.get(i).isAI()) {
 				players.get(i).setToken(tokens.get(0));
 				gui.textField.setText("");
-				gui.label.setText("Player(AI) " + players.get(i).getNum() + "assigned " + tokens.get(0));
+				gui.label.setText("Player(AI) " + players.get(i).getNum() + " assigned " + tokens.get(0));
 				TimeUnit.SECONDS.sleep(3);
 				tokens.remove(0);
 			}
