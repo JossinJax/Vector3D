@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;  
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Monopoly{
@@ -263,6 +262,19 @@ public class Monopoly{
 			if(reminder.timeRem == false) {
 				int winner = -1; 
 				int winningMon = 0;
+				for(int q = 0; q < players.size() - 1; q++) {
+					for(int y = 0; y < spaces.length - 1; y++) {
+						int payday = 0;
+						if(spaces[y].getOwner() == players.get(q)) {
+							if(spaces[y].isMortaged() == false) {
+								payday = spaces[y].getCost() + (spaces[y].getNumHouse() * spaces[y].getHouseHotelPrice());
+							}else if(spaces[y].isMortaged() == true) {
+								payday = spaces[y].getMort();
+							}
+						}
+						players.get(q).money += payday;
+					}
+				}
 				for(int j = 0; j < players.size(); j++) {
 					if(players.get(j).money > winningMon) {
 						winner = j;
@@ -632,12 +644,117 @@ public class Monopoly{
 					}
 					break;
 				}
+				
+				//Selling to other players
+				gui.label.setText("Would you like to sell anything to another player? 'y' for yes and 'n' for no");
+				gui.textField.setText("");
+				waiting = true;
+				while(waiting) {
+					TimeUnit.SECONDS.sleep(1);
+				}
+				String popo = in;
+				switch(popo) {
+					case "y":
+						ArrayList<BoardSpot> owne = new ArrayList<BoardSpot>();
+						//displays properties
+						
+						String ppppp = "";
+						for(int q = 0; q < spaces.length; q++) {
+							if(spaces[q].getOwner() == players.get(i) && (spaces[q].getType() == "property" || spaces[q].getType() == "utility" || spaces[q].getType() == "railroad")) {
+								owne.add(spaces[q]);
+								ppppp += spaces[q] + "  ";
+							}
+						}
+						
+						boolean con = false;
+
+						boolean can = false;
+						while(can == false) {
+							gui.textField.setText("");
+							gui.label.setText("Select the property you'd like to sell or type 'cancel' to cancel: /n" + ppppp);
+							waiting = true;
+							while(waiting) {
+								TimeUnit.SECONDS.sleep(1);
+							}
+							String pr = in.trim();
+							
+							for(int y = 0; y < owne.size(); y++) {
+								if(pr == "cancel") {
+									can = true;
+									break;
+								}
+								if(owne.get(y).getName() == pr) {
+									con = true;
+									break;
+								}else if(y == owne.size() -1) {
+									gui.label.setText("Invalid choice. Please select another. Select the property you'd like to sell or type 'cancel' to cancel");
+								}
+							}
+							if(con == true) {
+								String toks = "";
+								for(int g = 0; g < players.size() - 1; g++) {
+									if(i != g) {
+										toks += "  " + players.get(g).getToken();
+									}
+								}
+								boolean gogo = false;
+								String t = "";
+								int ind = -1;
+								gui.textField.setText("");
+								gui.label.setText("Select the token of the player you'd like to sell it to: " + toks);
+								waiting = true;
+								while(waiting) {
+									TimeUnit.SECONDS.sleep(1);
+								}
+								String tok = in.trim();
+								if(!(toks.contains(tok))) {
+									gui.label.setText("No player has that token. Try again.");
+									break;
+								}else {
+									for(int k = 0; k < players.size() - 1; k++) {
+										if(k != i && players.get(k).getToken() == tok) {
+											ind = k;
+											break;
+										}
+									}
+								}
+								int hopr = owne.get(findInd(owne, pr)).getCost();
+								for(int h = 0; h < spaces.length; h++) {
+									if(owne.get(findInd(owne, pr)).equals(spaces[h])) {
+										sellPlayer(players.get(i), players.get(ind), spaces[h], spaces[h].getCost());
+										gui.textField.setText("");
+										gui.label.setText("Property sold! Would you like to sell more? 'y' or 'n'");
+										gui.playerMon.setText("Current Money: $" + players.get(i).money);
+										TimeUnit.SECONDS.sleep(3);
+										break;
+									}
+								}
+							}
+						}
+						
+					case "n":
+						gui.label.setText("Continuing turn...");
+						gui.textField.setText("");
+						TimeUnit.SECONDS.sleep(3);
+						break;
+					default:
+						gui.label.setText("Invaild choice. Try again. Would you like to sell anything to another player? 'y' for yes and 'n' for no");
+						gui.textField.setText("");
+				}
+				
+				
+				
 				players.get(i).movement(move);
 				gui.label.setText("Player moving...");
 				TimeUnit.SECONDS.sleep(3);
 				String type = spaces[players.get(i).location].getType();
 				switch(type) {
 					case "property":
+						if(spaces[players.get(i).location].isMortaged() == true) {
+							gui.label.setText("Property mortgaged. No need to pay rent. Continuing...");
+							TimeUnit.SECONDS.sleep(3);
+							break;
+						}
 						if(spaces[players.get(i).location].getOwner() != bank || spaces[players.get(i).location].getOwner() != NA) {
 							int nuHou = spaces[players.get(i).location].getNumHouse();
 							int price = 0;
@@ -706,7 +823,6 @@ public class Monopoly{
 									}
 									switch(dec){
 										case "house":
-											gui.label.setText("Select the property of the house you'd like to sell or type 'cancel' to cancel");
 											ArrayList<BoardSpot> owne = new ArrayList<BoardSpot>();
 											//displays properties
 											
@@ -945,6 +1061,11 @@ public class Monopoly{
 						}
 						break;
 					case "railroad": 
+						if(spaces[players.get(i).location].isMortaged() == true) {
+						gui.label.setText("Property mortgaged. No need to pay rent. Continuing...");
+						TimeUnit.SECONDS.sleep(3);
+						break;
+					}
 						if(spaces[players.get(i).location].getOwner() != bank || spaces[players.get(i).location].getOwner() != NA && players.get(i).isAI() == false) {
 							int price = 0;
 							ArrayList<BoardSpot> rrs = new ArrayList<BoardSpot>();
@@ -1261,6 +1382,11 @@ public class Monopoly{
 						players.get(i).setJail(true);
 						break;
 					case "utility":
+						if(spaces[players.get(i).location].isMortaged() == true) {
+							gui.label.setText("Property mortgaged. No need to pay rent. Continuing...");
+							TimeUnit.SECONDS.sleep(3);
+							break;
+						}
 						int utilPrice = 0;
 						if(spaces[11].getOwner() == spaces[27].getOwner()) {
 							utilPrice = move * 10;
