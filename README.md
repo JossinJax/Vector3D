@@ -1,4 +1,4 @@
-This is the start of the documentation for Project 4: Vector3D
+This is the start of the documentation for Project 4:
 
 Team Members:
 
