@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MonopolyTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">MonopolyTest (Dec 11, 2020 12:38:14 PM)</a> &gt; <a href="../../index.html" class="el_group">pa4</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">cen4010.pa4</a> &gt; <span class="el_source">MonopolyTest.java</span></div><h1>MonopolyTest.java</h1><pre class="source lang-java linenums">package cen4010.pa4;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MonopolyTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">MonopolyTest (Dec 11, 2020 3:11:06 PM)</a> &gt; <a href="../../index.html" class="el_group">pa4</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">cen4010.pa4</a> &gt; <span class="el_source">MonopolyTest.java</span></div><h1>MonopolyTest.java</h1><pre class="source lang-java linenums">package cen4010.pa4;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -93,199 +93,205 @@ import org.junit.jupiter.api.Test;
 	@Test
 	public void testSpace() {
 <span class="fc" id="L95">		setup();</span>
-<span class="fc" id="L96">		assertEquals(test.getName(), &quot;test&quot;);</span>
-<span class="fc" id="L97">		assertEquals(test.getColor(), &quot;brown&quot;);</span>
-<span class="fc" id="L98">		assertEquals(test.getType(), &quot;property&quot;);</span>
-<span class="fc" id="L99">	}</span>
+<span class="fc" id="L96">		BoardSpot board = new BoardSpot();</span>
+<span class="fc" id="L97">		board.setOwner(nex);</span>
+<span class="fc" id="L98">		assertEquals(board.getOwner(), nex);</span>
+<span class="fc" id="L99">		assertEquals(test.getName(), &quot;test&quot;);</span>
+<span class="fc" id="L100">		assertEquals(test.getColor(), &quot;brown&quot;);</span>
+<span class="fc" id="L101">		assertEquals(test.getType(), &quot;property&quot;);</span>
+<span class="fc" id="L102">	}</span>
 	
 	@Test
 	public void testOwner() {
-<span class="fc" id="L103">		setup();</span>
-<span class="fc" id="L104">		test.setOwner(nex);</span>
-<span class="fc" id="L105">		assertEquals(test.getOwner(), nex);</span>
-<span class="fc" id="L106">	}</span>
+<span class="fc" id="L106">		setup();</span>
+<span class="fc" id="L107">		test.setOwner(nex);</span>
+<span class="fc" id="L108">		assertEquals(test.getOwner(), nex);</span>
+<span class="fc" id="L109">	}</span>
 	
 	@Test
 	public void testHouseHotel() {
-<span class="fc" id="L110">		setup();</span>
-<span class="fc" id="L111">		assertEquals(test.getCost(), 60);</span>
-<span class="fc" id="L112">		assertEquals(test.getHouse0(), 2);</span>
-<span class="fc" id="L113">		assertEquals(test.getHouse1(), 10);</span>
-<span class="fc" id="L114">		assertEquals(test.getHouse2(), 30);</span>
-<span class="fc" id="L115">		assertEquals(test.getHouse3(), 90);</span>
-<span class="fc" id="L116">		assertEquals(test.getHouse4(), 160);</span>
-<span class="fc" id="L117">		assertEquals(test.getHotel(), 250);</span>
-<span class="fc" id="L118">		assertEquals(test.getHouseHotelPrice(), 50);</span>
-<span class="fc" id="L119">		test.setNumHouse(1);</span>
-<span class="fc" id="L120">		assertEquals(test.getNumHouse(), 1);</span>
-<span class="fc" id="L121">	}</span>
+<span class="fc" id="L113">		setup();</span>
+<span class="fc" id="L114">		assertEquals(test.getCost(), 60);</span>
+<span class="fc" id="L115">		assertEquals(test.getHouse0(), 2);</span>
+<span class="fc" id="L116">		assertEquals(test.getHouse1(), 10);</span>
+<span class="fc" id="L117">		assertEquals(test.getHouse2(), 30);</span>
+<span class="fc" id="L118">		assertEquals(test.getHouse3(), 90);</span>
+<span class="fc" id="L119">		assertEquals(test.getHouse4(), 160);</span>
+<span class="fc" id="L120">		assertEquals(test.getHotel(), 250);</span>
+<span class="fc" id="L121">		assertEquals(test.getHouseHotelPrice(), 50);</span>
+<span class="fc" id="L122">		test.setNumHouse(1);</span>
+<span class="fc" id="L123">		assertEquals(test.getNumHouse(), 1);</span>
+<span class="fc" id="L124">	}</span>
 	
 	@Test
 	public void testMortgages() {
-<span class="fc" id="L125">		setup();</span>
-<span class="fc" id="L126">		test.setMortF();</span>
-<span class="fc" id="L127">		assertEquals(test.isMortaged(), false);</span>
-<span class="fc" id="L128">		test.setMortT();</span>
-<span class="fc" id="L129">		assertEquals(test.isMortaged(), true);</span>
-<span class="fc" id="L130">		assertEquals(test.getMort(), 30);</span>
-<span class="fc" id="L131">	}</span>
+<span class="fc" id="L128">		setup();</span>
+<span class="fc" id="L129">		test.setMortF();</span>
+<span class="fc" id="L130">		assertEquals(test.isMortaged(), false);</span>
+<span class="fc" id="L131">		test.setMortT();</span>
+<span class="fc" id="L132">		assertEquals(test.isMortaged(), true);</span>
+<span class="fc" id="L133">		assertEquals(test.getMort(), 30);</span>
+<span class="fc" id="L134">	}</span>
 	//Reminder
 	@Test
 	public void testReminder() {
-<span class="fc" id="L135">		setup();</span>
-<span class="fc" id="L136">		assertEquals(remind.timeRem, true);</span>
-<span class="fc" id="L137">		remind.timeRem = false;</span>
-<span class="fc" id="L138">		assertEquals(remind.timeRem, false);</span>
-<span class="fc" id="L139">	}</span>
+<span class="fc" id="L138">		setup();</span>
+<span class="fc" id="L139">		assertEquals(remind.timeRem, true);</span>
+<span class="fc" id="L140">		remind.timeRem = false;</span>
+<span class="fc" id="L141">		assertEquals(remind.timeRem, false);</span>
+<span class="fc" id="L142">	}</span>
 	//Monopoly
 	@Test
 	public void testIndex() {
-<span class="fc" id="L143">		setup();</span>
-<span class="fc" id="L144">		assertEquals(findInd(array, &quot;test&quot;), 0);</span>
-<span class="fc" id="L145">		assertEquals(findInd(array, &quot;test2&quot;), 1);</span>
-<span class="fc" id="L146">		assertEquals(findInd(array, &quot;test3&quot;), -1);</span>
-<span class="fc" id="L147">	}</span>
+<span class="fc" id="L146">		setup();</span>
+<span class="fc" id="L147">		assertEquals(findInd(array, &quot;test&quot;), 0);</span>
+<span class="fc" id="L148">		assertEquals(findInd(array, &quot;test2&quot;), 1);</span>
+<span class="fc" id="L149">		assertEquals(findInd(array, &quot;test3&quot;), -1);</span>
+<span class="fc" id="L150">	}</span>
 
 	@Test
 	public void testBuy() {
-<span class="fc" id="L151">		setup();</span>
-<span class="fc" id="L152">		nex.money = 1500;</span>
-<span class="fc" id="L153">		buy(nex, test);</span>
-<span class="fc" id="L154">		int rem = 1500 - test.getCost();</span>
-<span class="fc" id="L155">		assertEquals(test.getOwner(), nex);</span>
-<span class="fc" id="L156">		assertEquals(test.isMortaged(), false);</span>
-<span class="fc" id="L157">		assertEquals(rem, nex.money);</span>
-<span class="fc" id="L158">	}</span>
+<span class="fc" id="L154">		setup();</span>
+<span class="fc" id="L155">		nex.money = 1500;</span>
+<span class="fc" id="L156">		buy(nex, test);</span>
+<span class="fc" id="L157">		int rem = 1500 - test.getCost();</span>
+<span class="fc" id="L158">		assertEquals(test.getOwner(), nex);</span>
+<span class="fc" id="L159">		assertEquals(test.isMortaged(), false);</span>
+<span class="fc" id="L160">		assertEquals(rem, nex.money);</span>
+<span class="fc" id="L161">	}</span>
 	
 	@Test
 	public void testMorts() {
-<span class="fc" id="L162">		setup();</span>
-<span class="fc" id="L163">		buy(nex, test);</span>
-<span class="fc" id="L164">		nex.money = 1500;</span>
-<span class="fc" id="L165">		mortgage(nex, test);</span>
-<span class="fc" id="L166">		int rem = 1500 + test.getMort();</span>
-<span class="fc" id="L167">		assertEquals(test.isMortaged(), true);</span>
-<span class="fc" id="L168">		assertEquals(rem, nex.money);</span>
-<span class="fc" id="L169">	}</span>
+<span class="fc" id="L165">		setup();</span>
+<span class="fc" id="L166">		buy(nex, test);</span>
+<span class="fc" id="L167">		nex.money = 1500;</span>
+<span class="fc" id="L168">		mortgage(nex, test);</span>
+<span class="fc" id="L169">		int rem = 1500 + test.getMort();</span>
+<span class="fc" id="L170">		assertEquals(test.isMortaged(), true);</span>
+<span class="fc" id="L171">		assertEquals(rem, nex.money);</span>
+<span class="fc" id="L172">	}</span>
 	
 	@Test
 	public void testPayBank() {
-<span class="fc" id="L173">		setup();</span>
-<span class="fc" id="L174">		nex.money = 1500;</span>
-<span class="fc" id="L175">		payBank(nex, 100);</span>
-<span class="fc" id="L176">		assertEquals(nex.money, 1400);</span>
-<span class="fc" id="L177">	}</span>
+<span class="fc" id="L176">		setup();</span>
+<span class="fc" id="L177">		nex.money = 1500;</span>
+<span class="fc" id="L178">		payBank(nex, 100);</span>
+<span class="fc" id="L179">		assertEquals(nex.money, 1400);</span>
+<span class="fc" id="L180">	}</span>
 	
 	@Test
 	public void testIsInt() {
-<span class="fc" id="L181">		setup();</span>
-<span class="fc" id="L182">		String num = &quot;1&quot;;</span>
-<span class="fc" id="L183">		assertEquals(true, isInt(num));</span>
-<span class="fc" id="L184">		num = &quot;a&quot;;</span>
-<span class="fc" id="L185">		assertEquals(false, isInt(num));</span>
-<span class="fc" id="L186">		assertEquals(getText(num), &quot;a&quot;);</span>
-<span class="fc" id="L187">	}</span>
+<span class="fc" id="L184">		setup();</span>
+<span class="fc" id="L185">		String num = &quot;1&quot;;</span>
+<span class="fc" id="L186">		assertEquals(true, isInt(num));</span>
+<span class="fc" id="L187">		num = &quot;a&quot;;</span>
+<span class="fc" id="L188">		assertEquals(false, isInt(num));</span>
+<span class="fc" id="L189">		assertEquals(getText(num), &quot;a&quot;);</span>
+<span class="fc" id="L190">	}</span>
 	
 	@Test
 	public void testSell() {
-<span class="fc" id="L191">		setup();</span>
-<span class="fc" id="L192">		buy(nex, test);</span>
-<span class="fc" id="L193">		nex.money = 1500;</span>
-<span class="fc" id="L194">		sellBank(nex, bank, test);</span>
-<span class="fc" id="L195">		assertEquals(nex.money, 1500 + test.getCost());</span>
-<span class="fc" id="L196">		assertEquals(test.getOwner(), bank);</span>
-<span class="fc" id="L197">		test.setOwner(nex);</span>
-<span class="fc" id="L198">		buy(nex, test);</span>
-<span class="fc" id="L199">		nex.money = 1500;</span>
-<span class="fc" id="L200">		bank.money = 1500;</span>
-<span class="fc" id="L201">		sellPlayer(nex, bank, test, 100);</span>
-<span class="fc" id="L202">		assertEquals(nex.money, 1500 + 100);</span>
-<span class="fc" id="L203">		assertEquals(bank.money, 1500 - 100);</span>
-<span class="fc" id="L204">		assertEquals(bank, test.getOwner());</span>
-<span class="fc" id="L205">	}</span>
+<span class="fc" id="L194">		setup();</span>
+<span class="fc" id="L195">		buy(nex, test);</span>
+<span class="fc" id="L196">		nex.money = 1500;</span>
+<span class="fc" id="L197">		sellBank(nex, bank, test);</span>
+<span class="fc" id="L198">		assertEquals(nex.money, 1500 + test.getCost());</span>
+<span class="fc" id="L199">		assertEquals(test.getOwner(), bank);</span>
+<span class="fc" id="L200">		test.setOwner(nex);</span>
+<span class="fc" id="L201">		buy(nex, test);</span>
+<span class="fc" id="L202">		nex.money = 1500;</span>
+<span class="fc" id="L203">		bank.money = 1500;</span>
+<span class="fc" id="L204">		sellPlayer(nex, bank, test, 100);</span>
+<span class="fc" id="L205">		assertEquals(nex.money, 1500 + 100);</span>
+<span class="fc" id="L206">		assertEquals(bank.money, 1500 - 100);</span>
+<span class="fc" id="L207">		assertEquals(bank, test.getOwner());</span>
+<span class="fc" id="L208">	}</span>
 	
 	@Test
 	public void testRent() {
-<span class="fc" id="L209">		setup();</span>
-<span class="fc" id="L210">		test.setOwner(bank);</span>
-<span class="fc" id="L211">		test.setNumHouse(0);</span>
-<span class="fc" id="L212">		nex.money = 1500;</span>
-<span class="fc" id="L213">		rent(nex, test);</span>
-<span class="fc" id="L214">		assertEquals(nex.money, 1500 - test.getHouse0());</span>
-<span class="fc" id="L215">		test.setNumHouse(1);</span>
-<span class="fc" id="L216">		nex.money = 1500;</span>
-<span class="fc" id="L217">		rent(nex, test);</span>
-<span class="fc" id="L218">		assertEquals(nex.money, 1500 - test.getHouse1());</span>
-<span class="fc" id="L219">		test.setNumHouse(2);</span>
-<span class="fc" id="L220">		nex.money = 1500;</span>
-<span class="fc" id="L221">		rent(nex, test);</span>
-<span class="fc" id="L222">		assertEquals(nex.money, 1500 - test.getHouse2());</span>
-<span class="fc" id="L223">		test.setNumHouse(3);</span>
-<span class="fc" id="L224">		nex.money = 1500;</span>
-<span class="fc" id="L225">		rent(nex, test);</span>
-<span class="fc" id="L226">		assertEquals(nex.money, 1500 - test.getHouse3());</span>
-<span class="fc" id="L227">		test.setNumHouse(4);</span>
-<span class="fc" id="L228">		nex.money = 1500;</span>
-<span class="fc" id="L229">		rent(nex, test);</span>
-<span class="fc" id="L230">		assertEquals(nex.money, 1500 - test.getHouse4());</span>
-<span class="fc" id="L231">		test.setNumHouse(5);</span>
-<span class="fc" id="L232">		nex.money = 1500;</span>
-<span class="fc" id="L233">		rent(nex, test);</span>
-<span class="fc" id="L234">		assertEquals(nex.money, 1500 - test.getHotel());</span>
-<span class="fc" id="L235">	}</span>
+<span class="fc" id="L212">		setup();</span>
+<span class="fc" id="L213">		test.setOwner(bank);</span>
+<span class="fc" id="L214">		test.setNumHouse(0);</span>
+<span class="fc" id="L215">		nex.money = 1500;</span>
+<span class="fc" id="L216">		rent(nex, test);</span>
+<span class="fc" id="L217">		assertEquals(nex.money, 1500 - test.getHouse0());</span>
+<span class="fc" id="L218">		test.setNumHouse(1);</span>
+<span class="fc" id="L219">		nex.money = 1500;</span>
+<span class="fc" id="L220">		rent(nex, test);</span>
+<span class="fc" id="L221">		assertEquals(nex.money, 1500 - test.getHouse1());</span>
+<span class="fc" id="L222">		test.setNumHouse(2);</span>
+<span class="fc" id="L223">		nex.money = 1500;</span>
+<span class="fc" id="L224">		rent(nex, test);</span>
+<span class="fc" id="L225">		assertEquals(nex.money, 1500 - test.getHouse2());</span>
+<span class="fc" id="L226">		test.setNumHouse(3);</span>
+<span class="fc" id="L227">		nex.money = 1500;</span>
+<span class="fc" id="L228">		rent(nex, test);</span>
+<span class="fc" id="L229">		assertEquals(nex.money, 1500 - test.getHouse3());</span>
+<span class="fc" id="L230">		test.setNumHouse(4);</span>
+<span class="fc" id="L231">		nex.money = 1500;</span>
+<span class="fc" id="L232">		rent(nex, test);</span>
+<span class="fc" id="L233">		assertEquals(nex.money, 1500 - test.getHouse4());</span>
+<span class="fc" id="L234">		test.setNumHouse(5);</span>
+<span class="fc" id="L235">		nex.money = 1500;</span>
+<span class="fc" id="L236">		rent(nex, test);</span>
+<span class="fc" id="L237">		assertEquals(nex.money, 1500 - test.getHotel());</span>
+<span class="fc" id="L238">	}</span>
 	
 	@Test
 	public void testHouseBuy() {
-<span class="fc" id="L239">		setup();</span>
-<span class="fc" id="L240">		test.setOwner(nex);</span>
-<span class="fc" id="L241">		test.setNumHouse(3);</span>
-<span class="fc" id="L242">		nex.money = 1500;</span>
-<span class="fc" id="L243">		buyHouse(test, 10, 1);</span>
-<span class="fc" id="L244">		assertEquals(nex.money, 1500 - test.getHouseHotelPrice());</span>
-<span class="fc" id="L245">		assertEquals(test.getNumHouse(), 4);</span>
-<span class="fc" id="L246">		nex.money = 1500;</span>
-<span class="fc" id="L247">		buyHouse(test, 10, 1);</span>
-<span class="fc" id="L248">		assertEquals(nex.money, 1500 - test.getHouseHotelPrice());</span>
-<span class="fc" id="L249">		assertEquals(test.getNumHouse(), 5);</span>
-<span class="fc" id="L250">		nex.money = 1500;</span>
-<span class="fc" id="L251">		buyHouse(test, 10, 1);</span>
-<span class="fc" id="L252">		assertEquals(nex.money, 1500);</span>
-<span class="fc" id="L253">		assertEquals(test.getNumHouse(), 5);</span>
-<span class="fc" id="L254">		test.setNumHouse(3);</span>
-<span class="fc" id="L255">		nex.money = 0;</span>
-<span class="fc" id="L256">		buyHouse(test, 10, 1);</span>
-<span class="fc" id="L257">		assertEquals(nex.money, 0);</span>
-<span class="fc" id="L258">	}</span>
+<span class="fc" id="L242">		setup();</span>
+<span class="fc" id="L243">		test.setOwner(nex);</span>
+<span class="fc" id="L244">		test.setNumHouse(3);</span>
+<span class="fc" id="L245">		nex.money = 1500;</span>
+<span class="fc" id="L246">		buyHouse(test, 10, 1);</span>
+<span class="fc" id="L247">		assertEquals(nex.money, 1500 - test.getHouseHotelPrice());</span>
+<span class="fc" id="L248">		assertEquals(test.getNumHouse(), 4);</span>
+<span class="fc" id="L249">		nex.money = 1500;</span>
+<span class="fc" id="L250">		buyHouse(test, 10, 1);</span>
+<span class="fc" id="L251">		assertEquals(nex.money, 1500 - test.getHouseHotelPrice());</span>
+<span class="fc" id="L252">		assertEquals(test.getNumHouse(), 5);</span>
+<span class="fc" id="L253">		nex.money = 1500;</span>
+<span class="fc" id="L254">		buyHouse(test, 10, 1);</span>
+<span class="fc" id="L255">		assertEquals(nex.money, 1500);</span>
+<span class="fc" id="L256">		assertEquals(test.getNumHouse(), 5);</span>
+<span class="fc" id="L257">		test.setNumHouse(3);</span>
+<span class="fc" id="L258">		nex.money = 0;</span>
+<span class="fc" id="L259">		buyHouse(test, 10, 1);</span>
+<span class="fc" id="L260">		assertEquals(nex.money, 0);</span>
+<span class="fc" id="L261">	}</span>
 	
 	@Test
 	public void testHouseSell() {
-<span class="fc" id="L262">		setup();</span>
-<span class="fc" id="L263">		test.setOwner(nex);</span>
-<span class="fc" id="L264">		test.setNumHouse(5);</span>
-<span class="fc" id="L265">		nex.money = 1500;</span>
-<span class="fc" id="L266">		sellHouse(test, 10, 1);</span>
-<span class="fc" id="L267">		assertEquals(nex.money, 1500 + test.getHouseHotelPrice());</span>
-<span class="fc" id="L268">		assertEquals(test.getNumHouse(), 4);</span>
-<span class="fc" id="L269">		nex.money = 1500;</span>
-<span class="fc" id="L270">		sellHouse(test, 10, 1);</span>
-<span class="fc" id="L271">		assertEquals(nex.money, 1500 + test.getHouseHotelPrice());</span>
-<span class="fc" id="L272">		assertEquals(test.getNumHouse(), 3);</span>
-<span class="fc" id="L273">		test.setNumHouse(0);</span>
-<span class="fc" id="L274">		nex.money = 1500;</span>
-<span class="fc" id="L275">		sellHouse(test, 10, 1);</span>
-<span class="fc" id="L276">		assertEquals(nex.money, 1500);</span>
-<span class="fc" id="L277">		assertEquals(test.getNumHouse(), 0);</span>
-<span class="fc" id="L278">	}</span>
+<span class="fc" id="L265">		setup();</span>
+<span class="fc" id="L266">		test.setOwner(nex);</span>
+<span class="fc" id="L267">		test.setNumHouse(5);</span>
+<span class="fc" id="L268">		nex.money = 1500;</span>
+<span class="fc" id="L269">		sellHouse(test, 10, 1);</span>
+<span class="fc" id="L270">		assertEquals(nex.money, 1500 + test.getHouseHotelPrice());</span>
+<span class="fc" id="L271">		assertEquals(test.getNumHouse(), 4);</span>
+<span class="fc" id="L272">		nex.money = 1500;</span>
+<span class="fc" id="L273">		sellHouse(test, 10, 1);</span>
+<span class="fc" id="L274">		assertEquals(nex.money, 1500 + test.getHouseHotelPrice());</span>
+<span class="fc" id="L275">		assertEquals(test.getNumHouse(), 3);</span>
+<span class="fc" id="L276">		test.setNumHouse(0);</span>
+<span class="fc" id="L277">		nex.money = 1500;</span>
+<span class="fc" id="L278">		sellHouse(test, 10, 1);</span>
+<span class="fc" id="L279">		assertEquals(nex.money, 1500);</span>
+<span class="fc" id="L280">		assertEquals(test.getNumHouse(), 0);</span>
+<span class="fc" id="L281">	}</span>
 	//GUI
 	@Test
 	public void testGui() {
-<span class="fc" id="L282">		GUI gui = new GUI();</span>
-<span class="fc" id="L283">		gui.label.setText(&quot;&quot;);</span>
-<span class="fc" id="L284">		gui.playerMon.setText(&quot;&quot;);</span>
-<span class="fc" id="L285">		gui.playerNum.setText(&quot;&quot;);</span>
-<span class="fc" id="L286">		assertEquals(getText(gui.label.getText()), &quot;&quot;);</span>
-<span class="fc" id="L287">		assertEquals(gui.playerMon.getText(), &quot;&quot;);</span>
-<span class="fc" id="L288">		assertEquals(gui.playerNum.getText(), &quot;&quot;);</span>
-<span class="fc" id="L289">	}</span>
+<span class="fc" id="L285">		GUI gui = new GUI();</span>
+<span class="fc" id="L286">		gui.label.setText(&quot;&quot;);</span>
+<span class="fc" id="L287">		gui.playerMon.setText(&quot;&quot;);</span>
+<span class="fc" id="L288">		gui.playerNum.setText(&quot;&quot;);</span>
+<span class="fc" id="L289">		assertEquals(getText(gui.label.getText()), &quot;&quot;);</span>
+<span class="fc" id="L290">		assertEquals(gui.playerMon.getText(), &quot;&quot;);</span>
+<span class="fc" id="L291">		assertEquals(gui.playerNum.getText(), &quot;&quot;);</span>
+<span class="fc" id="L292">		gui.playerNum.setText(&quot;2&quot;);</span>
+<span class="fc" id="L293">		assertEquals(isInt(gui.playerNum.getText()), true);</span>
+<span class="fc" id="L294">		assertEquals(getText(gui.playerNum.getText()), &quot;2&quot;);</span>
+<span class="fc" id="L295">	}</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>MonopolyTest (Dec 11, 2020 12:38:14 PM)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>MonopolyTest (Dec 11, 2020 3:11:06 PM)</div></body></html>

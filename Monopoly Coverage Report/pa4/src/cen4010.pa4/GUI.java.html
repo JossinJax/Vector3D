@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>GUI.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">MonopolyTest (Dec 11, 2020 12:38:14 PM)</a> &gt; <a href="../../index.html" class="el_group">pa4</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">cen4010.pa4</a> &gt; <span class="el_source">GUI.java</span></div><h1>GUI.java</h1><pre class="source lang-java linenums">package cen4010.pa4;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>GUI.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">MonopolyTest (Dec 11, 2020 3:11:06 PM)</a> &gt; <a href="../../index.html" class="el_group">pa4</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">cen4010.pa4</a> &gt; <span class="el_source">GUI.java</span></div><h1>GUI.java</h1><pre class="source lang-java linenums">package cen4010.pa4;
 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
@@ -17,69 +17,50 @@ class GUI extends JFrame {
 	public Button button;
 	public JLabel playerNum;
 	public JLabel playerMon;
-	/**
-	 * 
-	 * public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI frame = new GUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	 * Launch the application.
-	 */
-	
 
-	/**
-	 * Create the frame.
-	 */
-<span class="fc" id="L41">	public GUI() {</span>
-<span class="fc" id="L42">		setEnabled(false);</span>
-<span class="fc" id="L43">		setTitle(&quot;Monopoly&quot;);</span>
-<span class="fc" id="L44">		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
-<span class="fc" id="L45">		setBounds(100, 100, 800, 260);</span>
-<span class="fc" id="L46">		contentPane = new JPanel();</span>
-<span class="fc" id="L47">		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
-<span class="fc" id="L48">		contentPane.setLayout(new BorderLayout(0, 0));</span>
-<span class="fc" id="L49">		setContentPane(contentPane);</span>
+	
+<span class="fc" id="L22">	public GUI() {</span>
+<span class="fc" id="L23">		setEnabled(false);</span>
+<span class="fc" id="L24">		setTitle(&quot;Monopoly&quot;);</span>
+<span class="fc" id="L25">		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="fc" id="L26">		setBounds(100, 100, 800, 260);</span>
+<span class="fc" id="L27">		contentPane = new JPanel();</span>
+<span class="fc" id="L28">		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
+<span class="fc" id="L29">		contentPane.setLayout(new BorderLayout(0, 0));</span>
+<span class="fc" id="L30">		setContentPane(contentPane);</span>
 		
-<span class="fc" id="L51">		label = new JLabel(&quot;&quot;);</span>
-<span class="fc" id="L52">		label.setFont(new Font(&quot;Tahoma&quot;, Font.PLAIN, 18));</span>
-<span class="fc" id="L53">		contentPane.add(label, BorderLayout.CENTER);</span>
+<span class="fc" id="L32">		label = new JLabel(&quot;&quot;);</span>
+<span class="fc" id="L33">		label.setFont(new Font(&quot;Tahoma&quot;, Font.PLAIN, 18));</span>
+<span class="fc" id="L34">		contentPane.add(label, BorderLayout.CENTER);</span>
 		
-<span class="fc" id="L55">		textField = new JTextField();</span>
-<span class="fc" id="L56">		contentPane.add(textField, BorderLayout.SOUTH);</span>
-<span class="fc" id="L57">		textField.setColumns(10);</span>
+<span class="fc" id="L36">		textField = new JTextField();</span>
+<span class="fc" id="L37">		contentPane.add(textField, BorderLayout.SOUTH);</span>
+<span class="fc" id="L38">		textField.setColumns(10);</span>
 		
-<span class="fc" id="L59">		button = new Button(&quot;Submit&quot;);</span>
+<span class="fc" id="L40">		button = new Button(&quot;Submit&quot;);</span>
 		
-<span class="fc" id="L61">		contentPane.add(button, BorderLayout.NORTH);</span>
+<span class="fc" id="L42">		contentPane.add(button, BorderLayout.NORTH);</span>
 		
-<span class="fc" id="L63">		playerNum = new JLabel(&quot;&quot;);</span>
-<span class="fc" id="L64">		contentPane.add(playerNum, BorderLayout.WEST);</span>
+<span class="fc" id="L44">		playerNum = new JLabel(&quot;&quot;);</span>
+<span class="fc" id="L45">		contentPane.add(playerNum, BorderLayout.WEST);</span>
 		
-<span class="fc" id="L66">		playerMon = new JLabel(&quot;&quot;);</span>
-<span class="fc" id="L67">		contentPane.add(playerMon, BorderLayout.EAST);</span>
-<span class="fc" id="L68">	}</span>
+<span class="fc" id="L47">		playerMon = new JLabel(&quot;&quot;);</span>
+<span class="fc" id="L48">		contentPane.add(playerMon, BorderLayout.EAST);</span>
+<span class="fc" id="L49">	}</span>
 	
 	
 	public boolean isInt(String s){
 	    try{
-<span class="nc" id="L73">	        Integer.parseInt(s);</span>
-<span class="nc" id="L74">	        return true;</span>
-<span class="nc" id="L75">	    }catch (NumberFormatException ex){</span>
-<span class="nc" id="L76">	        return false;</span>
+<span class="nc" id="L54">	        Integer.parseInt(s);</span>
+<span class="nc" id="L55">	        return true;</span>
+<span class="nc" id="L56">	    }catch (NumberFormatException ex){</span>
+<span class="nc" id="L57">	        return false;</span>
 	    }
 	}
 	
 	public String getText(String text) {
-<span class="nc" id="L81">		return text;</span>
+<span class="nc" id="L62">		return text;</span>
 	}
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>MonopolyTest (Dec 11, 2020 12:38:14 PM)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>MonopolyTest (Dec 11, 2020 3:11:06 PM)</div></body></html>
