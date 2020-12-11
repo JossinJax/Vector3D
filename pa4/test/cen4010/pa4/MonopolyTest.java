@@ -276,4 +276,15 @@ class MonopolyTest extends Monopoly{
 		assertEquals(nex.money, 1500);
 		assertEquals(test.getNumHouse(), 0);
 	}
+	//GUI
+	@Test
+	public void testGui() {
+		GUI gui = new GUI();
+		gui.label.setText("");
+		gui.playerMon.setText("");
+		gui.playerNum.setText("");
+		assertEquals(getText(gui.label.getText()), "");
+		assertEquals(gui.playerMon.getText(), "");
+		assertEquals(gui.playerNum.getText(), "");
+	}
 }

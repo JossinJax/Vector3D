@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class Monopoly{
 	static Thread tread = new Thread();
 	static boolean waiting = false;
+	static GUI gui = new GUI();
 	
 	static String in = " ";
 	public static void main(String args[]) throws InterruptedException {
@@ -18,7 +19,6 @@ public class Monopoly{
 		int hotels = 12;
 		Player bank = new Player();
 		Player NA = new Player();
-		GUI gui = new GUI();
 		gui.setVisible(true);
 		
 		gui.button.addActionListener(new ActionListener() {
@@ -363,24 +363,27 @@ public class Monopoly{
 								String dec = in;
 								switch(dec){
 									case "house":
-										gui.label.setText("Select the property of the house you'd like to sell or type 'cancel' to cancel");
-										waiting = true;
-										while(waiting) {
-											TimeUnit.SECONDS.sleep(1);
-										}
-										ArrayList<BoardSpot> owne = new ArrayList<BoardSpot>();
 										//displays properties
+										ArrayList<BoardSpot> owne = new ArrayList<BoardSpot>();
+										String ppppp = "";
 										for(int q = 0; q < spaces.length; q++) {
 											if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
 												owne.add(spaces[q]);
-												System.out.println("  " + spaces[q].getName());
+												ppppp += spaces[q] + "  ";
 											}
 										}
+										gui.textField.setText("");
+										gui.label.setText("Select the property of the house you'd like to sell or type 'cancel' to cancel: /n" + ppppp);
+										
+										
 										boolean con = false;
 										boolean can = false;
 										while(can == false) {
 											String pr = in.trim();
-											
+											waiting = true;
+											while(waiting) {
+												TimeUnit.SECONDS.sleep(1);
+											}
 											for(int y = 0; y < owne.size(); y++) {
 												if(pr == "cancel") {
 													can = true;
@@ -468,8 +471,6 @@ public class Monopoly{
 										}
 										break;
 									case "mort":
-										gui.label.setText("Select the property you'd like to mortage or type 'cancel' to cancel");
-										gui.textField.setText("");
 										ArrayList<BoardSpot> ownedq = new ArrayList<BoardSpot>();
 										//displays properties
 										String rr = "";
@@ -479,8 +480,9 @@ public class Monopoly{
 												rr += "  " + spaces[q].getName();
 											}
 										}
-										gui.label.setText(rr);
-										TimeUnit.SECONDS.sleep(3);
+										gui.textField.setText("");
+										gui.label.setText("Select the property of the house you'd like to mortgage or type 'cancel' to cancel: /n" + rr);
+										
 										boolean conq = false;
 
 										boolean canq = false;
@@ -707,12 +709,18 @@ public class Monopoly{
 											gui.label.setText("Select the property of the house you'd like to sell or type 'cancel' to cancel");
 											ArrayList<BoardSpot> owne = new ArrayList<BoardSpot>();
 											//displays properties
+											
+											String ppppp = "";
 											for(int q = 0; q < spaces.length; q++) {
 												if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
 													owne.add(spaces[q]);
-													System.out.println("  " + spaces[q].getName());
+													ppppp += spaces[q] + "  ";
 												}
 											}
+											gui.label.setText("  " + ppppp);
+											gui.textField.setText("");
+											gui.label.setText("Select the property of the house you'd like to sell or type 'cancel' to cancel: /n" + ppppp);
+											
 											boolean con = false;
 
 											boolean can = false;
@@ -801,15 +809,18 @@ public class Monopoly{
 											}
 											break;
 										case "mort":
-											gui.label.setText("Select the property you'd like to mortage or type 'cancel' to cancel");
-											ArrayList<BoardSpot> ownedq = new ArrayList<BoardSpot>();
 											//displays properties
+											ArrayList<BoardSpot> ownedq = new ArrayList<BoardSpot>();
+											String pppppp = "";
 											for(int q = 0; q < spaces.length; q++) {
 												if(spaces[q].getOwner() == players.get(i) && spaces[q].getType() == "property") {
 													ownedq.add(spaces[q]);
-													System.out.println("  " + spaces[q].getName());
+													pppppp += spaces[q] + "  ";
 												}
 											}
+											gui.textField.setText("");
+											gui.label.setText("Select the property of the house you'd like to mortgage or type 'cancel' to cancel: /n" + pppppp);
+											
 											boolean conq = false;
 
 											boolean canq = false;
@@ -901,7 +912,6 @@ public class Monopoly{
 							}else if(!(players.get(i).isAI())){
 								if(players.get(i).money > spaces[players.get(i).location].getCost()) {
 									gui.label.setText("Player " + players.get(i).getNum() + "has landed on " + spaces[players.get(i).location].getName() + "Would you like to purchase this property? Enter 'y' for yes or 'n' for no. You currently have $" + players.get(i).money);
-									//System.out.println("Would you like to purchase this property? Enter 'y' for yes or 'n' for no. You currently have $" + players.get(i).money);
 									TimeUnit.SECONDS.sleep(3);
 									boolean buying = true;
 									while(buying) {
@@ -1078,15 +1088,19 @@ public class Monopoly{
 											}
 											
 										case "mort":
-											gui.label.setText("Select the property you'd like to mortage or type 'cancel' to cancel");
 											ArrayList<BoardSpot> ownedq = new ArrayList<BoardSpot>();
 											//displays properties
+											String deedee = "";
 											for(int q = 0; q < spaces.length; q++) {
 												if(spaces[q].getOwner() == players.get(i) && (spaces[q].getType() == "property" || spaces[q].getType() == "utility")) {
 													ownedq.add(spaces[q]);
-													System.out.println("  " + spaces[q].getName());
+													deedee += "  " + spaces[q].getName();
 												}
 											}
+
+											gui.textField.setText("");
+											gui.label.setText("Select the property you'd like to mortage or type 'cancel' to cancel. " + deedee);
+											
 											boolean conq = false;
 
 											boolean canq = false;
@@ -1378,6 +1392,7 @@ public class Monopoly{
 												deedee += "  " + spaces[q].getName();
 											}
 										}
+										gui.textField.setText("");
 										gui.label.setText("Select the property you'd like to mortage or type 'cancel' to cancel. " + deedee);
 										boolean conq = false;
 
@@ -1602,15 +1617,17 @@ public class Monopoly{
 										}
 										break;
 									case "prop":
-										gui.label.setText("Select the property you'd like to sell or type 'cancel' to cancel");
+										gui.textField.setText("");
 										ArrayList<BoardSpot> owned = new ArrayList<BoardSpot>();
 										//displays properties
+										String cool = "";
 										for(int q = 0; q < spaces.length; q++) {
 											if(spaces[players.get(i).location].getOwner() == players.get(i)) {
 												owned.add(spaces[q]);
-												System.out.println("  " + spaces[q].getName());
+												cool += "  " + spaces[q].getName();
 											}
 										}
+										gui.label.setText("Select the property you'd like to sell or type 'cancel' to cancel: " + cool);
 										boolean cont = false;
 
 										boolean cant = false;
@@ -1661,6 +1678,7 @@ public class Monopoly{
 												fff += "  " + spaces[q].getName();
 											}
 										}
+										gui.textField.setText("");
 										gui.label.setText("Select the property you'd like to mortage or type 'cancel' to cancel. " + fff);
 										boolean conq = false;
 
@@ -1730,12 +1748,12 @@ public class Monopoly{
 													quit = false;
 													break;
 												default:
-													System.out.println("Invalid option. Please try again.");
+													gui.label.setText("Invalid option. Please try again.");
 											}
 										}
 										break;
 									default:
-										System.out.println("Invalid option. Please try again.");
+										gui.label.setText("Invalid option. Please try again.");
 								}
 							}
 						}
@@ -1747,7 +1765,7 @@ public class Monopoly{
 								}
 							}
 							if(ewww.size() == 0) {
-								System.out.println("AI has declared bankrupt");
+								gui.label.setText("AI has declared bankrupt");
 								TimeUnit.SECONDS.sleep(3);
 								i--;
 								continue;
@@ -1758,7 +1776,7 @@ public class Monopoly{
 									ewww.remove(0);
 								}
 								if(ewww.size() == 0) {
-									System.out.println("AI has declared bankrupt");
+									gui.label.setText("AI has declared bankrupt");
 									TimeUnit.SECONDS.sleep(3);
 									i--;
 									continue;
@@ -1771,7 +1789,7 @@ public class Monopoly{
 							break;
 						}
 						if(bankr == false) {
-							System.out.println("Paying taxes...");
+							gui.label.setText("Paying taxes...");
 							TimeUnit.SECONDS.sleep(3);
 							players.get(i).money -= taxPrice;
 							gui.playerMon.setText("Current Money: $" + players.get(i).money);
@@ -1859,17 +1877,17 @@ public class Monopoly{
 				property.setNumHouse(property.getNumHouse()+1);
 				if(property.getNumHouse() == 5) {
 					hotels--;
-					System.out.println("Hotel placed.");
+					gui.label.setText("Hotel placed.");
 				}else {
 					houses--;
-					System.out.println("House placed.");
+					gui.label.setText("House placed.");
 				}
 			}else {
-				System.out.println("You can't afford a house/hotel.");
+				gui.label.setText("You can't afford a house/hotel.");
 				return;
 			}
 		} else {
-			System.out.println("You already have a hotel. You can't build anymore on this property.");
+			gui.label.setText("You already have a hotel. You can't build anymore on this property.");
 		}
 	}
 
@@ -1883,50 +1901,12 @@ public class Monopoly{
 				houses++;
 			}
 		} else {
-			System.out.println("There are no houses to sell on this property.");
+			gui.label.setText("There are no houses to sell on this property.");
 		}
 	}
 	
 	public static void payBank (Player player, int cost) {
 		player.money -= cost;
-	}
-
-//gives players options when they don't have cash
-//returns true when they do
-//needs further actions
-	public static Boolean enoughCash (Player player, int cost) {
-		if(player.money >= cost) {
-			return true;
-		}
-		while (player.money < cost){
-			System.out.println(player.token + " doesn't have enough money.");
-			System.out.println("What would you like to do?");
-			System.out.println("Sell property");
-			System.out.println("Mortgage property");
-			System.out.println("Declare Bankruptcy");
-			Scanner decision = new Scanner(System.in);
-			String decide = decision.next();
-			decision.close();
-			switch (decide) {
-			case "Sell property":
-				if (enoughCash(player,cost)) {
-					return true;
-				}else {
-					continue;
-				}
-			case "Mortgage property":
-				if (enoughCash(player, cost)) {
-					return true;
-				}else {
-					continue;
-				}
-			case "Declare Bankruptcy":
-				return false;
-			default:
-				
-			}
-		}
-		return false;
 	}
 	
 	public static boolean isInt(String s){
