@@ -19,4 +19,5 @@ Then, you will move. If you land on a property owned by the bank, you will be al
 If you land on a tax spot, you will be forced to pay an amount of money depending on which spot you landed on. If you land on Income Tax, you will be able to choose whether you pay 10% of assets or $200. 
 If you land on "Go to Jail," you will be sent to jail and your turn will end.
 If, during your movement, you pass the Go tile, you will get $200. If you roll doubles, you will be able to take another turn. If you roll 3 doubles in a row on one turn, you will be sent to jail for speeding. 
+If, at some point, you can not afford to continue, or wish to quit, you may declare bankrupt. This will remove you from the game, setting the owner of all your owned property to the bank.
 The game will end when only one player remains or if the time runs out. If the time runs out, the player with the most money in total assets wins.
