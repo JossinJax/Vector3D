@@ -93,6 +93,9 @@ class MonopolyTest extends Monopoly{
 	@Test
 	public void testSpace() {
 		setup();
+		BoardSpot board = new BoardSpot();
+		board.setOwner(nex);
+		assertEquals(board.getOwner(), nex);
 		assertEquals(test.getName(), "test");
 		assertEquals(test.getColor(), "brown");
 		assertEquals(test.getType(), "property");
@@ -286,5 +289,8 @@ class MonopolyTest extends Monopoly{
 		assertEquals(getText(gui.label.getText()), "");
 		assertEquals(gui.playerMon.getText(), "");
 		assertEquals(gui.playerNum.getText(), "");
+		gui.playerNum.setText("2");
+		assertEquals(isInt(gui.playerNum.getText()), true);
+		assertEquals(getText(gui.playerNum.getText()), "2");
 	}
 }
