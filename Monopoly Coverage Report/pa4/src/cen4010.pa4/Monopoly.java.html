@@ -1,0 +1,1941 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Monopoly.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">MonopolyTest (Dec 11, 2020 12:38:14 PM)</a> &gt; <a href="../../index.html" class="el_group">pa4</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">cen4010.pa4</a> &gt; <span class="el_source">Monopoly.java</span></div><h1>Monopoly.java</h1><pre class="source lang-java linenums">package cen4010.pa4;
+
+import java.lang.Thread;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.*;  
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
+<span class="fc" id="L11">public class Monopoly{</span>
+<span class="fc" id="L12">	static Thread tread = new Thread();</span>
+<span class="fc" id="L13">	static boolean waiting = false;</span>
+<span class="fc" id="L14">	static GUI gui = new GUI();</span>
+	
+<span class="fc" id="L16">	static String in = &quot; &quot;;</span>
+	public static void main(String args[]) throws InterruptedException {
+<span class="nc" id="L18">		int houses = 32;</span>
+<span class="nc" id="L19">		int hotels = 12;</span>
+<span class="nc" id="L20">		Player bank = new Player();</span>
+<span class="nc" id="L21">		Player NA = new Player();</span>
+<span class="nc" id="L22">		gui.setVisible(true);</span>
+		
+<span class="nc" id="L24">		gui.button.addActionListener(new ActionListener() {</span>
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L26">				waiting = false;</span>
+<span class="nc" id="L27">				in = gui.textField.getText();</span>
+<span class="nc" id="L28">			}</span>
+		});
+		
+
+<span class="nc" id="L32">		BoardSpot MediterraneanAvenue = new BoardSpot(&quot;Mediterranean Avenue&quot;, &quot;brown&quot;, &quot;property&quot;, bank, 60, 30, 2, 10, 30, 90, 160, 250, 50, false, 0);</span>
+<span class="nc" id="L33">		BoardSpot CommunityChest1 = new BoardSpot(&quot;CommunityChest&quot;, &quot;none&quot;, &quot;special&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L34">		BoardSpot BalticAvenue = new BoardSpot(&quot;Baltic Avenue&quot;, &quot;brown&quot;, &quot;property&quot;, bank, 60, 30, 4, 20, 60, 180, 320, 450, 50, false, 0);</span>
+<span class="nc" id="L35">		BoardSpot IncomeTax = new BoardSpot(&quot;Income Tax&quot;, &quot;none&quot;, &quot;tax&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L36">		BoardSpot ReadingRailroad = new BoardSpot(&quot;Reading Railroad&quot;, &quot;none&quot;, &quot;railroad&quot;, bank, 200, 100, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L37">		BoardSpot OrientalAvenue = new BoardSpot(&quot;Oriental Avenue&quot;, &quot;l_blue&quot;, &quot;property&quot;, bank, 100, 50, 6, 30, 90, 270, 400, 550, 50, false, 0);</span>
+<span class="nc" id="L38">		BoardSpot Chance1 = new BoardSpot(&quot;Chance&quot;, &quot;none&quot;, &quot;special&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L39">		BoardSpot VermontAvenue = new BoardSpot(&quot;Vermont Avenue&quot;, &quot;l_blue&quot;, &quot;property&quot;, bank, 100, 50, 6, 30, 90, 270, 400, 550, 50, false, 0);</span>
+<span class="nc" id="L40">		BoardSpot ConneticutAvenue = new BoardSpot(&quot;Conneticut Avenue&quot;, &quot;l_blue&quot;, &quot;property&quot;, bank, 120, 60, 8, 40, 100, 300, 450, 600, 50, false, 0);</span>
+<span class="nc" id="L41">		BoardSpot Jail = new BoardSpot(&quot;Jail&quot;, &quot;none&quot;, &quot;jail&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L42">		BoardSpot StCharlesPlace = new BoardSpot(&quot;St. Charles Place&quot;, &quot;pink&quot;, &quot;property&quot;, bank, 140, 70, 10, 50, 150, 450, 625, 750, 100, false, 0);</span>
+<span class="nc" id="L43">		BoardSpot ElectricCompany = new BoardSpot(&quot;Electric Company&quot;, &quot;none&quot;, &quot;utility&quot;, bank, 150, 75, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L44">		BoardSpot StatesAvenue = new BoardSpot(&quot;States Avenue&quot;, &quot;pink&quot;, &quot;property&quot;, bank, 140, 70, 10, 50, 150, 450, 625, 750, 100, false, 0);</span>
+<span class="nc" id="L45">		BoardSpot VirginiaAvenue = new BoardSpot(&quot;Virginia Avenue&quot;, &quot;pink&quot;, &quot;property&quot;, bank, 160, 80, 12, 60, 180, 500, 700, 900, 100, false, 0);</span>
+<span class="nc" id="L46">		BoardSpot PennsylvaniaRailroad = new BoardSpot(&quot;Pennsylvania Railroad&quot;, &quot;none&quot;, &quot;railroad&quot;, bank, 200, 100, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L47">		BoardSpot StJamesPlace = new BoardSpot(&quot;St. James Place&quot;, &quot;orange&quot;, &quot;property&quot;, bank, 180, 90, 14, 70, 200, 550, 750, 950, 100, false, 0);</span>
+<span class="nc" id="L48">		BoardSpot CommunityChest2 = new BoardSpot(&quot;CommunityChest&quot;, &quot;none&quot;, &quot;special&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L49">		BoardSpot TennesseeAvenue = new BoardSpot(&quot;Tennessee Avenue&quot;, &quot;orange&quot;, &quot;property&quot;, bank, 180, 90, 14, 70, 200, 550, 750, 950, 100, false, 0);</span>
+<span class="nc" id="L50">		BoardSpot NewYorkAvenue = new BoardSpot(&quot;New York Avenue&quot;, &quot;orange&quot;, &quot;property&quot;, bank, 200, 100, 16, 80, 220, 600, 800, 1000, 100, false, 0);</span>
+<span class="nc" id="L51">		BoardSpot FreeParking = new BoardSpot(&quot;Free Parking&quot;, &quot;none&quot;, &quot;special&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L52">		BoardSpot KentuckyAvenue = new BoardSpot(&quot;Kentucky Avenue&quot;, &quot;red&quot;, &quot;property&quot;, bank, 220, 110, 18, 90, 250, 700, 875, 1050, 150, false, 0);</span>
+<span class="nc" id="L53">		BoardSpot Chance2 = new BoardSpot(&quot;Chance&quot;, &quot;none&quot;, &quot;special&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L54">		BoardSpot IndianaAvenue = new BoardSpot(&quot;Indiana Avenue&quot;, &quot;red&quot;, &quot;property&quot;, bank, 220, 110, 18, 90, 250, 700, 875, 1050, 150, false, 0);</span>
+<span class="nc" id="L55">		BoardSpot IllinoisAvenue = new BoardSpot(&quot;Illinois Avenue&quot;, &quot;red&quot;, &quot;property&quot;, bank, 240, 120, 20, 100, 300, 750, 925, 1100, 150, false, 0);</span>
+<span class="nc" id="L56">		BoardSpot BORailroad = new BoardSpot(&quot;B. &amp; O. Railroad&quot;, &quot;none&quot;, &quot;railroad&quot;, bank, 200, 100, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L57">		BoardSpot AtlanticAvenue = new BoardSpot(&quot;Atlantic Avenue&quot;, &quot;yellow&quot;, &quot;property&quot;, bank, 260, 130, 22, 110, 330, 800, 975, 1150, 130, false, 0);</span>
+<span class="nc" id="L58">		BoardSpot VentorAvenue = new BoardSpot(&quot;Ventor Avenue&quot;, &quot;yellow&quot;, &quot;property&quot;, bank, 260, 130, 22, 110, 330, 800, 975, 1150, 130, false, 0);</span>
+<span class="nc" id="L59">		BoardSpot WaterWorks = new BoardSpot(&quot;Water Works&quot;, &quot;none&quot;, &quot;utility&quot;, bank, 150, 75, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L60">		BoardSpot MarvinGardens = new BoardSpot(&quot;Marvin Gardens&quot;, &quot;yellow&quot;, &quot;property&quot;, bank, 280, 140, 24, 120, 360, 850, 1035, 1200, 150, false, 0);</span>
+<span class="nc" id="L61">		BoardSpot GoToJail = new BoardSpot(&quot;Go to Jail&quot;, &quot;none&quot;, &quot;GoToJail&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L62">		BoardSpot PacificAvenue = new BoardSpot(&quot;Pacific Avenue&quot;, &quot;green&quot;, &quot;property&quot;, bank, 300, 150, 26, 130, 390, 900, 1100, 1275, 200, false, 0);</span>
+<span class="nc" id="L63">		BoardSpot NorthCarolinaAvenue = new BoardSpot(&quot;North Carolina Avenue&quot;, &quot;green&quot;, &quot;property&quot;, bank, 300, 150, 26, 130, 390, 900, 1100, 1275, 200, false, 0);</span>
+<span class="nc" id="L64">		BoardSpot CommunityChest3 = new BoardSpot(&quot;CommunityChest&quot;, &quot;none&quot;, &quot;special&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L65">		BoardSpot PennsylvaniaAvenue = new BoardSpot(&quot;Pennsylvania Avenue&quot;, &quot;green&quot;, &quot;property&quot;, bank, 320, 160, 28, 150, 450, 1000, 1200, 1400, 200, false, 0);</span>
+<span class="nc" id="L66">		BoardSpot ShortLine = new BoardSpot(&quot;Short Line&quot;, &quot;none&quot;, &quot;railroad&quot;, bank, 200, 100, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L67">		BoardSpot Chance3 = new BoardSpot(&quot;Chance&quot;, &quot;none&quot;, &quot;special&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L68">		BoardSpot ParkPlace = new BoardSpot(&quot;Park Place&quot;, &quot;d_blue&quot;, &quot;property&quot;, bank, 350, 175, 35, 175, 500, 1100, 1300, 1500, 200, false, 0);</span>
+<span class="nc" id="L69">		BoardSpot LuxuryTax = new BoardSpot(&quot;Luxury Tax&quot;, &quot;none&quot;, &quot;tax&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L70">		BoardSpot Boardwalk = new BoardSpot(&quot;Boardwalk&quot;, &quot;d_blue&quot;, &quot;property&quot;, bank, 400, 200, 50, 200, 600, 1400, 1700, 2000, 200, false, 0);</span>
+<span class="nc" id="L71">		BoardSpot Go = new BoardSpot(&quot;Go&quot;, &quot;none&quot;, &quot;go&quot;, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0);</span>
+<span class="nc" id="L72">		BoardSpot[] spaces = {Go, MediterraneanAvenue, CommunityChest1, BalticAvenue, IncomeTax, ReadingRailroad, OrientalAvenue, Chance1, VermontAvenue, ConneticutAvenue, Jail, StCharlesPlace, ElectricCompany, StatesAvenue, VirginiaAvenue, PennsylvaniaRailroad, StJamesPlace, CommunityChest2, TennesseeAvenue, NewYorkAvenue, FreeParking, KentuckyAvenue, Chance2, IllinoisAvenue, IndianaAvenue, BORailroad, AtlanticAvenue, VentorAvenue, WaterWorks, MarvinGardens, GoToJail, PacificAvenue, NorthCarolinaAvenue, CommunityChest3, PennsylvaniaAvenue, ShortLine, Chance3, ParkPlace, LuxuryTax, Boardwalk};</span>
+
+		
+		//Determine Number of Players
+		
+<span class="nc" id="L77">		gui.label.setText(&quot;Welcome to Monopoly! How many people are playing?&quot;);</span>
+		//Scanner in = new Scanner(System.in);
+<span class="nc" id="L79">		waiting = true;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">		while(waiting) {</span>
+<span class="nc" id="L81">			TimeUnit.SECONDS.sleep(1);</span>
+		}
+		int humanPlayers;
+<span class="nc" id="L84">		int aiPlayers = 0;</span>
+<span class="nc" id="L85">		while(true) {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">			if(isInt(in) == false) {</span>
+<span class="nc" id="L87">				gui.label.setText(&quot;Invalid entry. Please input a number&quot;);</span>
+<span class="nc" id="L88">				gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L89">			}else {</span>
+<span class="nc" id="L90">				int entry = Integer.parseInt(in);</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">				if(entry &gt; 8) {</span>
+<span class="nc" id="L92">					gui.label.setText(&quot;Too many players! Enter a new player count.&quot;);</span>
+<span class="nc" id="L93">					gui.textField.setText(&quot;&quot;);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">				}else if(entry &lt; 1) {</span>
+<span class="nc" id="L95">					gui.label.setText(&quot;Invalid number. Enter a new player count.&quot;);</span>
+<span class="nc" id="L96">					gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L97">				}else {</span>
+<span class="nc" id="L98">					humanPlayers = entry;</span>
+<span class="nc" id="L99">					gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L100">					gui.label.setText(humanPlayers + &quot; people are playing!&quot;);</span>
+<span class="nc" id="L101">					TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L102">					break;</span>
+				}
+			}
+<span class="nc" id="L105">			waiting = true;</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">			while(waiting) {</span>
+<span class="nc" id="L107">				TimeUnit.SECONDS.sleep(1);</span>
+			}
+		}
+<span class="nc bnc" id="L110" title="All 2 branches missed.">		if(humanPlayers == 8) {</span>
+<span class="nc" id="L111">			gui.label.setText(&quot;No room for AI! Continuing...&quot;);</span>
+<span class="nc" id="L112">			gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L113">			TimeUnit.SECONDS.sleep(1);</span>
+<span class="nc" id="L114">		}else {</span>
+<span class="nc" id="L115">			gui.label.setText(&quot;How many AI Players would you like?&quot;);</span>
+<span class="nc" id="L116">			gui.textField.setText(&quot;&quot;);</span>
+			while(true) {
+<span class="nc" id="L118">				waiting = true;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">				while(waiting) {</span>
+<span class="nc" id="L120">					TimeUnit.SECONDS.sleep(1);</span>
+				}
+<span class="nc" id="L122">				int entry = Integer.parseInt(in);</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">				if(entry  &lt; 0) {</span>
+<span class="nc" id="L124">					gui.label.setText(&quot;Invalid number. Enter a new player count.&quot;);</span>
+<span class="nc" id="L125">					gui.textField.setText(&quot;&quot;);</span>
+<span class="nc bnc" id="L126" title="All 4 branches missed.">				}else if(entry  &lt; 1 &amp;&amp; humanPlayers &lt; 2) {</span>
+<span class="nc" id="L127">					gui.label.setText(&quot;You can't play alone. Add an AI player.&quot;);</span>
+<span class="nc" id="L128">					gui.textField.setText(&quot;&quot;);</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">				}else if(humanPlayers + entry &gt; 8){</span>
+<span class="nc" id="L130">					gui.label.setText(&quot;Too many AI! Input a smaller number.&quot;);</span>
+<span class="nc" id="L131">					gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L132">				}else{</span>
+<span class="nc" id="L133">					aiPlayers = entry;</span>
+<span class="nc" id="L134">					gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L135">					gui.label.setText(&quot;Added &quot; + aiPlayers +&quot; AI player(s).&quot;);</span>
+<span class="nc" id="L136">					TimeUnit.SECONDS.sleep(4);</span>
+					break;
+				}
+			}
+		}
+		
+		
+<span class="nc" id="L143">		int totalPlayers = humanPlayers + aiPlayers;</span>
+<span class="nc" id="L144">		gui.label.setText(&quot;There are &quot; + totalPlayers + &quot; total players!&quot;);</span>
+<span class="nc" id="L145">		TimeUnit.SECONDS.sleep(4);</span>
+		
+<span class="nc" id="L147">		Integer[] turnNumber = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};</span>
+<span class="nc" id="L148">		Player[] playerOrder = new Player[12];</span>
+<span class="nc" id="L149">		Random dieOne = new Random();</span>
+<span class="nc" id="L150">		Random dieTwo = new Random();</span>
+		
+		//Assigning Turn Order
+		
+<span class="nc bnc" id="L154" title="All 2 branches missed.">		for(int i = 0; i &lt; humanPlayers; i++) {</span>
+<span class="nc" id="L155">			int pppp = i + 1;</span>
+<span class="nc" id="L156">			gui.label.setText(&quot;Rolling play order for Player &quot; + pppp);</span>
+<span class="nc" id="L157">			TimeUnit.SECONDS.sleep(3);</span>
+			while(true) {
+<span class="nc" id="L159">				int diceRoll = dieOne.nextInt(7) + dieTwo.nextInt(7);</span>
+<span class="nc bnc" id="L160" title="All 4 branches missed.">				if(turnNumber[diceRoll] != diceRoll &amp;&amp; turnNumber[diceRoll] != null) {</span>
+<span class="nc" id="L161">					turnNumber[diceRoll] = diceRoll - 1;</span>
+<span class="nc" id="L162">					Player p = new Player(false, i);</span>
+<span class="nc" id="L163">					playerOrder[diceRoll] = p;</span>
+<span class="nc" id="L164">					gui.label.setText(&quot;Player &quot; + pppp + &quot; got &quot; + diceRoll);</span>
+<span class="nc" id="L165">					TimeUnit.SECONDS.sleep(3);</span>
+					break;
+				}else {
+					continue;
+				}
+			}
+		}
+<span class="nc bnc" id="L172" title="All 2 branches missed.">		for(int i = 0; i &lt; aiPlayers; i++) {</span>
+<span class="nc" id="L173">			int llll = i + humanPlayers + 1;</span>
+<span class="nc" id="L174">			gui.label.setText(&quot;Rolling play order for Player (AI) &quot; + llll);</span>
+<span class="nc" id="L175">			TimeUnit.SECONDS.sleep(3);</span>
+			while(true) {
+<span class="nc" id="L177">				int diceRoll = dieOne.nextInt(7) + dieTwo.nextInt(7);</span>
+<span class="nc bnc" id="L178" title="All 4 branches missed.">				if(turnNumber[diceRoll] != diceRoll &amp;&amp; turnNumber[diceRoll] != null) {</span>
+<span class="nc" id="L179">					turnNumber[diceRoll] = diceRoll - 1;</span>
+<span class="nc" id="L180">					Player c = new Player(true, humanPlayers + i);</span>
+<span class="nc" id="L181">					playerOrder[diceRoll] = c;</span>
+<span class="nc" id="L182">					gui.label.setText(&quot;Player (AI) &quot; + llll + &quot; got &quot; + diceRoll);</span>
+<span class="nc" id="L183">					TimeUnit.SECONDS.sleep(3);</span>
+					break;
+				}else {
+					continue;
+				}
+			}
+<span class="nc bnc" id="L189" title="All 2 branches missed.">			if(i &gt;= aiPlayers) {</span>
+<span class="nc" id="L190">				break;</span>
+			}
+		}
+		
+<span class="nc" id="L194">		ArrayList&lt;Player&gt; players = new ArrayList&lt;Player&gt;();</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">		for(int i = 11; i &gt;= 0; i--) {</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">			if(playerOrder[i] != null) {</span>
+<span class="nc" id="L197">				players.add(playerOrder[i]);</span>
+			}
+		}
+		
+<span class="nc" id="L201">		String mm = &quot;Turn Order: &quot;;</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">		for(int i = 0; i &lt; players.size(); i++) {</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">			if(i == players.size() - 1) {</span>
+<span class="nc" id="L204">				mm += &quot;Player &quot; + players.get(i).getNum();</span>
+<span class="nc" id="L205">			}else {</span>
+<span class="nc" id="L206">				mm += &quot;Player &quot; + players.get(i).getNum() + &quot;, &quot;;</span>
+			}
+		}
+<span class="nc" id="L209">		gui.label.setText(mm);</span>
+<span class="nc" id="L210">		TimeUnit.SECONDS.sleep(3);</span>
+		//Setting Tokens
+		
+<span class="nc" id="L213">		ArrayList&lt;String&gt; tokens = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L214">		tokens.add(&quot;Boot&quot;);</span>
+<span class="nc" id="L215">		tokens.add(&quot;Cat&quot;);</span>
+<span class="nc" id="L216">		tokens.add(&quot;Dog&quot;);</span>
+<span class="nc" id="L217">		tokens.add(&quot;Duck&quot;);</span>
+<span class="nc" id="L218">		tokens.add(&quot;Iron&quot;);</span>
+<span class="nc" id="L219">		tokens.add(&quot;Hat&quot;);</span>
+<span class="nc" id="L220">		tokens.add(&quot;Thimble&quot;);</span>
+<span class="nc" id="L221">		tokens.add(&quot;Wheel&quot;);</span>
+		
+<span class="nc bnc" id="L223" title="All 2 branches missed.">		for(int i = 0 ; i &lt; players.size(); i++) {</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">			if(!(players.get(i).isAI())) {</span>
+<span class="nc" id="L225">				String too = &quot;&quot;;</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">				for(int p = 0; p &lt; tokens.size(); p++) {</span>
+<span class="nc" id="L227">					too += &quot;  &quot; + tokens.get(p);</span>
+				}
+<span class="nc" id="L229">				gui.label.setText(&quot;Player &quot; + players.get(i).getNum() + &quot;, please pick your token from the list: \n&quot; + too);</span>
+<span class="nc" id="L230">				while(true) {</span>
+<span class="nc" id="L231">					waiting = true;</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">					while(waiting) {</span>
+<span class="nc" id="L233">						TimeUnit.SECONDS.sleep(1);</span>
+					}
+<span class="nc" id="L235">					String choice = in;</span>
+<span class="nc" id="L236">					choice = choice.trim();</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">					if(tokens.contains(choice)) {</span>
+<span class="nc" id="L238">						players.get(i).setToken(choice);</span>
+<span class="nc" id="L239">						tokens.remove(tokens.indexOf(choice));</span>
+<span class="nc" id="L240">						gui.label.setText(&quot;Player &quot; + players.get(i).getNum() + &quot; selected &quot; + choice);</span>
+<span class="nc" id="L241">						gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L242">						TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L243">						break;</span>
+					}else {
+<span class="nc" id="L245">						gui.label.setText(&quot;Please enter a valid choice. &quot; + &quot;Player &quot; + players.get(i).getNum() + &quot;, please pick your token from the list: \n&quot; + too);</span>
+<span class="nc" id="L246">						gui.textField.setText(&quot;&quot;);</span>
+					}
+				}
+			}
+		}
+<span class="nc bnc" id="L251" title="All 2 branches missed.">		for(int i = 0; i &lt; players.size(); i++) {</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">			if(players.get(i).isAI()) {</span>
+<span class="nc" id="L253">				players.get(i).setToken(tokens.get(0));</span>
+<span class="nc" id="L254">				gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L255">				gui.label.setText(&quot;Player(AI) &quot; + players.get(i).getNum() + &quot; assigned &quot; + tokens.get(0));</span>
+<span class="nc" id="L256">				TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L257">				tokens.remove(0);</span>
+			}
+		}
+<span class="nc" id="L260">		Reminder reminder = new Reminder();</span>
+		//Gameplay
+<span class="nc bnc" id="L262" title="All 2 branches missed.">		while(players.size() &gt; 1) {</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">			if(reminder.timeRem == false) {</span>
+<span class="nc" id="L264">				int winner = -1; </span>
+<span class="nc" id="L265">				int winningMon = 0;</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">				for(int j = 0; j &lt; players.size(); j++) {</span>
+<span class="nc bnc" id="L267" title="All 2 branches missed.">					if(players.get(j).money &gt; winningMon) {</span>
+<span class="nc" id="L268">						winner = j;</span>
+<span class="nc" id="L269">						winningMon = players.get(j).money;</span>
+					}
+				}
+<span class="nc" id="L272">				gui.label.setText(&quot;The winner is Player &quot; + players.get(winner).getNum() + &quot; with &quot; + winningMon + &quot;! Click Submit to close the game.&quot;);</span>
+<span class="nc" id="L273">				gui.textField.setText(&quot;&quot;);</span>
+				//in.close();waiting = true;
+<span class="nc bnc" id="L275" title="All 2 branches missed.">				while(waiting) {</span>
+<span class="nc" id="L276">					TimeUnit.SECONDS.sleep(1);</span>
+				}
+<span class="nc" id="L278">				System.exit(0);</span>
+			}
+<span class="nc bnc" id="L280" title="All 2 branches missed.">			for(int i = 0; i &lt; players.size(); i++) {</span>
+<span class="nc" id="L281">				gui.playerNum.setText(&quot;Current Turn: Player &quot; + players.get(i).getNum());</span>
+<span class="nc" id="L282">				gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+				//If in jail
+<span class="nc bnc" id="L284" title="All 2 branches missed.">				if(players.get(i).inJail) {</span>
+<span class="nc" id="L285">					gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L286">					gui.label.setText(&quot;You are in jail. Pay $50 to free yourself or roll to be freed. 'pay' or 'roll'&quot;);</span>
+<span class="nc" id="L287">					String j = in;</span>
+<span class="nc" id="L288">					waiting = true;</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">					while(waiting) {</span>
+<span class="nc" id="L290">						TimeUnit.SECONDS.sleep(1);</span>
+					}
+<span class="nc bnc" id="L292" title="All 3 branches missed.">					switch(j) {</span>
+						case &quot;pay&quot;:
+<span class="nc" id="L294">							players.get(i).money -= 50;</span>
+<span class="nc" id="L295">							gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L296">							players.get(i).setJail(false);</span>
+<span class="nc" id="L297">							players.get(i).jailTime = 0; </span>
+<span class="nc" id="L298">							gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L299">							gui.label.setText(&quot;Fine paid. You are free!&quot;);</span>
+
+<span class="nc" id="L301">							TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L302">							break;</span>
+						case &quot;roll&quot;:
+<span class="nc" id="L304">							gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L305">							break;</span>
+						default:
+<span class="nc" id="L307">							gui.label.setText(&quot;Invalid option. Please try again. You are in jail. Pay $50 to free yourself or roll to be freed. 'pay' or 'roll'&quot;);</span>
+<span class="nc" id="L308">							gui.textField.setText(&quot;&quot;);</span>
+					}
+				}
+				//Rolling movement
+<span class="nc bnc" id="L312" title="All 2 branches missed.">				if(players.get(i).isAI()) {</span>
+<span class="nc" id="L313">					gui.label.setText(&quot;AI &quot; + players.get(i).getNum() + &quot;'s turn. Rolling dice...&quot;);</span>
+<span class="nc" id="L314">					gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L315">					TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L316">				}else {</span>
+<span class="nc" id="L317">					gui.label.setText(&quot;Player &quot; + players.get(i).getNum() + &quot;'s turn. Rolling dice...&quot;);</span>
+<span class="nc" id="L318">					gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L319">					TimeUnit.SECONDS.sleep(3);</span>
+				}
+<span class="nc" id="L321">				boolean doubles = false;</span>
+<span class="nc" id="L322">				Random die = new Random();</span>
+<span class="nc" id="L323">				int d1 = die.nextInt(7);</span>
+<span class="nc" id="L324">				int d2 = die.nextInt(7);</span>
+<span class="nc bnc" id="L325" title="All 2 branches missed.">				if(d1 == d2) {</span>
+<span class="nc" id="L326">					doubles = true;</span>
+<span class="nc" id="L327">					players.get(i).doubleCounter += 1;</span>
+<span class="nc bnc" id="L328" title="All 2 branches missed.">					if(players.get(i).doubleCounter == 3) {</span>
+<span class="nc" id="L329">						gui.label.setText(&quot;Speeding! Go to Jail!&quot;);</span>
+<span class="nc" id="L330">						TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L331">						players.get(i).inJail = true;</span>
+<span class="nc" id="L332">						players.get(i).doubleCounter = 0;</span>
+<span class="nc" id="L333">						continue;</span>
+					}
+				}else {
+<span class="nc" id="L336">					players.get(i).doubleCounter = 0;</span>
+				}
+<span class="nc" id="L338">				boolean bankr = false;</span>
+<span class="nc" id="L339">				int move = d1 + d2;</span>
+<span class="nc bnc" id="L340" title="All 4 branches missed.">				if(players.get(i).inJail == true &amp;&amp; doubles == false) {</span>
+<span class="nc bnc" id="L341" title="All 2 branches missed.">					if(players.get(i).jailTime == 3) {</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">						if(players.get(i).money &gt;= 50) {</span>
+<span class="nc" id="L343">							gui.label.setText(&quot;Fine paid. You are free to go.&quot;);</span>
+<span class="nc" id="L344">							gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L345">							TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L346">							players.get(i).money -= 50;</span>
+<span class="nc" id="L347">							gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L348">							players.get(i).jailTime = 0;</span>
+<span class="nc" id="L349">							players.get(i).setJail(false);</span>
+<span class="nc" id="L350">						}else {</span>
+<span class="nc" id="L351">							gui.label.setText(&quot;You need &quot; + ((players.get(i).money - 50) * -1) + &quot; to pay your fine. Sell houses, properties, mortage, or declare bankrupt. /n'house', 'prop', 'mort', 'bankrupt'&quot;);</span>
+<span class="nc" id="L352">							gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L353">							waiting = true;</span>
+<span class="nc bnc" id="L354" title="All 2 branches missed.">							while(waiting) {</span>
+<span class="nc" id="L355">								TimeUnit.SECONDS.sleep(1);</span>
+							}
+<span class="nc" id="L357">							boolean debt = true;</span>
+<span class="nc bnc" id="L358" title="All 2 branches missed.">							while(debt) {</span>
+<span class="nc" id="L359">								waiting = true;</span>
+<span class="nc bnc" id="L360" title="All 2 branches missed.">								while(waiting) {</span>
+<span class="nc" id="L361">									TimeUnit.SECONDS.sleep(1);</span>
+								}
+<span class="nc" id="L363">								String dec = in;</span>
+<span class="nc bnc" id="L364" title="All 5 branches missed.">								switch(dec){</span>
+									case &quot;house&quot;:
+										//displays properties
+<span class="nc" id="L367">										ArrayList&lt;BoardSpot&gt; owne = new ArrayList&lt;BoardSpot&gt;();</span>
+<span class="nc" id="L368">										String ppppp = &quot;&quot;;</span>
+<span class="nc bnc" id="L369" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L370" title="All 4 branches missed.">											if(spaces[q].getOwner() == players.get(i) &amp;&amp; spaces[q].getType() == &quot;property&quot;) {</span>
+<span class="nc" id="L371">												owne.add(spaces[q]);</span>
+<span class="nc" id="L372">												ppppp += spaces[q] + &quot;  &quot;;</span>
+											}
+										}
+<span class="nc" id="L375">										gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L376">										gui.label.setText(&quot;Select the property of the house you'd like to sell or type 'cancel' to cancel: /n&quot; + ppppp);</span>
+										
+										
+<span class="nc" id="L379">										boolean con = false;</span>
+<span class="nc" id="L380">										boolean can = false;</span>
+<span class="nc bnc" id="L381" title="All 2 branches missed.">										while(can == false) {</span>
+<span class="nc" id="L382">											String pr = in.trim();</span>
+<span class="nc" id="L383">											waiting = true;</span>
+<span class="nc bnc" id="L384" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L385">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc bnc" id="L387" title="All 2 branches missed.">											for(int y = 0; y &lt; owne.size(); y++) {</span>
+<span class="nc bnc" id="L388" title="All 2 branches missed.">												if(pr == &quot;cancel&quot;) {</span>
+<span class="nc" id="L389">													can = true;</span>
+<span class="nc" id="L390">													break;</span>
+												}
+<span class="nc bnc" id="L392" title="All 2 branches missed.">												if(owne.get(y).getName() == pr) {</span>
+<span class="nc" id="L393">													con = true;</span>
+<span class="nc" id="L394">													break;</span>
+<span class="nc bnc" id="L395" title="All 2 branches missed.">												}else if(y == owne.size() -1) {</span>
+<span class="nc" id="L396">													gui.label.setText(&quot;Invalid choice. Please select another&quot;);</span>
+<span class="nc" id="L397">													TimeUnit.SECONDS.sleep(3);</span>
+												}
+											}
+<span class="nc bnc" id="L400" title="All 2 branches missed.">											if(con == true) {</span>
+<span class="nc" id="L401">												int hopr = owne.get(findInd(owne, pr)).getHouseHotelPrice();</span>
+<span class="nc bnc" id="L402" title="All 2 branches missed.">												for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L403" title="All 2 branches missed.">													if(owne.get(findInd(owne, pr)).equals(spaces[h])) {</span>
+<span class="nc" id="L404">														spaces[h].setNumHouse(spaces[h].getNumHouse()-1);</span>
+<span class="nc" id="L405">														houses++;</span>
+<span class="nc" id="L406">														spaces[h].getOwner().money += hopr;</span>
+<span class="nc" id="L407">														gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L408">														break;</span>
+													}
+												}
+<span class="nc bnc" id="L411" title="All 2 branches missed.">												if(players.get(i).money - 50 &gt;= 0) {</span>
+<span class="nc" id="L412">													can = true;</span>
+<span class="nc" id="L413">													debt = false;</span>
+												}
+											}
+										}
+<span class="nc" id="L417">										break;</span>
+									case &quot;prop&quot;:
+										
+<span class="nc" id="L420">										ArrayList&lt;BoardSpot&gt; owned = new ArrayList&lt;BoardSpot&gt;();</span>
+										//displays properties
+<span class="nc" id="L422">										String pp = &quot;&quot;;</span>
+<span class="nc bnc" id="L423" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L424" title="All 2 branches missed.">											if(spaces[q].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L425">												owned.add(spaces[q]);</span>
+<span class="nc" id="L426">												pp += &quot;  &quot; + spaces[q].getName();</span>
+											}
+										}
+<span class="nc" id="L429">										gui.label.setText(&quot;Select the property you'd like to sell or type 'cancel' to cancel: &quot; + pp);</span>
+<span class="nc" id="L430">										gui.textField.setText(&quot;&quot;);</span>
+										
+<span class="nc" id="L432">										boolean cont = false;</span>
+
+<span class="nc" id="L434">										boolean cant = false;</span>
+<span class="nc bnc" id="L435" title="All 2 branches missed.">										while(cant == false) {</span>
+<span class="nc" id="L436">											waiting = true;</span>
+<span class="nc bnc" id="L437" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L438">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc" id="L440">											String pri = in.trim();</span>
+<span class="nc bnc" id="L441" title="All 2 branches missed.">											for(int y = 0; y &lt; owned.size(); y++) {</span>
+<span class="nc bnc" id="L442" title="All 2 branches missed.">												if(pri == &quot;cancel&quot;) {</span>
+<span class="nc" id="L443">													can = true;</span>
+<span class="nc" id="L444">													break;</span>
+												}
+<span class="nc bnc" id="L446" title="All 2 branches missed.">												if(owned.get(y).getName() == pri) {</span>
+<span class="nc" id="L447">													cont = true;</span>
+<span class="nc" id="L448">													break;</span>
+<span class="nc bnc" id="L449" title="All 2 branches missed.">												}else if(y == owned.size() -1) {</span>
+<span class="nc" id="L450">													gui.label.setText(&quot;Invalid choice. Please select another.&quot; + &quot; Select the property you'd like to sell or type 'cancel' to cancel: &quot; + pp);</span>
+
+<span class="nc" id="L452">													gui.textField.setText(&quot;&quot;);</span>
+												}
+											
+											}
+<span class="nc bnc" id="L456" title="All 2 branches missed.">											if(cont == true) {</span>
+<span class="nc" id="L457">												int hope = owned.get(findInd(owned, pri)).getCost();</span>
+<span class="nc bnc" id="L458" title="All 2 branches missed.">												for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L459" title="All 2 branches missed.">													if(owned.get(findInd(owned, pri)).equals(spaces[h])) {</span>
+<span class="nc" id="L460">														spaces[h].setOwner(bank);</span>
+<span class="nc" id="L461">														spaces[h].getOwner().money += hope;</span>
+<span class="nc" id="L462">														gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L463">														break;</span>
+													}
+												}
+<span class="nc bnc" id="L466" title="All 2 branches missed.">												if(players.get(i).money - 50 &gt;= 0) {</span>
+<span class="nc" id="L467">													cant = true;</span>
+<span class="nc" id="L468">													debt = false;</span>
+												}
+											}
+										}
+<span class="nc" id="L472">										break;</span>
+									case &quot;mort&quot;:
+<span class="nc" id="L474">										ArrayList&lt;BoardSpot&gt; ownedq = new ArrayList&lt;BoardSpot&gt;();</span>
+										//displays properties
+<span class="nc" id="L476">										String rr = &quot;&quot;;</span>
+<span class="nc bnc" id="L477" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L478" title="All 6 branches missed.">											if(spaces[q].getOwner() == players.get(i) &amp;&amp; (spaces[q].getType() == &quot;property&quot; || spaces[q].getType() == &quot;property&quot;)) {</span>
+<span class="nc" id="L479">												ownedq.add(spaces[q]);</span>
+<span class="nc" id="L480">												rr += &quot;  &quot; + spaces[q].getName();</span>
+											}
+										}
+<span class="nc" id="L483">										gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L484">										gui.label.setText(&quot;Select the property of the house you'd like to mortgage or type 'cancel' to cancel: /n&quot; + rr);</span>
+										
+<span class="nc" id="L486">										boolean conq = false;</span>
+
+<span class="nc" id="L488">										boolean canq = false;</span>
+<span class="nc bnc" id="L489" title="All 2 branches missed.">										while(canq == false) {</span>
+<span class="nc" id="L490">											waiting = true;</span>
+<span class="nc bnc" id="L491" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L492">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc" id="L494">											String priq = in.trim();</span>
+<span class="nc bnc" id="L495" title="All 2 branches missed.">											for(int y = 0; y &lt; ownedq.size(); y++) {</span>
+<span class="nc bnc" id="L496" title="All 2 branches missed.">												if(priq == &quot;cancel&quot;) {</span>
+<span class="nc" id="L497">													canq = true;</span>
+<span class="nc" id="L498">													break;</span>
+												}
+<span class="nc bnc" id="L500" title="All 2 branches missed.">												if(ownedq.get(y).getName() == priq) {</span>
+<span class="nc" id="L501">													conq = true;</span>
+<span class="nc" id="L502">													break;</span>
+<span class="nc bnc" id="L503" title="All 2 branches missed.">												}else if(y == ownedq.size() -1) {</span>
+<span class="nc" id="L504">													gui.label.setText(&quot;Invalid choice. Please select another&quot;);</span>
+<span class="nc" id="L505">													gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L506">													TimeUnit.SECONDS.sleep(3);</span>
+												}
+											
+											}
+<span class="nc bnc" id="L510" title="All 2 branches missed.">											if(conq == true) {</span>
+<span class="nc" id="L511">												int hopeq = ownedq.get(findInd(ownedq, priq)).getCost()/2;</span>
+<span class="nc bnc" id="L512" title="All 2 branches missed.">												for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L513" title="All 2 branches missed.">													if(ownedq.get(findInd(ownedq, priq)).equals(spaces[h])) {</span>
+<span class="nc" id="L514">														spaces[h].setMortT();</span>
+<span class="nc" id="L515">														spaces[h].getOwner().money += hopeq;</span>
+<span class="nc" id="L516">														gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L517">														break;</span>
+													}
+												}
+<span class="nc bnc" id="L520" title="All 2 branches missed.">												if(players.get(i).money - 50 &gt;= 0) {</span>
+<span class="nc" id="L521">													cant = true;</span>
+<span class="nc" id="L522">													debt = false;</span>
+												}
+											}
+										}
+<span class="nc" id="L526">										break;</span>
+									case &quot;bankrupt&quot;:
+<span class="nc" id="L528">										gui.label.setText(&quot;Are you sure you would like to declare bankrupt? 'y' or 'n'&quot;);</span>
+<span class="nc" id="L529">										gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L530">										boolean quit = true;</span>
+<span class="nc bnc" id="L531" title="All 2 branches missed.">										while(quit == true) {</span>
+<span class="nc" id="L532">											waiting = true;</span>
+<span class="nc bnc" id="L533" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L534">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc" id="L536">											String finale = in;</span>
+<span class="nc bnc" id="L537" title="All 3 branches missed.">											switch(finale) {</span>
+												case &quot;y&quot;: 
+<span class="nc bnc" id="L539" title="All 2 branches missed.">													for(int k = 0; k &lt; spaces.length; k++) {</span>
+<span class="nc bnc" id="L540" title="All 2 branches missed.">														if(spaces[k].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L541">															spaces[k].setOwner(bank);</span>
+														}
+													}
+<span class="nc" id="L544">													players.remove(i);</span>
+<span class="nc" id="L545">													i--;</span>
+<span class="nc" id="L546">													bankr = true;</span>
+<span class="nc" id="L547">													debt = false;</span>
+<span class="nc" id="L548">													quit = false;</span>
+<span class="nc" id="L549">													break;</span>
+												case &quot;n&quot;:
+<span class="nc" id="L551">													quit = false;</span>
+<span class="nc" id="L552">													break;</span>
+												default:
+<span class="nc" id="L554">													gui.label.setText(&quot;Invalid option. Please try again. 'y' or 'n'&quot;);</span>
+<span class="nc" id="L555">													gui.textField.setText(&quot;&quot;);</span>
+											}
+										}
+<span class="nc" id="L558">										break;</span>
+									default:
+<span class="nc" id="L560">										gui.label.setText(&quot;Invalid option. Please try again.&quot;);</span>
+<span class="nc" id="L561">										gui.textField.setText(&quot;&quot;);</span>
+								}
+							}
+<span class="nc bnc" id="L564" title="All 2 branches missed.">							if(bankr == false) {</span>
+<span class="nc" id="L565">								gui.label.setText(&quot;Fine paid. You are free to go.&quot;);</span>
+<span class="nc" id="L566">								TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L567">								players.get(i).money -= 50;</span>
+<span class="nc" id="L568">								gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L569">								players.get(i).jailTime = 0;</span>
+<span class="nc" id="L570">								players.get(i).setJail(false);</span>
+							}
+						}
+					}
+<span class="nc" id="L574">					gui.label.setText(&quot;In jail. Turn skipped.&quot;);</span>
+<span class="nc" id="L575">					TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L576">					continue;</span>
+<span class="nc bnc" id="L577" title="All 4 branches missed.">				}else if(players.get(i).inJail == true &amp;&amp; doubles == true) {</span>
+<span class="nc" id="L578">					gui.label.setText(&quot;Freed from jail!.&quot;);</span>
+<span class="nc" id="L579">					TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L580">					players.get(i).setJail(false);</span>
+				}
+<span class="nc bnc" id="L582" title="All 2 branches missed.">				if(bankr = true) {</span>
+<span class="nc" id="L583">					continue;</span>
+				}
+				
+				//Adding houses
+<span class="nc" id="L587">				gui.label.setText(&quot;Would you like to add any houses to any properties? 'y'  for yes or 'n' for no&quot;);</span>
+				while(true) {	
+<span class="nc" id="L589">					waiting = true;</span>
+<span class="nc bnc" id="L590" title="All 2 branches missed.">					while(waiting) {</span>
+<span class="nc" id="L591">						TimeUnit.SECONDS.sleep(1);</span>
+					}
+<span class="nc" id="L593">					String hous = in;</span>
+<span class="nc bnc" id="L594" title="All 3 branches missed.">					switch(hous) {</span>
+						case &quot;y&quot;:
+<span class="nc" id="L596">							ArrayList&lt;BoardSpot&gt; ownerr = new ArrayList&lt;BoardSpot&gt;();</span>
+							//displays properties
+<span class="nc" id="L598">							String ss = &quot;&quot;;</span>
+<span class="nc bnc" id="L599" title="All 2 branches missed.">							for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L600" title="All 4 branches missed.">								if(spaces[q].getOwner() == players.get(i) &amp;&amp; spaces[q].getType() == &quot;property&quot;) {</span>
+<span class="nc" id="L601">									ownerr.add(spaces[q]);</span>
+<span class="nc" id="L602">									ss += &quot;  &quot; + spaces[q].getName();</span>
+								}
+							}
+
+<span class="nc" id="L606">							gui.label.setText(&quot;Select the property you would like to add a house or hotel to or type 'done' to continue. &quot; + ss);</span>
+<span class="nc" id="L607">							while(true) {</span>
+<span class="nc" id="L608">								gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L609">								waiting = true;</span>
+<span class="nc bnc" id="L610" title="All 2 branches missed.">								while(waiting) {</span>
+<span class="nc" id="L611">									TimeUnit.SECONDS.sleep(1);</span>
+								}
+<span class="nc" id="L613">								String hp = in;</span>
+<span class="nc bnc" id="L614" title="All 2 branches missed.">								if(hp == &quot;done&quot;) {</span>
+<span class="nc" id="L615">									break;</span>
+								}
+<span class="nc bnc" id="L617" title="All 2 branches missed.">								for(int u = 0; u &lt; spaces.length; u++) {</span>
+<span class="nc bnc" id="L618" title="All 2 branches missed.">									if(ownerr.get(findInd(ownerr, hp)).equals(spaces[u])){</span>
+<span class="nc" id="L619">										buyHouse(spaces[u], houses, hotels);</span>
+<span class="nc" id="L620">										gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L621">										break;</span>
+<span class="nc bnc" id="L622" title="All 2 branches missed.">									}else if(u == spaces.length - 1) {</span>
+<span class="nc" id="L623">										gui.label.setText(&quot;Invalid entry. Please try again.&quot;);</span>
+									}
+								}
+							}
+							break;
+						case &quot;n&quot;:
+							break;
+						default:
+<span class="nc" id="L631">							gui.label.setText(&quot;Invalid option. Please try again.&quot; + &quot; Would you like to add any houses to any properties? 'y'  for yes or 'n' for no&quot;);</span>
+					}
+					break;
+				}
+<span class="nc" id="L635">				players.get(i).movement(move);</span>
+<span class="nc" id="L636">				gui.label.setText(&quot;Player moving...&quot;);</span>
+<span class="nc" id="L637">				TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L638">				String type = spaces[players.get(i).location].getType();</span>
+<span class="nc bnc" id="L639" title="All 6 branches missed.">				switch(type) {</span>
+					case &quot;property&quot;:
+<span class="nc bnc" id="L641" title="All 2 branches missed.">						if(spaces[players.get(i).location].isMortaged() == true) {</span>
+<span class="nc" id="L642">							gui.label.setText(&quot;Property mortgaged. No need to pay rent. Continuing...&quot;);</span>
+<span class="nc" id="L643">							TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L644">							break;</span>
+						}
+<span class="nc bnc" id="L646" title="All 4 branches missed.">						if(spaces[players.get(i).location].getOwner() != bank || spaces[players.get(i).location].getOwner() != NA) {</span>
+<span class="nc" id="L647">							int nuHou = spaces[players.get(i).location].getNumHouse();</span>
+<span class="nc" id="L648">							int price = 0;</span>
+<span class="nc bnc" id="L649" title="All 7 branches missed.">							switch (nuHou){</span>
+								case 0:
+<span class="nc" id="L651">									price = spaces[players.get(i).location].getHouse0();</span>
+<span class="nc" id="L652">									break;</span>
+								case 1:
+<span class="nc" id="L654">									price = spaces[players.get(i).location].getHouse1();</span>
+<span class="nc" id="L655">									break;</span>
+								case 2:
+<span class="nc" id="L657">									price = spaces[players.get(i).location].getHouse2();</span>
+<span class="nc" id="L658">									break;</span>
+								case 3:
+<span class="nc" id="L660">									price = spaces[players.get(i).location].getHouse3();</span>
+<span class="nc" id="L661">									break;</span>
+								case 4:
+<span class="nc" id="L663">									price = spaces[players.get(i).location].getHouse4();</span>
+<span class="nc" id="L664">									break;</span>
+								case 5:
+<span class="nc" id="L666">									price = spaces[players.get(i).location].getHotel();</span>
+									break;
+							}
+<span class="nc bnc" id="L669" title="All 4 branches missed.">							if(players.get(i).money - price &lt; 0 &amp;&amp; players.get(i).isAI() == true) {</span>
+<span class="nc" id="L670">								ArrayList&lt;BoardSpot&gt; o = new ArrayList&lt;BoardSpot&gt;();</span>
+<span class="nc bnc" id="L671" title="All 2 branches missed.">								for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L672" title="All 8 branches missed.">									if(spaces[q].getOwner() == players.get(i) &amp;&amp; (spaces[q].getType() == &quot;property&quot; || spaces[q].getType() == &quot;utilities&quot; || spaces[q].getType() == &quot;railroad&quot;)) {</span>
+<span class="nc" id="L673">										o.add(spaces[q]);</span>
+									}
+								}
+<span class="nc bnc" id="L676" title="All 2 branches missed.">								if(o.size() == 0) {</span>
+<span class="nc" id="L677">									players.remove(i);</span>
+<span class="nc" id="L678">									gui.label.setText(&quot;AI has declared bankrupt&quot;);</span>
+<span class="nc" id="L679">									TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L680">									i--;</span>
+<span class="nc" id="L681">									continue;</span>
+								}else {
+<span class="nc bnc" id="L683" title="All 4 branches missed.">									while(players.get(i).money - price &lt; 0 &amp;&amp; o.size() != 0) {</span>
+<span class="nc" id="L684">										sellBank(players.get(i), bank, o.get(0));</span>
+<span class="nc" id="L685">										gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L686">										o.remove(0);</span>
+									}
+<span class="nc bnc" id="L688" title="All 2 branches missed.">									if(o.size() == 0) {</span>
+<span class="nc" id="L689">										players.remove(i);</span>
+<span class="nc" id="L690">										gui.label.setText(&quot;AI has declared bankrupt&quot;);</span>
+<span class="nc" id="L691">										TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L692">										i--;</span>
+<span class="nc" id="L693">										continue;</span>
+									}else {
+<span class="nc" id="L695">										players.get(i).money -= price;</span>
+<span class="nc" id="L696">										gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+										
+									}
+								}
+								
+<span class="nc bnc" id="L701" title="All 4 branches missed.">							}else if(players.get(i).money - price &lt; 0 &amp;&amp; players.get(i).isAI() == false) {</span>
+								
+<span class="nc" id="L703">								boolean debt = true;</span>
+<span class="nc bnc" id="L704" title="All 2 branches missed.">								while(debt) {</span>
+<span class="nc" id="L705">									String dec = in;</span>
+<span class="nc" id="L706">									gui.label.setText(&quot;You need &quot; + ((players.get(i).money - price) * -1) + &quot; to pay rent. Sell houses, properties, mortage, or declare bankrupt. /n'house', 'prop', 'mort', 'bankrupt'&quot;);</span>
+<span class="nc" id="L707">									gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L708">									waiting = true;</span>
+<span class="nc bnc" id="L709" title="All 2 branches missed.">									while(waiting) {</span>
+<span class="nc" id="L710">										TimeUnit.SECONDS.sleep(1);</span>
+									}
+<span class="nc bnc" id="L712" title="All 5 branches missed.">									switch(dec){</span>
+										case &quot;house&quot;:
+<span class="nc" id="L714">											gui.label.setText(&quot;Select the property of the house you'd like to sell or type 'cancel' to cancel&quot;);</span>
+<span class="nc" id="L715">											ArrayList&lt;BoardSpot&gt; owne = new ArrayList&lt;BoardSpot&gt;();</span>
+											//displays properties
+											
+<span class="nc" id="L718">											String ppppp = &quot;&quot;;</span>
+<span class="nc bnc" id="L719" title="All 2 branches missed.">											for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L720" title="All 4 branches missed.">												if(spaces[q].getOwner() == players.get(i) &amp;&amp; spaces[q].getType() == &quot;property&quot;) {</span>
+<span class="nc" id="L721">													owne.add(spaces[q]);</span>
+<span class="nc" id="L722">													ppppp += spaces[q] + &quot;  &quot;;</span>
+												}
+											}
+<span class="nc" id="L725">											gui.label.setText(&quot;  &quot; + ppppp);</span>
+<span class="nc" id="L726">											gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L727">											gui.label.setText(&quot;Select the property of the house you'd like to sell or type 'cancel' to cancel: /n&quot; + ppppp);</span>
+											
+<span class="nc" id="L729">											boolean con = false;</span>
+
+<span class="nc" id="L731">											boolean can = false;</span>
+<span class="nc bnc" id="L732" title="All 2 branches missed.">											while(can == false) {</span>
+<span class="nc" id="L733">												String pr = in.trim();</span>
+												
+<span class="nc bnc" id="L735" title="All 2 branches missed.">												for(int y = 0; y &lt; owne.size(); y++) {</span>
+<span class="nc bnc" id="L736" title="All 2 branches missed.">													if(pr == &quot;cancel&quot;) {</span>
+<span class="nc" id="L737">														can = true;</span>
+<span class="nc" id="L738">														break;</span>
+													}
+<span class="nc bnc" id="L740" title="All 2 branches missed.">													if(owne.get(y).getName() == pr) {</span>
+<span class="nc" id="L741">														con = true;</span>
+<span class="nc" id="L742">														break;</span>
+<span class="nc bnc" id="L743" title="All 2 branches missed.">													}else if(y == owne.size() -1) {</span>
+<span class="nc" id="L744">														gui.label.setText(&quot;Invalid choice. Please select another. Select the property you'd like to mortage or type 'cancel' to cancel&quot;);</span>
+													}
+												}
+<span class="nc bnc" id="L747" title="All 2 branches missed.">												if(con == true) {</span>
+<span class="nc" id="L748">													int hopr = owne.get(findInd(owne, pr)).getHouseHotelPrice();</span>
+<span class="nc bnc" id="L749" title="All 2 branches missed.">													for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L750" title="All 2 branches missed.">														if(owne.get(findInd(owne, pr)).equals(spaces[h])) {</span>
+<span class="nc" id="L751">															spaces[h].setNumHouse(spaces[h].getNumHouse()-1);</span>
+<span class="nc" id="L752">															houses++;</span>
+<span class="nc" id="L753">															spaces[h].getOwner().money += hopr;</span>
+<span class="nc" id="L754">															gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L755">															break;</span>
+														}
+													}
+<span class="nc bnc" id="L758" title="All 2 branches missed.">													if(players.get(i).money - price &gt;= 0) {</span>
+<span class="nc" id="L759">														can = true;</span>
+<span class="nc" id="L760">														debt = false;</span>
+													}
+												}
+											}
+<span class="nc" id="L764">											break;</span>
+										case &quot;prop&quot;:
+<span class="nc" id="L766">											ArrayList&lt;BoardSpot&gt; owned = new ArrayList&lt;BoardSpot&gt;();</span>
+											//displays properties
+<span class="nc" id="L768">											String hhh = &quot;&quot;;</span>
+<span class="nc bnc" id="L769" title="All 2 branches missed.">											for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L770" title="All 2 branches missed.">												if(spaces[q].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L771">													owned.add(spaces[q]);</span>
+<span class="nc" id="L772">													hhh += &quot;  &quot; + spaces[q].getName();</span>
+												}
+											}
+<span class="nc" id="L775">											gui.label.setText(&quot;Select the property you'd like to sell or type 'cancel' to cancel. &quot; + hhh);</span>
+<span class="nc" id="L776">											boolean cont = false;</span>
+
+<span class="nc" id="L778">											boolean cant = false;</span>
+<span class="nc bnc" id="L779" title="All 2 branches missed.">											while(cant == false) {</span>
+<span class="nc" id="L780">												gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L781">												waiting = true;</span>
+<span class="nc bnc" id="L782" title="All 2 branches missed.">												while(waiting) {</span>
+<span class="nc" id="L783">													TimeUnit.SECONDS.sleep(1);</span>
+												}
+<span class="nc" id="L785">												String pri = in.trim();</span>
+<span class="nc bnc" id="L786" title="All 2 branches missed.">												for(int y = 0; y &lt; owned.size(); y++) {</span>
+<span class="nc bnc" id="L787" title="All 2 branches missed.">													if(pri == &quot;cancel&quot;) {</span>
+<span class="nc" id="L788">														can = true;</span>
+<span class="nc" id="L789">														break;</span>
+													}
+<span class="nc bnc" id="L791" title="All 2 branches missed.">													if(owned.get(y).getName() == pri) {</span>
+<span class="nc" id="L792">														cont = true;</span>
+<span class="nc" id="L793">														break;</span>
+<span class="nc bnc" id="L794" title="All 2 branches missed.">													}else if(y == owned.size() -1) {</span>
+<span class="nc" id="L795">														gui.label.setText(&quot;Invalid choice. Please select another. Select the property you'd like to mortage or type 'cancel' to cancel&quot;);</span>
+													}
+												
+												}
+<span class="nc bnc" id="L799" title="All 2 branches missed.">												if(cont == true) {</span>
+<span class="nc" id="L800">													int hope = owned.get(findInd(owned, pri)).getCost();</span>
+<span class="nc bnc" id="L801" title="All 2 branches missed.">													for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L802" title="All 2 branches missed.">														if(owned.get(findInd(owned, pri)).equals(spaces[h])) {</span>
+<span class="nc" id="L803">															spaces[h].setOwner(bank);</span>
+<span class="nc" id="L804">															spaces[h].getOwner().money += hope;</span>
+<span class="nc" id="L805">															gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L806">															break;</span>
+														}
+													}
+<span class="nc bnc" id="L809" title="All 2 branches missed.">													if(players.get(i).money - price &gt;= 0) {</span>
+<span class="nc" id="L810">														cant = true;</span>
+<span class="nc" id="L811">														debt = false;</span>
+													}
+												}
+											}
+<span class="nc" id="L815">											break;</span>
+										case &quot;mort&quot;:
+											//displays properties
+<span class="nc" id="L818">											ArrayList&lt;BoardSpot&gt; ownedq = new ArrayList&lt;BoardSpot&gt;();</span>
+<span class="nc" id="L819">											String pppppp = &quot;&quot;;</span>
+<span class="nc bnc" id="L820" title="All 2 branches missed.">											for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L821" title="All 4 branches missed.">												if(spaces[q].getOwner() == players.get(i) &amp;&amp; spaces[q].getType() == &quot;property&quot;) {</span>
+<span class="nc" id="L822">													ownedq.add(spaces[q]);</span>
+<span class="nc" id="L823">													pppppp += spaces[q] + &quot;  &quot;;</span>
+												}
+											}
+<span class="nc" id="L826">											gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L827">											gui.label.setText(&quot;Select the property of the house you'd like to mortgage or type 'cancel' to cancel: /n&quot; + pppppp);</span>
+											
+<span class="nc" id="L829">											boolean conq = false;</span>
+
+<span class="nc" id="L831">											boolean canq = false;</span>
+<span class="nc bnc" id="L832" title="All 2 branches missed.">											while(canq == false) {</span>
+<span class="nc" id="L833">												gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L834">												waiting = true;</span>
+<span class="nc bnc" id="L835" title="All 2 branches missed.">												while(waiting) {</span>
+<span class="nc" id="L836">													TimeUnit.SECONDS.sleep(1);</span>
+												}
+<span class="nc" id="L838">												String priq = in.trim();</span>
+<span class="nc bnc" id="L839" title="All 2 branches missed.">												for(int y = 0; y &lt; ownedq.size(); y++) {</span>
+<span class="nc bnc" id="L840" title="All 2 branches missed.">													if(priq == &quot;cancel&quot;) {</span>
+<span class="nc" id="L841">														canq = true;</span>
+<span class="nc" id="L842">														break;</span>
+													}
+<span class="nc bnc" id="L844" title="All 2 branches missed.">													if(ownedq.get(y).getName() == priq) {</span>
+<span class="nc" id="L845">														conq = true;</span>
+<span class="nc" id="L846">														break;</span>
+<span class="nc bnc" id="L847" title="All 2 branches missed.">													}else if(y == ownedq.size() -1) {</span>
+<span class="nc" id="L848">														gui.label.setText(&quot;Invalid choice. Please select another. Select the property you'd like to mortage or type 'cancel' to cancel&quot;);</span>
+													}
+												
+												}
+<span class="nc bnc" id="L852" title="All 2 branches missed.">												if(conq == true) {</span>
+<span class="nc" id="L853">													int hopeq = ownedq.get(findInd(ownedq, priq)).getCost()/2;</span>
+<span class="nc bnc" id="L854" title="All 2 branches missed.">													for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L855" title="All 2 branches missed.">														if(ownedq.get(findInd(ownedq, priq)).equals(spaces[h])) {</span>
+<span class="nc" id="L856">															spaces[h].setMortT();</span>
+<span class="nc" id="L857">															spaces[h].getOwner().money += hopeq;</span>
+<span class="nc" id="L858">															gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L859">															break;</span>
+														}
+													}
+<span class="nc bnc" id="L862" title="All 2 branches missed.">													if(players.get(i).money - price &gt;= 0) {</span>
+<span class="nc" id="L863">														cant = true;</span>
+<span class="nc" id="L864">														debt = false;</span>
+													}
+												}
+											}
+<span class="nc" id="L868">											break;</span>
+										case &quot;bankrupt&quot;:
+<span class="nc" id="L870">											gui.label.setText(&quot;Are you sure you would like to declare bankrupt? 'y' or 'n'&quot;);</span>
+<span class="nc" id="L871">											boolean quit = true;</span>
+<span class="nc bnc" id="L872" title="All 2 branches missed.">											while(quit == true) {</span>
+<span class="nc" id="L873">												gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L874">												waiting = true;</span>
+<span class="nc bnc" id="L875" title="All 2 branches missed.">												while(waiting) {</span>
+<span class="nc" id="L876">													TimeUnit.SECONDS.sleep(1);</span>
+												}
+<span class="nc" id="L878">												String finale = in;</span>
+<span class="nc bnc" id="L879" title="All 3 branches missed.">												switch(finale) {</span>
+													case &quot;y&quot;: 
+<span class="nc bnc" id="L881" title="All 2 branches missed.">														for(int k = 0; k &lt; spaces.length; k++) {</span>
+<span class="nc bnc" id="L882" title="All 2 branches missed.">															if(spaces[k].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L883">																spaces[k].setOwner(bank);</span>
+															}
+														}
+<span class="nc" id="L886">														players.remove(i);</span>
+<span class="nc" id="L887">														i--;</span>
+<span class="nc" id="L888">														quit = false;</span>
+<span class="nc" id="L889">														debt = false;</span>
+<span class="nc" id="L890">														bankr = true;</span>
+<span class="nc" id="L891">														break;</span>
+													case &quot;n&quot;:
+<span class="nc" id="L893">														quit = false;</span>
+<span class="nc" id="L894">														break;</span>
+													default:
+<span class="nc" id="L896">														gui.label.setText(&quot;Invalid option. Please try again.&quot;);</span>
+												}
+											}
+<span class="nc" id="L899">											break;</span>
+										default:
+<span class="nc" id="L901">											gui.label.setText(&quot;Invalid option. Please try again.&quot;);</span>
+									}
+								}
+							}
+<span class="nc bnc" id="L905" title="All 2 branches missed.">							if(bankr == false) {</span>
+<span class="nc" id="L906">								gui.label.setText(&quot;Property owned. Paying rent...&quot;);</span>
+<span class="nc" id="L907">								TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L908">								rent(players.get(i), spaces[players.get(i).location]);</span>
+<span class="nc" id="L909">								gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+							}
+<span class="nc bnc" id="L911" title="All 4 branches missed.">						}else if(spaces[players.get(i).location].getOwner() == bank || spaces[players.get(i).location].getOwner() != NA){</span>
+<span class="nc bnc" id="L912" title="All 4 branches missed.">							if(players.get(i).isAI() || players.get(i).money &gt; spaces[players.get(i).location].getCost()) {</span>
+<span class="nc" id="L913">								gui.label.setText(&quot;AI &quot; + players.get(i).getNum() + &quot; purchased &quot; + spaces[players.get(i).location].getName());</span>
+<span class="nc" id="L914">								TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L915">								buy(players.get(i), spaces[players.get(i).location]);</span>
+<span class="nc" id="L916">								gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc bnc" id="L917" title="All 2 branches missed.">							}else if(!(players.get(i).isAI())){</span>
+<span class="nc bnc" id="L918" title="All 2 branches missed.">								if(players.get(i).money &gt; spaces[players.get(i).location].getCost()) {</span>
+<span class="nc" id="L919">									gui.label.setText(&quot;Player &quot; + players.get(i).getNum() + &quot;has landed on &quot; + spaces[players.get(i).location].getName() + &quot;Would you like to purchase this property? Enter 'y' for yes or 'n' for no. You currently have $&quot; + players.get(i).money);</span>
+<span class="nc" id="L920">									TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L921">									boolean buying = true;</span>
+<span class="nc bnc" id="L922" title="All 2 branches missed.">									while(buying) {</span>
+<span class="nc" id="L923">										gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L924">										waiting = true;</span>
+<span class="nc bnc" id="L925" title="All 2 branches missed.">										while(waiting) {</span>
+<span class="nc" id="L926">											TimeUnit.SECONDS.sleep(1);</span>
+										}
+<span class="nc" id="L928">										String pur = in;</span>
+<span class="nc bnc" id="L929" title="All 3 branches missed.">										switch(pur) {</span>
+											case &quot;y&quot;:
+<span class="nc" id="L931">												buy(players.get(i), spaces[players.get(i).location]);</span>
+<span class="nc" id="L932">												gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L933">												gui.label.setText(&quot;Player &quot; + players.get(i).getNum() + &quot; purchased &quot; + spaces[players.get(i).location].getName() + &quot;and has $&quot; + players.get(i).money + &quot; remaining.&quot;);</span>
+<span class="nc" id="L934">												TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L935">												buying = false;</span>
+<span class="nc" id="L936">												break;</span>
+											case &quot;n&quot;: 
+<span class="nc" id="L938">												gui.label.setText(&quot;Purchase declined.&quot;);</span>
+<span class="nc" id="L939">												TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L940">												buying = false;</span>
+<span class="nc" id="L941">												break;</span>
+											default:
+<span class="nc" id="L943">												gui.label.setText(&quot;Invalid option. Please enter either 'y' for yes or 'n' for no.&quot;);</span>
+										}
+									}
+<span class="nc" id="L946">								}else {</span>
+<span class="nc" id="L947">									gui.label.setText(&quot;Player &quot; + players.get(i).getNum() + &quot;, you don't have enough money to purchase this property...&quot;);</span>
+								}
+							}
+						}
+<span class="nc" id="L951">						break;</span>
+					case &quot;railroad&quot;: 
+<span class="nc bnc" id="L953" title="All 2 branches missed.">						if(spaces[players.get(i).location].isMortaged() == true) {</span>
+<span class="nc" id="L954">						gui.label.setText(&quot;Property mortgaged. No need to pay rent. Continuing...&quot;);</span>
+<span class="nc" id="L955">						TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L956">						break;</span>
+					}
+<span class="nc bnc" id="L958" title="All 6 branches missed.">						if(spaces[players.get(i).location].getOwner() != bank || spaces[players.get(i).location].getOwner() != NA &amp;&amp; players.get(i).isAI() == false) {</span>
+<span class="nc" id="L959">							int price = 0;</span>
+<span class="nc" id="L960">							ArrayList&lt;BoardSpot&gt; rrs = new ArrayList&lt;BoardSpot&gt;();</span>
+<span class="nc bnc" id="L961" title="All 2 branches missed.">							for(int p = 0; p &lt; spaces.length; p++) {</span>
+<span class="nc bnc" id="L962" title="All 2 branches missed.">								if(spaces[p].getType() == &quot;railroad&quot;) {</span>
+<span class="nc" id="L963">									rrs.add(spaces[p]);</span>
+								}
+							}
+<span class="nc" id="L966">							int numOfRRs = 0;</span>
+							
+<span class="nc" id="L968">							Player o = spaces[players.get(i).location].getOwner();</span>
+							
+<span class="nc bnc" id="L970" title="All 2 branches missed.">							for(int p = 0; p &lt; rrs.size(); p++) {</span>
+<span class="nc bnc" id="L971" title="All 2 branches missed.">								if(o == rrs.get(p).getOwner()) {</span>
+<span class="nc" id="L972">									numOfRRs++;</span>
+								}
+							}
+							
+<span class="nc bnc" id="L976" title="All 5 branches missed.">							switch(numOfRRs) {</span>
+								case 1:
+<span class="nc" id="L978">									price = 25;</span>
+<span class="nc" id="L979">									break;</span>
+								case 2:
+<span class="nc" id="L981">									price = 50;</span>
+<span class="nc" id="L982">									break;</span>
+								case 3:
+<span class="nc" id="L984">									price = 100;</span>
+<span class="nc" id="L985">									break;</span>
+								case 4:
+<span class="nc" id="L987">									price = 200;</span>
+									break;
+							}
+							
+							
+<span class="nc bnc" id="L992" title="All 4 branches missed.">							if(players.get(i).money - price &lt; 0 &amp;&amp; players.get(i).isAI() == false) {</span>
+<span class="nc" id="L993">								gui.label.setText(&quot;You need &quot; + ((players.get(i).money - price) * -1) + &quot; to pay rent. Sell houses, properties, mortage, or declare bankrupt. /n'house', 'mort', 'prop', 'bankrupt'&quot;);</span>
+<span class="nc" id="L994">								boolean debt = true;</span>
+<span class="nc bnc" id="L995" title="All 2 branches missed.">								while(debt) {</span>
+<span class="nc" id="L996">									gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L997">									waiting = true;</span>
+<span class="nc bnc" id="L998" title="All 2 branches missed.">									while(waiting) {</span>
+<span class="nc" id="L999">										TimeUnit.SECONDS.sleep(1);</span>
+									}
+<span class="nc" id="L1001">									String dec = in;</span>
+<span class="nc bnc" id="L1002" title="All 5 branches missed.">									switch(dec){</span>
+										case &quot;house&quot;:
+											
+<span class="nc" id="L1005">											ArrayList&lt;BoardSpot&gt; owne = new ArrayList&lt;BoardSpot&gt;();</span>
+											//displays properties
+<span class="nc" id="L1007">											String lll = &quot;&quot;;</span>
+<span class="nc bnc" id="L1008" title="All 2 branches missed.">											for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1009" title="All 2 branches missed.">												if(spaces[players.get(i).location].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L1010">													owne.add(spaces[q]);</span>
+<span class="nc" id="L1011">													lll += &quot;  &quot; + spaces[q].getName();</span>
+												}
+											}
+<span class="nc" id="L1014">											gui.label.setText(&quot;Select the property of the house you'd like to sell or type 'cancel' to cancel: &quot; + lll);</span>
+<span class="nc" id="L1015">											boolean con = false;</span>
+<span class="nc" id="L1016">											boolean can = false;</span>
+<span class="nc bnc" id="L1017" title="All 2 branches missed.">											while(can == false) {</span>
+<span class="nc" id="L1018">												String pr = in.trim();</span>
+												
+<span class="nc bnc" id="L1020" title="All 2 branches missed.">												for(int y = 0; y &lt; owne.size(); y++) {</span>
+<span class="nc bnc" id="L1021" title="All 2 branches missed.">													if(pr == &quot;cancel&quot;) {</span>
+<span class="nc" id="L1022">														can = true;</span>
+<span class="nc" id="L1023">														break;</span>
+													}
+<span class="nc bnc" id="L1025" title="All 2 branches missed.">													if(owne.get(y).getName() == pr) {</span>
+<span class="nc" id="L1026">														con = true;</span>
+<span class="nc" id="L1027">														break;</span>
+<span class="nc bnc" id="L1028" title="All 2 branches missed.">													}else if(y == owne.size() -1) {</span>
+<span class="nc" id="L1029">														gui.label.setText(&quot;Invalid choice. Please select another or type 'cancel'.&quot;);</span>
+													}
+												}
+<span class="nc bnc" id="L1032" title="All 2 branches missed.">												if(con == true) {</span>
+<span class="nc" id="L1033">													int hopr = owne.get(findInd(owne, pr)).getHouseHotelPrice();</span>
+<span class="nc bnc" id="L1034" title="All 2 branches missed.">													for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L1035" title="All 2 branches missed.">														if(owne.get(findInd(owne, pr)).equals(spaces[h])) {</span>
+<span class="nc" id="L1036">															spaces[h].setNumHouse(spaces[h].getNumHouse()-1);</span>
+<span class="nc" id="L1037">															houses++;</span>
+<span class="nc" id="L1038">															spaces[h].getOwner().money += hopr;</span>
+<span class="nc" id="L1039">															gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1040">															break;</span>
+														}
+													}
+<span class="nc bnc" id="L1043" title="All 2 branches missed.">													if(players.get(i).money - price &gt;= 0) {</span>
+<span class="nc" id="L1044">														can = true;</span>
+<span class="nc" id="L1045">														debt = false;</span>
+													}
+												}
+											}
+<span class="nc" id="L1049">											break;</span>
+										case &quot;prop&quot;:
+<span class="nc" id="L1051">											gui.label.setText(&quot;Select the property you'd like to sell or type 'cancel' to cancel&quot;);</span>
+<span class="nc" id="L1052">											ArrayList&lt;BoardSpot&gt; owned = new ArrayList&lt;BoardSpot&gt;();</span>
+											//displays properties
+<span class="nc bnc" id="L1054" title="All 2 branches missed.">											for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1055" title="All 2 branches missed.">												if(spaces[players.get(i).location].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L1056">													owned.add(spaces[q]);</span>
+<span class="nc" id="L1057">													gui.label.setText(&quot;  &quot; + spaces[q].getName());</span>
+												}
+											}
+<span class="nc" id="L1060">											boolean cont = false;</span>
+
+<span class="nc" id="L1062">											boolean cant = false;</span>
+<span class="nc bnc" id="L1063" title="All 2 branches missed.">											while(cant == false) {</span>
+<span class="nc" id="L1064">												gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1065">												waiting = true;</span>
+<span class="nc bnc" id="L1066" title="All 2 branches missed.">												while(waiting) {</span>
+<span class="nc" id="L1067">													TimeUnit.SECONDS.sleep(1);</span>
+												}
+<span class="nc" id="L1069">												String pri = in.trim();</span>
+<span class="nc bnc" id="L1070" title="All 2 branches missed.">												for(int y = 0; y &lt; owned.size(); y++) {</span>
+<span class="nc bnc" id="L1071" title="All 2 branches missed.">													if(pri == &quot;cancel&quot;) {</span>
+<span class="nc" id="L1072">														can = true;</span>
+<span class="nc" id="L1073">														break;</span>
+													}
+<span class="nc bnc" id="L1075" title="All 2 branches missed.">													if(owned.get(y).getName() == pri) {</span>
+<span class="nc" id="L1076">														cont = true;</span>
+<span class="nc" id="L1077">														break;</span>
+<span class="nc bnc" id="L1078" title="All 2 branches missed.">													}else if(y == owned.size() -1) {</span>
+<span class="nc" id="L1079">														gui.label.setText(&quot;Invalid choice. Please select another&quot;);</span>
+													}
+												
+												}
+<span class="nc bnc" id="L1083" title="All 2 branches missed.">												if(cont == true) {</span>
+<span class="nc" id="L1084">													int hope = owned.get(findInd(owned, pri)).getCost();</span>
+<span class="nc bnc" id="L1085" title="All 2 branches missed.">													for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L1086" title="All 2 branches missed.">														if(owned.get(findInd(owned, pri)).equals(spaces[h])) {</span>
+<span class="nc" id="L1087">															spaces[h].setOwner(bank);</span>
+<span class="nc" id="L1088">															spaces[h].getOwner().money += hope;</span>
+<span class="nc" id="L1089">															gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1090">															break;</span>
+														}
+													}
+<span class="nc bnc" id="L1093" title="All 2 branches missed.">													if(players.get(i).money - price &gt;= 0) {</span>
+<span class="nc" id="L1094">														cant = true;</span>
+<span class="nc" id="L1095">														debt = false;</span>
+													}
+												}
+											}
+											
+										case &quot;mort&quot;:
+<span class="nc" id="L1101">											ArrayList&lt;BoardSpot&gt; ownedq = new ArrayList&lt;BoardSpot&gt;();</span>
+											//displays properties
+<span class="nc" id="L1103">											String deedee = &quot;&quot;;</span>
+<span class="nc bnc" id="L1104" title="All 2 branches missed.">											for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1105" title="All 6 branches missed.">												if(spaces[q].getOwner() == players.get(i) &amp;&amp; (spaces[q].getType() == &quot;property&quot; || spaces[q].getType() == &quot;utility&quot;)) {</span>
+<span class="nc" id="L1106">													ownedq.add(spaces[q]);</span>
+<span class="nc" id="L1107">													deedee += &quot;  &quot; + spaces[q].getName();</span>
+												}
+											}
+
+<span class="nc" id="L1111">											gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1112">											gui.label.setText(&quot;Select the property you'd like to mortage or type 'cancel' to cancel. &quot; + deedee);</span>
+											
+<span class="nc" id="L1114">											boolean conq = false;</span>
+
+<span class="nc" id="L1116">											boolean canq = false;</span>
+<span class="nc bnc" id="L1117" title="All 2 branches missed.">											while(canq == false) {</span>
+<span class="nc" id="L1118">												gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1119">												waiting = true;</span>
+<span class="nc bnc" id="L1120" title="All 2 branches missed.">												while(waiting) {</span>
+<span class="nc" id="L1121">													TimeUnit.SECONDS.sleep(1);</span>
+												}
+<span class="nc" id="L1123">												String priq = in.trim();</span>
+<span class="nc bnc" id="L1124" title="All 2 branches missed.">												for(int y = 0; y &lt; ownedq.size(); y++) {</span>
+<span class="nc bnc" id="L1125" title="All 2 branches missed.">													if(priq == &quot;cancel&quot;) {</span>
+<span class="nc" id="L1126">														canq = true;</span>
+<span class="nc" id="L1127">														break;</span>
+													}
+<span class="nc bnc" id="L1129" title="All 2 branches missed.">													if(ownedq.get(y).getName() == priq) {</span>
+<span class="nc" id="L1130">														conq = true;</span>
+<span class="nc" id="L1131">														break;</span>
+<span class="nc bnc" id="L1132" title="All 2 branches missed.">													}else if(y == ownedq.size() -1) {</span>
+<span class="nc" id="L1133">														gui.label.setText(&quot;Invalid choice. Please select another&quot;);</span>
+													}
+												
+												}
+<span class="nc bnc" id="L1137" title="All 2 branches missed.">												if(conq == true) {</span>
+<span class="nc" id="L1138">													int hopeq = ownedq.get(findInd(ownedq, priq)).getCost() / 2;</span>
+<span class="nc bnc" id="L1139" title="All 2 branches missed.">													for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L1140" title="All 2 branches missed.">														if(ownedq.get(findInd(ownedq, priq)).equals(spaces[h])) {</span>
+<span class="nc" id="L1141">															spaces[h].setMortT();</span>
+<span class="nc" id="L1142">															spaces[h].getOwner().money += hopeq;</span>
+<span class="nc" id="L1143">															gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1144">															break;</span>
+														}
+													}
+<span class="nc bnc" id="L1147" title="All 2 branches missed.">													if(players.get(i).money - price &gt;= 0) {</span>
+<span class="nc" id="L1148">														cant = true;</span>
+<span class="nc" id="L1149">														debt = false;</span>
+													}
+												}
+											}
+<span class="nc" id="L1153">											break;</span>
+											
+										case &quot;bankrupt&quot;:
+<span class="nc" id="L1156">											gui.label.setText(&quot;Are you sure you would like to declare bankrupt? 'y' or 'n'&quot;);</span>
+<span class="nc" id="L1157">											boolean quit = true;</span>
+<span class="nc bnc" id="L1158" title="All 2 branches missed.">											while(quit == true) {</span>
+<span class="nc" id="L1159">												gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1160">												waiting = true;</span>
+<span class="nc bnc" id="L1161" title="All 2 branches missed.">												while(waiting) {</span>
+<span class="nc" id="L1162">													TimeUnit.SECONDS.sleep(1);</span>
+												}
+<span class="nc" id="L1164">												String finale = in;</span>
+<span class="nc bnc" id="L1165" title="All 3 branches missed.">												switch(finale) {</span>
+													case &quot;y&quot;: 
+<span class="nc bnc" id="L1167" title="All 2 branches missed.">														for(int k = 0; k &lt; spaces.length; k++) {</span>
+<span class="nc bnc" id="L1168" title="All 2 branches missed.">															if(spaces[k].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L1169">																spaces[k].setOwner(bank);</span>
+															}
+														}
+<span class="nc" id="L1172">														players.remove(i);</span>
+<span class="nc" id="L1173">														i--;</span>
+<span class="nc" id="L1174">														bankr = true;</span>
+<span class="nc" id="L1175">														quit = false;</span>
+<span class="nc" id="L1176">														debt = false;</span>
+<span class="nc" id="L1177">														break;</span>
+													case &quot;n&quot;:
+<span class="nc" id="L1179">														quit = false;</span>
+<span class="nc" id="L1180">														break;</span>
+													default:
+<span class="nc" id="L1182">														gui.label.setText(&quot;Invalid option. Please try again.&quot;);</span>
+												}
+											}
+<span class="nc" id="L1185">											break;</span>
+										default:
+<span class="nc" id="L1187">											gui.label.setText(&quot;Invalid option. Please try again.&quot;);</span>
+									}
+								}
+							}
+<span class="nc bnc" id="L1191" title="All 4 branches missed.">							if(players.get(i).money - price &lt; 0 &amp;&amp; players.get(i).isAI() == true) {</span>
+<span class="nc" id="L1192">								ArrayList&lt;BoardSpot&gt; eww = new ArrayList&lt;BoardSpot&gt;();</span>
+<span class="nc bnc" id="L1193" title="All 2 branches missed.">								for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1194" title="All 4 branches missed.">									if(spaces[q].getOwner() == players.get(i) &amp;&amp; spaces[q].getType() == &quot;property&quot;) {</span>
+<span class="nc" id="L1195">										eww.add(spaces[q]);</span>
+									}
+								}
+<span class="nc bnc" id="L1198" title="All 2 branches missed.">								if(eww.size() == 0) {</span>
+<span class="nc" id="L1199">									players.remove(i);</span>
+<span class="nc" id="L1200">									gui.label.setText(&quot;AI has declared bankrupt&quot;);</span>
+<span class="nc" id="L1201">									TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1202">									i--;</span>
+<span class="nc" id="L1203">									continue;</span>
+								}else {
+<span class="nc bnc" id="L1205" title="All 4 branches missed.">									while(players.get(i).money - price &lt; 0 &amp;&amp; eww.size() != 0) {</span>
+<span class="nc" id="L1206">										sellBank(players.get(i), bank, eww.get(0));</span>
+<span class="nc" id="L1207">										gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1208">										eww.remove(0);</span>
+									}
+<span class="nc bnc" id="L1210" title="All 2 branches missed.">									if(eww.size() == 0) {</span>
+<span class="nc" id="L1211">										players.remove(i);</span>
+<span class="nc" id="L1212">										gui.label.setText(&quot;AI has declared bankrupt&quot;);</span>
+<span class="nc" id="L1213">										TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1214">										i--;</span>
+<span class="nc" id="L1215">										continue;</span>
+									}else {
+<span class="nc" id="L1217">										players.get(i).money -= price;</span>
+<span class="nc" id="L1218">										gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+										
+									}
+								}
+<span class="nc" id="L1222">								break;</span>
+							}
+<span class="nc bnc" id="L1224" title="All 2 branches missed.">							if(bankr == false) {</span>
+<span class="nc" id="L1225">								gui.label.setText(&quot;Railroad owned. Paying rent...&quot;);</span>
+<span class="nc" id="L1226">								TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1227">								players.get(i).money -= price;</span>
+<span class="nc" id="L1228">								gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+							}
+<span class="nc bnc" id="L1230" title="All 4 branches missed.">						}else if(spaces[players.get(i).location].getOwner() == bank || spaces[players.get(i).location].getOwner() != NA){</span>
+<span class="nc bnc" id="L1231" title="All 4 branches missed.">							if(players.get(i).isAI() || players.get(i).money &gt; spaces[players.get(i).location].getCost()) {</span>
+<span class="nc" id="L1232">								gui.label.setText(&quot;AI &quot; + players.get(i).getNum() + &quot; purchased &quot; + spaces[players.get(i).location].getName());</span>
+<span class="nc" id="L1233">								TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1234">								buy(players.get(i), spaces[players.get(i).location]);</span>
+<span class="nc" id="L1235">								gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc bnc" id="L1236" title="All 2 branches missed.">							}else if(!(players.get(i).isAI())){</span>
+<span class="nc bnc" id="L1237" title="All 2 branches missed.">								if(players.get(i).money &gt; spaces[players.get(i).location].getCost()) {</span>
+<span class="nc" id="L1238">									gui.label.setText(&quot;Player &quot; + players.get(i).getNum() + &quot;has landed on &quot; + spaces[players.get(i).location].getName() + &quot;Would you like to purchase this property? Enter 'y' for yes or 'n' for no. You currently have $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1239">									TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1240">									boolean buying = true;</span>
+<span class="nc bnc" id="L1241" title="All 2 branches missed.">									while(buying) {</span>
+<span class="nc" id="L1242">										String pur = in;</span>
+<span class="nc bnc" id="L1243" title="All 3 branches missed.">										switch(pur) {</span>
+											case &quot;y&quot;:
+<span class="nc" id="L1245">												buy(players.get(i), spaces[players.get(i).location]);</span>
+<span class="nc" id="L1246">												gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1247">												gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1248">												gui.label.setText(&quot;Player &quot; + players.get(i).getNum() + &quot; purchased &quot; + spaces[players.get(i).location].getName() + &quot;and has $&quot; + players.get(i).money + &quot; remaining.&quot;);</span>
+<span class="nc" id="L1249">												buying = false;</span>
+<span class="nc" id="L1250">												break;</span>
+											case &quot;n&quot;: 
+<span class="nc" id="L1252">												gui.label.setText(&quot;Purchase declined.&quot;);</span>
+<span class="nc" id="L1253">												TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1254">												buying = false;</span>
+<span class="nc" id="L1255">												break;</span>
+											default:
+<span class="nc" id="L1257">												gui.label.setText(&quot;Invalid option. Please enter either 'y' for yes or 'n' for no.&quot;);</span>
+										}
+									}
+<span class="nc" id="L1260">								}else {</span>
+<span class="nc" id="L1261">									gui.label.setText(&quot;Player &quot; + players.get(i).getNum() + &quot;, you don't have enough money to purchase this property...&quot;);</span>
+<span class="nc" id="L1262">									TimeUnit.SECONDS.sleep(3);</span>
+								}
+							}
+						}
+<span class="nc" id="L1266">						break;</span>
+					case &quot;GoToJail&quot;:
+<span class="nc" id="L1268">						gui.label.setText(&quot;Player &quot; + players.get(i).getNum() + &quot; has been sent to jail.&quot;);</span>
+<span class="nc" id="L1269">						TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1270">						players.get(i).location = 10;</span>
+<span class="nc" id="L1271">						players.get(i).setJail(true);</span>
+<span class="nc" id="L1272">						break;</span>
+					case &quot;utility&quot;:
+<span class="nc bnc" id="L1274" title="All 2 branches missed.">						if(spaces[players.get(i).location].isMortaged() == true) {</span>
+<span class="nc" id="L1275">							gui.label.setText(&quot;Property mortgaged. No need to pay rent. Continuing...&quot;);</span>
+<span class="nc" id="L1276">							TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1277">							break;</span>
+						}
+<span class="nc" id="L1279">						int utilPrice = 0;</span>
+<span class="nc bnc" id="L1280" title="All 2 branches missed.">						if(spaces[11].getOwner() == spaces[27].getOwner()) {</span>
+<span class="nc" id="L1281">							utilPrice = move * 10;</span>
+<span class="nc" id="L1282">						}else {</span>
+<span class="nc" id="L1283">							utilPrice = move * 4;</span>
+						}
+						
+<span class="nc bnc" id="L1286" title="All 2 branches missed.">						if(players.get(i).money - utilPrice &lt; 0) {</span>
+<span class="nc" id="L1287">							gui.label.setText(&quot;You need &quot; + ((players.get(i).money - utilPrice) * -1) + &quot; to pay rent. Sell houses, properties, mortage, or declare bankrupt. /n'house', 'mort', 'prop', 'bankrupt'&quot;);</span>
+<span class="nc" id="L1288">							boolean debt = true;</span>
+<span class="nc bnc" id="L1289" title="All 2 branches missed.">							while(debt) {</span>
+<span class="nc" id="L1290">								gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1291">								waiting = true;</span>
+<span class="nc bnc" id="L1292" title="All 2 branches missed.">								while(waiting) {</span>
+<span class="nc" id="L1293">									TimeUnit.SECONDS.sleep(1);</span>
+								}
+<span class="nc" id="L1295">								String dec = in;</span>
+<span class="nc bnc" id="L1296" title="All 5 branches missed.">								switch(dec){</span>
+									case &quot;house&quot;:
+<span class="nc" id="L1298">										ArrayList&lt;BoardSpot&gt; owne = new ArrayList&lt;BoardSpot&gt;();</span>
+										//displays properties
+<span class="nc" id="L1300">										String rr = &quot;&quot;;</span>
+<span class="nc bnc" id="L1301" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1302" title="All 2 branches missed.">											if(spaces[players.get(i).location].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L1303">												owne.add(spaces[q]);</span>
+<span class="nc" id="L1304">												rr += &quot;  &quot; + spaces[q].getName();</span>
+											}
+										}
+<span class="nc" id="L1307">										gui.label.setText(&quot;Select the property of the house you'd like to sell or type 'cancel' to cancel. &quot; + rr);</span>
+<span class="nc" id="L1308">										boolean con = false;</span>
+<span class="nc" id="L1309">										boolean can = false;</span>
+<span class="nc bnc" id="L1310" title="All 2 branches missed.">										while(can == false) {</span>
+<span class="nc" id="L1311">											gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1312">											waiting = true;</span>
+<span class="nc bnc" id="L1313" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L1314">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc" id="L1316">											String pr = in.trim();</span>
+											
+<span class="nc bnc" id="L1318" title="All 2 branches missed.">											for(int y = 0; y &lt; owne.size(); y++) {</span>
+<span class="nc bnc" id="L1319" title="All 2 branches missed.">												if(pr == &quot;cancel&quot;) {</span>
+<span class="nc" id="L1320">													can = true;</span>
+<span class="nc" id="L1321">													break;</span>
+												}
+<span class="nc bnc" id="L1323" title="All 2 branches missed.">												if(owne.get(y).getName() == pr) {</span>
+<span class="nc" id="L1324">													con = true;</span>
+<span class="nc" id="L1325">													break;</span>
+<span class="nc bnc" id="L1326" title="All 2 branches missed.">												}else if(y == owne.size() -1) {</span>
+<span class="nc" id="L1327">													gui.label.setText(&quot;Invalid choice. Please select another&quot;);</span>
+												}
+											}
+<span class="nc bnc" id="L1330" title="All 2 branches missed.">											if(con == true) {</span>
+<span class="nc" id="L1331">												int hopr = owne.get(findInd(owne, pr)).getHouseHotelPrice();</span>
+<span class="nc bnc" id="L1332" title="All 2 branches missed.">												for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L1333" title="All 2 branches missed.">													if(owne.get(findInd(owne, pr)).equals(spaces[h])) {</span>
+<span class="nc" id="L1334">														spaces[h].setNumHouse(spaces[h].getNumHouse()-1);</span>
+<span class="nc" id="L1335">														houses++;</span>
+<span class="nc" id="L1336">														spaces[h].getOwner().money += hopr;</span>
+<span class="nc" id="L1337">														gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1338">														break;</span>
+													}
+												}
+<span class="nc bnc" id="L1341" title="All 2 branches missed.">												if(players.get(i).money - utilPrice &gt;= 0) {</span>
+<span class="nc" id="L1342">													can = true;</span>
+<span class="nc" id="L1343">													debt = false;</span>
+												}
+											}
+										}
+<span class="nc" id="L1347">										break;</span>
+									case &quot;prop&quot;:
+<span class="nc" id="L1349">										ArrayList&lt;BoardSpot&gt; owned = new ArrayList&lt;BoardSpot&gt;();</span>
+										//displays properties
+<span class="nc" id="L1351">										String dd = &quot;&quot;;</span>
+<span class="nc bnc" id="L1352" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1353" title="All 2 branches missed.">											if(spaces[players.get(i).location].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L1354">												owned.add(spaces[q]);</span>
+<span class="nc" id="L1355">												dd += &quot;  &quot; + spaces[q].getName();</span>
+											}
+										}
+<span class="nc" id="L1358">										gui.label.setText(&quot;Select the property you'd like to sell or type 'cancel' to cancel. &quot; + dd);</span>
+<span class="nc" id="L1359">										boolean cont = false;</span>
+
+<span class="nc" id="L1361">										boolean cant = false;</span>
+<span class="nc bnc" id="L1362" title="All 2 branches missed.">										while(cant == false) {</span>
+<span class="nc" id="L1363">											gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1364">											waiting = true;</span>
+<span class="nc bnc" id="L1365" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L1366">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc" id="L1368">											String pri = in.trim();</span>
+<span class="nc bnc" id="L1369" title="All 2 branches missed.">											for(int y = 0; y &lt; owned.size(); y++) {</span>
+<span class="nc bnc" id="L1370" title="All 2 branches missed.">												if(pri == &quot;cancel&quot;) {</span>
+<span class="nc" id="L1371">													can = true;</span>
+<span class="nc" id="L1372">													break;</span>
+												}
+<span class="nc bnc" id="L1374" title="All 2 branches missed.">												if(owned.get(y).getName() == pri) {</span>
+<span class="nc" id="L1375">													cont = true;</span>
+<span class="nc" id="L1376">													break;</span>
+<span class="nc bnc" id="L1377" title="All 2 branches missed.">												}else if(y == owned.size() -1) {</span>
+<span class="nc" id="L1378">													gui.label.setText(&quot;Invalid choice. Please select another&quot;);</span>
+													continue;
+												}
+											
+											}
+<span class="nc bnc" id="L1383" title="All 2 branches missed.">											if(cont == true) {</span>
+<span class="nc" id="L1384">												int hope = owned.get(findInd(owned, pri)).getCost();</span>
+<span class="nc bnc" id="L1385" title="All 2 branches missed.">												for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L1386" title="All 2 branches missed.">													if(owned.get(findInd(owned, pri)).equals(spaces[h])) {</span>
+<span class="nc" id="L1387">														spaces[h].setOwner(bank);</span>
+<span class="nc" id="L1388">														spaces[h].getOwner().money += hope;</span>
+<span class="nc" id="L1389">														gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1390">														break;</span>
+													}
+												}
+<span class="nc bnc" id="L1393" title="All 2 branches missed.">												if(players.get(i).money - utilPrice &gt;= 0) {</span>
+<span class="nc" id="L1394">													cant = true;</span>
+<span class="nc" id="L1395">													debt = false;</span>
+												}
+											}
+										}
+										
+									case &quot;mort&quot;:
+<span class="nc" id="L1401">										ArrayList&lt;BoardSpot&gt; ownedq = new ArrayList&lt;BoardSpot&gt;();</span>
+										//displays properties
+<span class="nc" id="L1403">										String deedee = &quot;&quot;;</span>
+<span class="nc bnc" id="L1404" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1405" title="All 6 branches missed.">											if(spaces[q].getOwner() == players.get(i) &amp;&amp; (spaces[q].getType() == &quot;property&quot; || spaces[q].getType() == &quot;utility&quot;)) {</span>
+<span class="nc" id="L1406">												ownedq.add(spaces[q]);</span>
+<span class="nc" id="L1407">												deedee += &quot;  &quot; + spaces[q].getName();</span>
+											}
+										}
+<span class="nc" id="L1410">										gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1411">										gui.label.setText(&quot;Select the property you'd like to mortage or type 'cancel' to cancel. &quot; + deedee);</span>
+<span class="nc" id="L1412">										boolean conq = false;</span>
+
+<span class="nc" id="L1414">										boolean canq = false;</span>
+<span class="nc bnc" id="L1415" title="All 2 branches missed.">										while(canq == false) {</span>
+<span class="nc" id="L1416">											gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1417">											waiting = true;</span>
+<span class="nc bnc" id="L1418" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L1419">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc" id="L1421">											String priq = in.trim();</span>
+<span class="nc bnc" id="L1422" title="All 2 branches missed.">											for(int y = 0; y &lt; ownedq.size(); y++) {</span>
+<span class="nc bnc" id="L1423" title="All 2 branches missed.">												if(priq == &quot;cancel&quot;) {</span>
+<span class="nc" id="L1424">													canq = true;</span>
+<span class="nc" id="L1425">													break;</span>
+												}
+<span class="nc bnc" id="L1427" title="All 2 branches missed.">												if(ownedq.get(y).getName() == priq) {</span>
+<span class="nc" id="L1428">													conq = true;</span>
+<span class="nc" id="L1429">													break;</span>
+<span class="nc bnc" id="L1430" title="All 2 branches missed.">												}else if(y == ownedq.size() -1) {</span>
+<span class="nc" id="L1431">													gui.label.setText(&quot;Invalid choice. Please select another&quot;);</span>
+													continue;
+												}
+											
+											}
+<span class="nc bnc" id="L1436" title="All 2 branches missed.">											if(conq == true) {</span>
+<span class="nc" id="L1437">												int hopeq = ownedq.get(findInd(ownedq, priq)).getCost() / 2;</span>
+<span class="nc bnc" id="L1438" title="All 2 branches missed.">												for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L1439" title="All 2 branches missed.">													if(ownedq.get(findInd(ownedq, priq)).equals(spaces[h])) {</span>
+<span class="nc" id="L1440">														spaces[h].setMortT();</span>
+<span class="nc" id="L1441">														spaces[h].getOwner().money += hopeq;</span>
+<span class="nc" id="L1442">														gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1443">														break;</span>
+													}
+												}
+<span class="nc bnc" id="L1446" title="All 2 branches missed.">												if(players.get(i).money - utilPrice &gt;= 0) {</span>
+<span class="nc" id="L1447">													cant = true;</span>
+<span class="nc" id="L1448">													debt = false;</span>
+												}
+											}
+										}
+<span class="nc" id="L1452">										break;</span>
+										
+									case &quot;bankrupt&quot;:
+<span class="nc" id="L1455">										gui.label.setText(&quot;Are you sure you would like to declare bankrupt? 'y' or 'n'&quot;);</span>
+<span class="nc" id="L1456">										boolean quit = true;</span>
+<span class="nc bnc" id="L1457" title="All 2 branches missed.">										while(quit == true) {</span>
+<span class="nc" id="L1458">											gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1459">											waiting = true;</span>
+<span class="nc bnc" id="L1460" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L1461">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc" id="L1463">											String finale = in;</span>
+<span class="nc bnc" id="L1464" title="All 3 branches missed.">											switch(finale) {</span>
+												case &quot;y&quot;: 
+<span class="nc bnc" id="L1466" title="All 2 branches missed.">													for(int k = 0; k &lt; spaces.length; k++) {</span>
+<span class="nc bnc" id="L1467" title="All 2 branches missed.">														if(spaces[k].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L1468">															spaces[k].setOwner(bank);</span>
+														}
+													}
+<span class="nc" id="L1471">													players.remove(i);</span>
+<span class="nc" id="L1472">													i--;</span>
+<span class="nc" id="L1473">													bankr = true;</span>
+<span class="nc" id="L1474">													quit = false;</span>
+<span class="nc" id="L1475">													debt = false;</span>
+<span class="nc" id="L1476">													break;</span>
+												case &quot;n&quot;:
+<span class="nc" id="L1478">													quit = false;</span>
+<span class="nc" id="L1479">													break;</span>
+												default:
+<span class="nc" id="L1481">													gui.label.setText(&quot;Invalid option. Please try again.&quot;);</span>
+											}
+										}
+<span class="nc" id="L1484">										break;</span>
+									default:
+<span class="nc" id="L1486">										gui.label.setText(&quot;Invalid option. Please try again.&quot;);</span>
+								}
+							}
+						}
+<span class="nc bnc" id="L1490" title="All 4 branches missed.">						if(players.get(i).money - utilPrice &lt; 0 &amp;&amp; players.get(i).isAI() == true) {</span>
+<span class="nc" id="L1491">							ArrayList&lt;BoardSpot&gt; ewww = new ArrayList&lt;BoardSpot&gt;();</span>
+<span class="nc bnc" id="L1492" title="All 2 branches missed.">							for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1493" title="All 4 branches missed.">								if(spaces[q].getOwner() == players.get(i) &amp;&amp; spaces[q].getType() == &quot;property&quot;) {</span>
+<span class="nc" id="L1494">									ewww.add(spaces[q]);</span>
+								}
+							}
+<span class="nc bnc" id="L1497" title="All 2 branches missed.">							if(ewww.size() == 0) {</span>
+<span class="nc" id="L1498">								gui.label.setText(&quot;AI has declared bankrupt&quot;);</span>
+<span class="nc" id="L1499">								i--;</span>
+<span class="nc" id="L1500">								continue;</span>
+							}else {
+<span class="nc bnc" id="L1502" title="All 4 branches missed.">								while(players.get(i).money - utilPrice &lt; 0 &amp;&amp; ewww.size() != 0) {</span>
+<span class="nc" id="L1503">									sellBank(players.get(i), bank, ewww.get(0));</span>
+<span class="nc" id="L1504">									gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1505">									ewww.remove(0);</span>
+								}
+<span class="nc bnc" id="L1507" title="All 2 branches missed.">								if(ewww.size() == 0) {</span>
+<span class="nc" id="L1508">									gui.label.setText(&quot;AI has declared bankrupt&quot;);</span>
+<span class="nc" id="L1509">									i--;</span>
+<span class="nc" id="L1510">									continue;</span>
+								}else {
+<span class="nc" id="L1512">									players.get(i).money -= utilPrice;</span>
+<span class="nc" id="L1513">									gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+									
+								}
+							}
+<span class="nc" id="L1517">							break;</span>
+						}
+<span class="nc bnc" id="L1519" title="All 2 branches missed.">						if(bankr == false) {</span>
+<span class="nc" id="L1520">							gui.label.setText(&quot;Utility owned. Paying rent...&quot;);</span>
+
+<span class="nc" id="L1522">							TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1523">							players.get(i).money -= utilPrice;</span>
+<span class="nc" id="L1524">							gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+						}
+<span class="nc" id="L1526">						break;</span>
+					case &quot;tax&quot;:
+<span class="nc" id="L1528">						int taxPrice = 0;</span>
+<span class="nc bnc" id="L1529" title="All 2 branches missed.">						if(players.get(i).location == 4) {</span>
+<span class="nc" id="L1530">							gui.label.setText(&quot;Choose to pay either $200 or 10% of all assets. '200' or '10%'&quot;);</span>
+							while(true) {
+<span class="nc" id="L1532">								gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1533">								waiting = true;</span>
+<span class="nc bnc" id="L1534" title="All 2 branches missed.">								while(waiting) {</span>
+<span class="nc" id="L1535">									TimeUnit.SECONDS.sleep(1);</span>
+								}
+<span class="nc" id="L1537">								String cho = in;</span>
+<span class="nc bnc" id="L1538" title="All 3 branches missed.">								switch(cho) {</span>
+									case &quot;200&quot;:
+<span class="nc" id="L1540">										taxPrice = 200;</span>
+<span class="nc" id="L1541">										break;</span>
+									case &quot;10%&quot;:
+<span class="nc" id="L1543">										taxPrice += players.get(i).money;</span>
+<span class="nc bnc" id="L1544" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1545" title="All 4 branches missed.">											if(spaces[q].getOwner() == players.get(i) || spaces[q].isMortaged() == false) {</span>
+<span class="nc" id="L1546">												taxPrice += spaces[q].getCost();</span>
+											}
+										}
+<span class="nc bnc" id="L1549" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1550" title="All 4 branches missed.">											if(spaces[q].getOwner() == players.get(i) || spaces[q].isMortaged() == true) {</span>
+<span class="nc" id="L1551">												taxPrice += spaces[q].getMort();</span>
+											}
+										}
+<span class="nc bnc" id="L1554" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1555" title="All 2 branches missed.">											if(spaces[q].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L1556">												taxPrice += spaces[q].getNumHouse() * spaces[q].getHouseHotelPrice();</span>
+											}
+										}
+<span class="nc" id="L1559">										taxPrice = taxPrice / 10;</span>
+<span class="nc" id="L1560">										break;</span>
+									default:
+<span class="nc" id="L1562">										gui.label.setText(&quot;Invaild choice. Please try again.&quot;);</span>
+								}
+<span class="nc bnc" id="L1564" title="All 2 branches missed.">								if(taxPrice &gt; 0) {</span>
+									break;
+								}
+							}
+<span class="nc" id="L1568">						}else {</span>
+<span class="nc" id="L1569">							taxPrice = 75;</span>
+						}
+						
+<span class="nc bnc" id="L1572" title="All 2 branches missed.">						if(players.get(i).money - taxPrice &lt; 0) {</span>
+<span class="nc" id="L1573">							gui.label.setText(&quot;You need &quot; + ((players.get(i).money - taxPrice) * -1) + &quot; to pay taxes. Sell houses, properties, mortage, or declare bankrupt. /n'house', 'mort', 'prop', 'bankrupt'&quot;);</span>
+<span class="nc" id="L1574">							boolean debt = true;</span>
+<span class="nc bnc" id="L1575" title="All 2 branches missed.">							while(debt) {</span>
+<span class="nc" id="L1576">								gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1577">								waiting = true;</span>
+<span class="nc bnc" id="L1578" title="All 2 branches missed.">								while(waiting) {</span>
+<span class="nc" id="L1579">									TimeUnit.SECONDS.sleep(1);</span>
+								}
+<span class="nc" id="L1581">								String dec = in;</span>
+<span class="nc bnc" id="L1582" title="All 5 branches missed.">								switch(dec){</span>
+									case &quot;house&quot;:
+<span class="nc" id="L1584">										ArrayList&lt;BoardSpot&gt; owne = new ArrayList&lt;BoardSpot&gt;();</span>
+										//displays properties
+<span class="nc" id="L1586">										String qqq = &quot;&quot;;</span>
+<span class="nc bnc" id="L1587" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1588" title="All 2 branches missed.">											if(spaces[players.get(i).location].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L1589">												owne.add(spaces[q]);</span>
+<span class="nc" id="L1590">												qqq += &quot;  &quot; + spaces[q].getName();</span>
+											}
+										}
+<span class="nc" id="L1593">										gui.label.setText(&quot;Select the property of the house you'd like to sell or type 'cancel' to cancel. &quot; + qqq);</span>
+<span class="nc" id="L1594">										boolean con = false;</span>
+<span class="nc" id="L1595">										boolean can = false;</span>
+<span class="nc bnc" id="L1596" title="All 2 branches missed.">										while(can == false) {</span>
+<span class="nc" id="L1597">											gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1598">											waiting = true;</span>
+<span class="nc bnc" id="L1599" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L1600">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc" id="L1602">											String pr = in.trim();</span>
+											
+<span class="nc bnc" id="L1604" title="All 2 branches missed.">											for(int y = 0; y &lt; owne.size(); y++) {</span>
+<span class="nc bnc" id="L1605" title="All 2 branches missed.">												if(pr == &quot;cancel&quot;) {</span>
+<span class="nc" id="L1606">													can = true;</span>
+<span class="nc" id="L1607">													break;</span>
+												}
+<span class="nc bnc" id="L1609" title="All 2 branches missed.">												if(owne.get(y).getName() == pr) {</span>
+<span class="nc" id="L1610">													con = true;</span>
+<span class="nc" id="L1611">													break;</span>
+<span class="nc bnc" id="L1612" title="All 2 branches missed.">												}else if(y == owne.size() -1) {</span>
+<span class="nc" id="L1613">													gui.label.setText(&quot;Invalid choice. Please select another&quot;);</span>
+												}
+											}
+<span class="nc bnc" id="L1616" title="All 2 branches missed.">											if(con == true) {</span>
+<span class="nc" id="L1617">												int hopr = owne.get(findInd(owne, pr)).getHouseHotelPrice();</span>
+<span class="nc bnc" id="L1618" title="All 2 branches missed.">												for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L1619" title="All 2 branches missed.">													if(owne.get(findInd(owne, pr)).equals(spaces[h])) {</span>
+<span class="nc" id="L1620">														spaces[h].setNumHouse(spaces[h].getNumHouse()-1);</span>
+<span class="nc" id="L1621">														houses++;</span>
+<span class="nc" id="L1622">														spaces[h].getOwner().money += hopr;</span>
+<span class="nc" id="L1623">														gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1624">														break;</span>
+													}
+												}
+<span class="nc bnc" id="L1627" title="All 2 branches missed.">												if(players.get(i).money - taxPrice &gt;= 0) {</span>
+<span class="nc" id="L1628">													can = true;</span>
+<span class="nc" id="L1629">													debt = false;</span>
+												}
+											}
+										}
+<span class="nc" id="L1633">										break;</span>
+									case &quot;prop&quot;:
+<span class="nc" id="L1635">										gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1636">										ArrayList&lt;BoardSpot&gt; owned = new ArrayList&lt;BoardSpot&gt;();</span>
+										//displays properties
+<span class="nc" id="L1638">										String cool = &quot;&quot;;</span>
+<span class="nc bnc" id="L1639" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1640" title="All 2 branches missed.">											if(spaces[players.get(i).location].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L1641">												owned.add(spaces[q]);</span>
+<span class="nc" id="L1642">												cool += &quot;  &quot; + spaces[q].getName();</span>
+											}
+										}
+<span class="nc" id="L1645">										gui.label.setText(&quot;Select the property you'd like to sell or type 'cancel' to cancel: &quot; + cool);</span>
+<span class="nc" id="L1646">										boolean cont = false;</span>
+
+<span class="nc" id="L1648">										boolean cant = false;</span>
+<span class="nc bnc" id="L1649" title="All 2 branches missed.">										while(cant == false) {</span>
+<span class="nc" id="L1650">											gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1651">											waiting = true;</span>
+<span class="nc bnc" id="L1652" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L1653">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc" id="L1655">											String pri = in.trim();</span>
+<span class="nc bnc" id="L1656" title="All 2 branches missed.">											for(int y = 0; y &lt; owned.size(); y++) {</span>
+<span class="nc bnc" id="L1657" title="All 2 branches missed.">												if(pri == &quot;cancel&quot;) {</span>
+<span class="nc" id="L1658">													can = true;</span>
+<span class="nc" id="L1659">													break;</span>
+												}
+<span class="nc bnc" id="L1661" title="All 2 branches missed.">												if(owned.get(y).getName() == pri) {</span>
+<span class="nc" id="L1662">													cont = true;</span>
+<span class="nc" id="L1663">													break;</span>
+<span class="nc bnc" id="L1664" title="All 2 branches missed.">												}else if(y == owned.size() -1) {</span>
+<span class="nc" id="L1665">													gui.label.setText(&quot;Invalid choice. Please select another&quot;);</span>
+												}
+											
+											}
+<span class="nc bnc" id="L1669" title="All 2 branches missed.">											if(cont == true) {</span>
+<span class="nc" id="L1670">												int hope = owned.get(findInd(owned, pri)).getCost();</span>
+<span class="nc bnc" id="L1671" title="All 2 branches missed.">												for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L1672" title="All 2 branches missed.">													if(owned.get(findInd(owned, pri)).equals(spaces[h])) {</span>
+<span class="nc" id="L1673">														spaces[h].setOwner(bank);</span>
+<span class="nc" id="L1674">														spaces[h].getOwner().money += hope;</span>
+<span class="nc" id="L1675">														gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1676">														break;</span>
+													}
+												}
+<span class="nc bnc" id="L1679" title="All 2 branches missed.">												if(players.get(i).money - taxPrice &gt;= 0) {</span>
+<span class="nc" id="L1680">													cant = true;</span>
+<span class="nc" id="L1681">													debt = false;</span>
+												}
+											}
+										}
+										
+									case &quot;mort&quot;:
+<span class="nc" id="L1687">										ArrayList&lt;BoardSpot&gt; ownedq = new ArrayList&lt;BoardSpot&gt;();</span>
+										//displays properties
+<span class="nc" id="L1689">										String fff = &quot;&quot;;</span>
+<span class="nc bnc" id="L1690" title="All 2 branches missed.">										for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1691" title="All 6 branches missed.">											if(spaces[q].getOwner() == players.get(i) &amp;&amp; (spaces[q].getType() == &quot;property&quot; || spaces[q].getType() == &quot;utility&quot;)) {</span>
+<span class="nc" id="L1692">												ownedq.add(spaces[q]);</span>
+<span class="nc" id="L1693">												fff += &quot;  &quot; + spaces[q].getName();</span>
+											}
+										}
+<span class="nc" id="L1696">										gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1697">										gui.label.setText(&quot;Select the property you'd like to mortage or type 'cancel' to cancel. &quot; + fff);</span>
+<span class="nc" id="L1698">										boolean conq = false;</span>
+
+<span class="nc" id="L1700">										boolean canq = false;</span>
+<span class="nc bnc" id="L1701" title="All 2 branches missed.">										while(canq == false) {</span>
+<span class="nc" id="L1702">											gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1703">											waiting = true;</span>
+<span class="nc bnc" id="L1704" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L1705">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc" id="L1707">											String priq = in.trim();</span>
+<span class="nc bnc" id="L1708" title="All 2 branches missed.">											for(int y = 0; y &lt; ownedq.size(); y++) {</span>
+<span class="nc bnc" id="L1709" title="All 2 branches missed.">												if(priq == &quot;cancel&quot;) {</span>
+<span class="nc" id="L1710">													canq = true;</span>
+<span class="nc" id="L1711">													break;</span>
+												}
+<span class="nc bnc" id="L1713" title="All 2 branches missed.">												if(ownedq.get(y).getName() == priq) {</span>
+<span class="nc" id="L1714">													conq = true;</span>
+<span class="nc" id="L1715">													break;</span>
+<span class="nc bnc" id="L1716" title="All 2 branches missed.">												}else if(y == ownedq.size() -1) {</span>
+<span class="nc" id="L1717">													gui.label.setText(&quot;Invalid choice. Please select another&quot;);</span>
+												}
+											
+											}
+<span class="nc bnc" id="L1721" title="All 2 branches missed.">											if(conq == true) {</span>
+<span class="nc" id="L1722">												int hopeq = ownedq.get(findInd(ownedq, priq)).getCost() / 2;</span>
+<span class="nc bnc" id="L1723" title="All 2 branches missed.">												for(int h = 0; h &lt; spaces.length; h++) {</span>
+<span class="nc bnc" id="L1724" title="All 2 branches missed.">													if(ownedq.get(findInd(ownedq, priq)).equals(spaces[h])) {</span>
+<span class="nc" id="L1725">														spaces[h].setMortT();</span>
+<span class="nc" id="L1726">														spaces[h].getOwner().money += hopeq;</span>
+<span class="nc" id="L1727">														gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1728">														break;</span>
+													}
+												}
+<span class="nc bnc" id="L1731" title="All 2 branches missed.">												if(players.get(i).money - taxPrice &gt;= 0) {</span>
+<span class="nc" id="L1732">													cant = true;</span>
+<span class="nc" id="L1733">													debt = false;</span>
+												}
+											}
+										}
+<span class="nc" id="L1737">										break;</span>
+										
+									case &quot;bankrupt&quot;:
+<span class="nc" id="L1740">										gui.label.setText(&quot;Are you sure you would like to declare bankrupt? 'y' or 'n'&quot;);</span>
+<span class="nc" id="L1741">										boolean quit = true;</span>
+<span class="nc bnc" id="L1742" title="All 2 branches missed.">										while(quit == true) {</span>
+<span class="nc" id="L1743">											gui.textField.setText(&quot;&quot;);</span>
+<span class="nc" id="L1744">											waiting = true;</span>
+<span class="nc bnc" id="L1745" title="All 2 branches missed.">											while(waiting) {</span>
+<span class="nc" id="L1746">												TimeUnit.SECONDS.sleep(1);</span>
+											}
+<span class="nc" id="L1748">											String finale = in;</span>
+<span class="nc bnc" id="L1749" title="All 3 branches missed.">											switch(finale) {</span>
+												case &quot;y&quot;: 
+<span class="nc bnc" id="L1751" title="All 2 branches missed.">													for(int k = 0; k &lt; spaces.length; k++) {</span>
+<span class="nc bnc" id="L1752" title="All 2 branches missed.">														if(spaces[k].getOwner() == players.get(i)) {</span>
+<span class="nc" id="L1753">															spaces[k].setOwner(bank);</span>
+														}
+													}
+<span class="nc" id="L1756">													players.remove(i);</span>
+<span class="nc" id="L1757">													i--;</span>
+<span class="nc" id="L1758">													bankr = true;</span>
+<span class="nc" id="L1759">													quit = false;</span>
+<span class="nc" id="L1760">													debt = false;</span>
+<span class="nc" id="L1761">													break;</span>
+												case &quot;n&quot;:
+<span class="nc" id="L1763">													quit = false;</span>
+<span class="nc" id="L1764">													break;</span>
+												default:
+<span class="nc" id="L1766">													gui.label.setText(&quot;Invalid option. Please try again.&quot;);</span>
+											}
+										}
+<span class="nc" id="L1769">										break;</span>
+									default:
+<span class="nc" id="L1771">										gui.label.setText(&quot;Invalid option. Please try again.&quot;);</span>
+								}
+							}
+						}
+<span class="nc bnc" id="L1775" title="All 4 branches missed.">						if(players.get(i).money - taxPrice &lt; 0 &amp;&amp; players.get(i).isAI() == true) {</span>
+<span class="nc" id="L1776">							ArrayList&lt;BoardSpot&gt; ewww = new ArrayList&lt;BoardSpot&gt;();</span>
+<span class="nc bnc" id="L1777" title="All 2 branches missed.">							for(int q = 0; q &lt; spaces.length; q++) {</span>
+<span class="nc bnc" id="L1778" title="All 4 branches missed.">								if(spaces[q].getOwner() == players.get(i) &amp;&amp; spaces[q].getType() == &quot;property&quot;) {</span>
+<span class="nc" id="L1779">									ewww.add(spaces[q]);</span>
+								}
+							}
+<span class="nc bnc" id="L1782" title="All 2 branches missed.">							if(ewww.size() == 0) {</span>
+<span class="nc" id="L1783">								gui.label.setText(&quot;AI has declared bankrupt&quot;);</span>
+<span class="nc" id="L1784">								TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1785">								i--;</span>
+<span class="nc" id="L1786">								continue;</span>
+							}else {
+<span class="nc bnc" id="L1788" title="All 4 branches missed.">								while(players.get(i).money - taxPrice &lt; 0 &amp;&amp; ewww.size() != 0) {</span>
+<span class="nc" id="L1789">									sellBank(players.get(i), bank, ewww.get(0));</span>
+<span class="nc" id="L1790">									gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+<span class="nc" id="L1791">									ewww.remove(0);</span>
+								}
+<span class="nc bnc" id="L1793" title="All 2 branches missed.">								if(ewww.size() == 0) {</span>
+<span class="nc" id="L1794">									gui.label.setText(&quot;AI has declared bankrupt&quot;);</span>
+<span class="nc" id="L1795">									TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1796">									i--;</span>
+<span class="nc" id="L1797">									continue;</span>
+								}else {
+<span class="nc" id="L1799">									players.get(i).money -= taxPrice;</span>
+<span class="nc" id="L1800">									gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+									
+								}
+							}
+<span class="nc" id="L1804">							break;</span>
+						}
+<span class="nc bnc" id="L1806" title="All 2 branches missed.">						if(bankr == false) {</span>
+<span class="nc" id="L1807">							gui.label.setText(&quot;Paying taxes...&quot;);</span>
+<span class="nc" id="L1808">							TimeUnit.SECONDS.sleep(3);</span>
+<span class="nc" id="L1809">							players.get(i).money -= taxPrice;</span>
+<span class="nc" id="L1810">							gui.playerMon.setText(&quot;Current Money: $&quot; + players.get(i).money);</span>
+						}
+<span class="nc" id="L1812">						break;</span>
+					default:
+						break;
+				}
+				
+<span class="nc bnc" id="L1817" title="All 2 branches missed.">				if(doubles == true) {</span>
+<span class="nc" id="L1818">					i--;</span>
+					continue;
+				}
+			}
+			
+		}
+		
+<span class="nc" id="L1825">	}</span>
+	
+	public static int findInd(ArrayList&lt;BoardSpot&gt; array, String name) {
+<span class="fc bfc" id="L1828" title="All 2 branches covered.">		for(int y = 0; y &lt; array.size(); y++) {</span>
+<span class="fc bfc" id="L1829" title="All 2 branches covered.">			if(name == array.get(y).getName()) {</span>
+<span class="fc" id="L1830">				return y;</span>
+			}
+		}
+		
+<span class="fc" id="L1834">		return -1;</span>
+	}
+		
+	public static void buy (Player buyer, BoardSpot property ) {
+<span class="fc" id="L1838">		buyer.money -= property.getCost();</span>
+<span class="fc" id="L1839">		property.setOwner(buyer);</span>
+<span class="fc" id="L1840">		property.setMortF();</span>
+<span class="fc" id="L1841">	}</span>
+	
+	public static void mortgage(Player owner, BoardSpot property) {
+<span class="fc" id="L1844">		owner.money+=property.getMort();</span>
+<span class="fc" id="L1845">		property.setMortT();</span>
+<span class="fc" id="L1846">	}</span>
+	
+	public static void sellPlayer (Player seller, Player buyer, BoardSpot property, int price) {
+<span class="fc" id="L1849">		buyer.money-=price;</span>
+<span class="fc" id="L1850">		seller.money+=price;</span>
+<span class="fc" id="L1851">		property.setOwner(buyer);</span>
+<span class="fc" id="L1852">	}</span>
+	
+	public static void sellBank (Player seller, Player bank, BoardSpot property) {
+<span class="fc" id="L1855">		seller.money+=property.getCost();</span>
+<span class="fc" id="L1856">		property.setOwner(bank);</span>
+<span class="fc" id="L1857">	}</span>
+	
+	public static void rent (Player renter, BoardSpot property) {
+<span class="pc bpc" id="L1860" title="1 of 7 branches missed.">		switch (property.getNumHouse()){</span>
+		case 0:
+<span class="fc" id="L1862">			property.getOwner().money += property.getHouse0();</span>
+<span class="fc" id="L1863">			renter.money -= property.getHouse0();</span>
+<span class="fc" id="L1864">			break;</span>
+		case 1:
+<span class="fc" id="L1866">			property.getOwner().money += property.getHouse1();</span>
+<span class="fc" id="L1867">			renter.money -= property.getHouse1();</span>
+<span class="fc" id="L1868">			break;</span>
+		case 2:
+<span class="fc" id="L1870">			property.getOwner().money += property.getHouse2();</span>
+<span class="fc" id="L1871">			renter.money -= property.getHouse2();</span>
+<span class="fc" id="L1872">			break;</span>
+		case 3:
+<span class="fc" id="L1874">			property.getOwner().money += property.getHouse3();</span>
+<span class="fc" id="L1875">			renter.money -= property.getHouse3();</span>
+<span class="fc" id="L1876">			break;</span>
+		case 4:
+<span class="fc" id="L1878">			property.getOwner().money += property.getHouse4();</span>
+<span class="fc" id="L1879">			renter.money -= property.getHouse4();</span>
+<span class="fc" id="L1880">			break;</span>
+		case 5:
+<span class="fc" id="L1882">			property.getOwner().money += property.getHotel();</span>
+<span class="fc" id="L1883">			renter.money -= property.getHotel();</span>
+			break;
+		}
+<span class="fc" id="L1886">	}</span>
+
+	public static void buyHouse (BoardSpot property, int houses, int hotels) {
+<span class="fc bfc" id="L1889" title="All 2 branches covered.">		if (property.getNumHouse()&lt;5) {</span>
+<span class="fc bfc" id="L1890" title="All 2 branches covered.">			if(property.getOwner().money &gt;= property.getHouseHotelPrice()) {</span>
+<span class="fc" id="L1891">				property.getOwner().money -= property.getHouseHotelPrice();</span>
+<span class="fc" id="L1892">				property.setNumHouse(property.getNumHouse()+1);</span>
+<span class="fc bfc" id="L1893" title="All 2 branches covered.">				if(property.getNumHouse() == 5) {</span>
+<span class="fc" id="L1894">					hotels--;</span>
+<span class="fc" id="L1895">					gui.label.setText(&quot;Hotel placed.&quot;);</span>
+<span class="fc" id="L1896">				}else {</span>
+<span class="fc" id="L1897">					houses--;</span>
+<span class="fc" id="L1898">					gui.label.setText(&quot;House placed.&quot;);</span>
+				}
+<span class="fc" id="L1900">			}else {</span>
+<span class="fc" id="L1901">				gui.label.setText(&quot;You can't afford a house/hotel.&quot;);</span>
+<span class="fc" id="L1902">				return;</span>
+			}
+		} else {
+<span class="fc" id="L1905">			gui.label.setText(&quot;You already have a hotel. You can't build anymore on this property.&quot;);</span>
+		}
+<span class="fc" id="L1907">	}</span>
+
+	public static void sellHouse (BoardSpot property, int houses, int hotels) {
+<span class="fc bfc" id="L1910" title="All 2 branches covered.">		if (property.getNumHouse()&gt;0) {</span>
+<span class="fc" id="L1911">			property.getOwner().money += property.getHouseHotelPrice();</span>
+<span class="fc" id="L1912">			property.setNumHouse(property.getNumHouse()-1);</span>
+<span class="fc bfc" id="L1913" title="All 2 branches covered.">			if(property.getNumHouse() == 4) {</span>
+<span class="fc" id="L1914">				hotels++;</span>
+<span class="fc" id="L1915">			}else {</span>
+<span class="fc" id="L1916">				houses++;</span>
+			}
+<span class="fc" id="L1918">		} else {</span>
+<span class="fc" id="L1919">			gui.label.setText(&quot;There are no houses to sell on this property.&quot;);</span>
+		}
+<span class="fc" id="L1921">	}</span>
+	
+	public static void payBank (Player player, int cost) {
+<span class="fc" id="L1924">		player.money -= cost;</span>
+<span class="fc" id="L1925">	}</span>
+	
+	public static boolean isInt(String s){
+	    try{
+<span class="fc" id="L1929">	        Integer.parseInt(s);</span>
+<span class="fc" id="L1930">	        return true;</span>
+<span class="fc" id="L1931">	    }catch (NumberFormatException ex){</span>
+<span class="fc" id="L1932">	        return false;</span>
+	    }
+	}
+	
+	public static String getText(String text) {
+<span class="fc" id="L1937">		return text;</span>
+	}
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>MonopolyTest (Dec 11, 2020 12:38:14 PM)</div></body></html>

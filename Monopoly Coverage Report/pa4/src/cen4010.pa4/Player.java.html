@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Player.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">MonopolyTest (Dec 11, 2020 12:38:14 PM)</a> &gt; <a href="../../index.html" class="el_group">pa4</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">cen4010.pa4</a> &gt; <span class="el_source">Player.java</span></div><h1>Player.java</h1><pre class="source lang-java linenums">package cen4010.pa4;
+
+class Player {
+<span class="fc" id="L4">	public int money = 1500;</span>
+	public String token;
+<span class="fc" id="L6">	public int location = 0;</span>
+	public boolean AI;
+	public int pNumber;
+<span class="fc" id="L9">	public boolean inJail = false;</span>
+<span class="fc" id="L10">	public int jailTime = 0;</span>
+<span class="fc" id="L11">	public int doubleCounter = 0;</span>
+	
+<span class="fc" id="L13">	public Player() {</span>
+<span class="fc" id="L14">	}</span>
+<span class="fc" id="L15">	public Player(boolean comp, int num) {</span>
+<span class="fc" id="L16">		this.money = 1500;</span>
+<span class="fc" id="L17">		this.AI = comp;</span>
+<span class="fc" id="L18">		this.pNumber = num;</span>
+<span class="fc" id="L19">	}</span>
+	
+<span class="fc" id="L21">	public Player(String token, boolean comp) {</span>
+<span class="fc" id="L22">		this.money = 1500;</span>
+<span class="fc" id="L23">		this.token = token;</span>
+<span class="fc" id="L24">		this.AI = comp;</span>
+<span class="fc" id="L25">	}</span>
+	
+	public void setToken(String tok) {
+<span class="fc" id="L28">		this.token = tok;</span>
+<span class="fc" id="L29">	}</span>
+	
+	public boolean isAI() {
+<span class="fc" id="L32">		return this.AI;</span>
+	}
+	
+	public void setAI(boolean temp) {
+<span class="fc" id="L36">		this.AI = temp;</span>
+<span class="fc" id="L37">	}</span>
+	
+	public String getToken() {
+<span class="fc" id="L40">		return this.token;</span>
+	}
+	
+	public int getNum() {
+<span class="fc" id="L44">		return this.pNumber;</span>
+	}
+	
+	public void setJail(boolean inJ) {
+<span class="fc" id="L48">		this.inJail = inJ;</span>
+<span class="fc" id="L49">	}</span>
+	
+	public void movement(int move) {
+<span class="fc" id="L52">		this.location += move;</span>
+//adds 200 to cash if lands on or passes go
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		if (this.location&gt;=39) {</span>
+<span class="fc" id="L55">			this.money+=200;</span>
+		}
+//when location goes outside of the board, reduce by 40 to bring it back to the first BoardSpot
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		if (this.location&gt;39) {</span>
+<span class="fc" id="L59">			this.location-=40;</span>
+		}
+<span class="fc" id="L61">	}</span>
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>MonopolyTest (Dec 11, 2020 12:38:14 PM)</div></body></html>
